@@ -1,0 +1,1062 @@
+| distributed init (rank 0): env://
+| distributed init (rank 1): env://
+
+=== LoTS-Net Fully-Supervised DDP (Rank 0) ===
+============================================================
+EXPERIMENT HYPERPARAMETERS
+============================================================
+  dist_url                : env://
+  seed                    : 42
+  num_workers             : 1
+  save_dir                : ./records/Sup_LoTSNet_20260626_111538
+  exp_name                : Sup_LoTSNet_20260626_111538
+  data_root               : data/MDC_Resized_256_320_to_256_256_overlap_0_0
+  split_csv               : data/MDC_Resized_256_320_to_256_256_overlap_0_0/split_sup.csv
+  val_ratio               : 0.1
+  test_ratio              : 0.1
+  img_size                : [256, 256]
+  epochs                  : 150
+  batch_size              : 2
+  lr                      : 0.0004
+  num_classes             : 2
+  early_stop_patience     : 0
+  warmup_ratio            : 0.2
+  best_window_start       : 50
+  best_window_end         : 100
+  dice_class_weights      : [0.5, 1.0]
+  ce_class_weights        : None
+  ce_weight               : 1.0
+  dice_weight             : 1.0
+  lambda_aux_sup          : 0.4
+  in_chans                : 60
+  text_dim                : 1024
+  c_spe                   : 144
+  c_attn                  : 144
+  router_top_k            : 15
+  stem_ch                 : 128
+  queue_len               : 300
+  queue_device            : cuda
+  smd_rank                : 16
+  smd_steps               : 6
+  router_temperature      : 1.0
+  smd_ema_bases           : True
+  progress                : log
+  log_interval            : 20
+  retrieval_mode          : chunked
+  queue_chunk_size        : 32
+  find_unused_parameters  : False
+  ----------------------------------------
+  [runtime / DDP]
+  rank                    : 0
+  world_size              : 2
+  gpu                     : 0
+  distributed             : True
+============================================================
+>>> Loading Dataset...
+
+[Dataset] Scanning data for statistics...
+Calculating Stats:   0%|          | 0/538 [00:00<?, ?it/s][load_split_from_csv] Loaded from 'data/MDC_Resized_256_320_to_256_256_overlap_0_0/split_sup.csv':
+  test                :   54 samples  (10.0%)
+  train               :  430 samples  (79.9%)
+  val                 :   54 samples  (10.0%)
+Computing subset FG/BG ratio:   0%|          | 0/54 [00:00<?, ?it/s]                                                                    Computing subset FG/BG ratio:   0%|          | 0/54 [00:00<?, ?it/s]                                                                    Calculating Stats:   1%|          | 5/538 [00:00<00:11, 45.29it/s]Calculating Stats:   2%|▏         | 11/538 [00:00<00:10, 52.61it/s]/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+Calculating Stats:   3%|▎         | 17/538 [00:00<00:10, 48.81it/s]Calculating Stats:   4%|▍         | 22/538 [00:00<00:10, 49.00it/s]Calculating Stats:   5%|▌         | 27/538 [00:00<00:10, 49.10it/s]Calculating Stats:   6%|▌         | 32/538 [00:00<00:10, 48.46it/s]Calculating Stats:   7%|▋         | 38/538 [00:00<00:10, 49.11it/s]Calculating Stats:   8%|▊         | 44/538 [00:00<00:09, 50.84it/s]Calculating Stats:   9%|▉         | 50/538 [00:00<00:09, 52.22it/s]Calculating Stats:  10%|█         | 56/538 [00:01<00:09, 52.61it/s]Calculating Stats:  12%|█▏        | 62/538 [00:01<00:09, 51.66it/s]Calculating Stats:  13%|█▎        | 68/538 [00:01<00:09, 51.78it/s]Calculating Stats:  14%|█▍        | 74/538 [00:01<00:08, 53.60it/s]Calculating Stats:  15%|█▍        | 80/538 [00:01<00:08, 51.50it/s]Calculating Stats:  16%|█▌        | 86/538 [00:01<00:08, 52.66it/s]Calculating Stats:  17%|█▋        | 92/538 [00:01<00:08, 53.21it/s]Calculating Stats:  18%|█▊        | 98/538 [00:01<00:08, 50.63it/s]Calculating Stats:  19%|█▉        | 104/538 [00:02<00:08, 52.14it/s]Calculating Stats:  20%|██        | 110/538 [00:02<00:08, 52.83it/s]Calculating Stats:  22%|██▏       | 116/538 [00:02<00:08, 50.31it/s]Calculating Stats:  23%|██▎       | 122/538 [00:02<00:08, 49.61it/s]Calculating Stats:  24%|██▍       | 128/538 [00:02<00:08, 50.49it/s]Calculating Stats:  25%|██▍       | 134/538 [00:02<00:08, 49.31it/s]Calculating Stats:  26%|██▌       | 140/538 [00:02<00:07, 50.36it/s]Calculating Stats:  27%|██▋       | 146/538 [00:02<00:07, 50.07it/s]Calculating Stats:  28%|██▊       | 153/538 [00:02<00:07, 52.90it/s]Calculating Stats:  30%|██▉       | 159/538 [00:03<00:07, 52.06it/s]Calculating Stats:  31%|███       | 165/538 [00:03<00:07, 52.79it/s]Calculating Stats:  32%|███▏      | 171/538 [00:03<00:06, 54.20it/s]Calculating Stats:  33%|███▎      | 177/538 [00:03<00:06, 53.54it/s]Calculating Stats:  34%|███▍      | 183/538 [00:03<00:06, 53.98it/s]Calculating Stats:  35%|███▌      | 189/538 [00:03<00:06, 54.48it/s]Calculating Stats:  36%|███▌      | 195/538 [00:03<00:06, 54.41it/s]Calculating Stats:  38%|███▊      | 202/538 [00:03<00:05, 57.10it/s]Calculating Stats:  39%|███▉      | 209/538 [00:03<00:05, 59.55it/s]Calculating Stats:  40%|████      | 216/538 [00:04<00:05, 60.88it/s]Calculating Stats:  41%|████▏     | 223/538 [00:04<00:05, 59.83it/s]Calculating Stats:  43%|████▎     | 230/538 [00:04<00:05, 60.22it/s]Calculating Stats:  44%|████▍     | 237/538 [00:04<00:05, 59.70it/s]Calculating Stats:  45%|████▌     | 243/538 [00:04<00:05, 56.16it/s]Calculating Stats:  46%|████▋     | 250/538 [00:04<00:04, 58.11it/s]Calculating Stats:  48%|████▊     | 257/538 [00:04<00:04, 59.10it/s]Calculating Stats:  49%|████▉     | 263/538 [00:04<00:04, 57.53it/s]Calculating Stats:  50%|█████     | 269/538 [00:05<00:04, 57.05it/s]Calculating Stats:  51%|█████     | 275/538 [00:05<00:04, 53.33it/s]Calculating Stats:  52%|█████▏    | 281/538 [00:05<00:04, 52.73it/s]Calculating Stats:  53%|█████▎    | 287/538 [00:05<00:04, 52.09it/s]Calculating Stats:  54%|█████▍    | 293/538 [00:05<00:04, 52.13it/s]Calculating Stats:  56%|█████▌    | 299/538 [00:05<00:04, 52.60it/s]Calculating Stats:  57%|█████▋    | 305/538 [00:05<00:04, 53.41it/s]Calculating Stats:  58%|█████▊    | 311/538 [00:05<00:04, 54.09it/s]Calculating Stats:  59%|█████▉    | 317/538 [00:05<00:04, 53.80it/s]Calculating Stats:  60%|██████    | 323/538 [00:06<00:04, 49.62it/s]Calculating Stats:  61%|██████    | 329/538 [00:06<00:04, 49.13it/s]Calculating Stats:  62%|██████▏   | 334/538 [00:06<00:04, 49.04it/s]Calculating Stats:  63%|██████▎   | 339/538 [00:06<00:04, 48.19it/s]Calculating Stats:  64%|██████▍   | 345/538 [00:06<00:03, 49.02it/s]Calculating Stats:  65%|██████▌   | 351/538 [00:06<00:03, 49.77it/s]Calculating Stats:  66%|██████▌   | 356/538 [00:06<00:03, 47.58it/s]Calculating Stats:  67%|██████▋   | 362/538 [00:06<00:03, 48.83it/s]Calculating Stats:  68%|██████▊   | 367/538 [00:06<00:03, 48.68it/s]Calculating Stats:  69%|██████▉   | 372/538 [00:07<00:03, 46.77it/s]Calculating Stats:  70%|███████   | 378/538 [00:07<00:03, 49.11it/s]Calculating Stats:  71%|███████   | 383/538 [00:07<00:03, 48.88it/s]Calculating Stats:  72%|███████▏  | 389/538 [00:07<00:02, 50.20it/s]Calculating Stats:  73%|███████▎  | 395/538 [00:07<00:02, 51.19it/s]Calculating Stats:  75%|███████▍  | 401/538 [00:07<00:02, 50.89it/s]Calculating Stats:  76%|███████▌  | 407/538 [00:07<00:02, 50.36it/s]Calculating Stats:  77%|███████▋  | 413/538 [00:07<00:02, 50.57it/s]Calculating Stats:  78%|███████▊  | 419/538 [00:08<00:02, 49.51it/s]Calculating Stats:  79%|███████▉  | 425/538 [00:08<00:02, 51.23it/s]Calculating Stats:  80%|████████  | 431/538 [00:08<00:02, 49.96it/s]Calculating Stats:  81%|████████▏ | 438/538 [00:08<00:01, 53.88it/s]Calculating Stats:  83%|████████▎ | 444/538 [00:08<00:01, 54.43it/s]Calculating Stats:  84%|████████▎ | 450/538 [00:08<00:01, 51.09it/s]Calculating Stats:  85%|████████▍ | 456/538 [00:08<00:01, 51.12it/s]Calculating Stats:  86%|████████▌ | 462/538 [00:08<00:01, 50.89it/s]Calculating Stats:  87%|████████▋ | 468/538 [00:08<00:01, 50.79it/s]Calculating Stats:  88%|████████▊ | 474/538 [00:09<00:01, 51.49it/s]Calculating Stats:  89%|████████▉ | 480/538 [00:09<00:01, 52.71it/s]Calculating Stats:  90%|█████████ | 486/538 [00:09<00:01, 50.49it/s]Calculating Stats:  91%|█████████▏| 492/538 [00:09<00:00, 48.37it/s]Calculating Stats:  93%|█████████▎| 498/538 [00:09<00:00, 49.49it/s]Calculating Stats:  94%|█████████▎| 504/538 [00:09<00:00, 50.08it/s]Calculating Stats:  95%|█████████▍| 510/538 [00:09<00:00, 50.58it/s]Calculating Stats:  96%|█████████▌| 516/538 [00:09<00:00, 51.41it/s]Calculating Stats:  97%|█████████▋| 522/538 [00:10<00:00, 50.71it/s]Calculating Stats:  98%|█████████▊| 528/538 [00:10<00:00, 48.68it/s]Calculating Stats:  99%|█████████▉| 533/538 [00:10<00:00, 48.70it/s]Calculating Stats: 100%|██████████| 538/538 [00:10<00:00, 51.92it/s]
+
+==================================================
+Dataset Statistics Report
+Mean (Global Avg): 0.8034
+Std  (Global Avg): 0.1372
+Min  (Global):     0.006199
+Max  (Global):     1.000000
+--------------------------------------------------
+Class ID   | Count           | Ratio     
+0          | 22842548        | 64.79%
+1          | 12415820        | 35.21%
+==================================================
+
+[load_split_from_csv] Loaded from 'data/MDC_Resized_256_320_to_256_256_overlap_0_0/split_sup.csv':
+  test                :   54 samples  (10.0%)
+  train               :  430 samples  (79.9%)
+  val                 :   54 samples  (10.0%)
+[Split] CSV mode: train=430, val=54, test=54
+Computing subset FG/BG ratio:   0%|          | 0/54 [00:00<?, ?it/s]                                                                    Computing subset FG/BG ratio:   0%|          | 0/54 [00:00<?, ?it/s]                                                                    /root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+Model initialized. Using 2 GPUs.
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/utils/checkpoint.py:1399: FutureWarning: `torch.cpu.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cpu', args...)` instead.
+  with device_autocast_ctx, torch.cpu.amp.autocast(**cpu_autocast_kwargs), recompute_context:  # type: ignore[attr-defined]
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/utils/checkpoint.py:1399: FutureWarning: `torch.cpu.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cpu', args...)` instead.
+  with device_autocast_ctx, torch.cpu.amp.autocast(**cpu_autocast_kwargs), recompute_context:  # type: ignore[attr-defined]
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/autograd/graph.py:769: UserWarning: Grad strides do not match bucket view strides. This may indicate grad was not created according to the gradient layout contract, or that the param's strides changed since DDP was constructed.  This is not an error, but may impair performance.
+grad.sizes() = [512, 512, 1, 1], strides() = [512, 1, 512, 512]
+bucket_view.sizes() = [512, 512, 1, 1], strides() = [512, 1, 1, 1] (Triggered internally at ../torch/csrc/distributed/c10d/reducer.cpp:327.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/autograd/graph.py:769: UserWarning: Grad strides do not match bucket view strides. This may indicate grad was not created according to the gradient layout contract, or that the param's strides changed since DDP was constructed.  This is not an error, but may impair performance.
+grad.sizes() = [512, 512, 1, 1], strides() = [512, 1, 512, 512]
+bucket_view.sizes() = [512, 512, 1, 1], strides() = [512, 1, 1, 1] (Triggered internally at ../torch/csrc/distributed/c10d/reducer.cpp:327.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+[2026-06-26 11:16:21]   step 20/107  loss=3.9866 [main: ce=2.3210, dice=0.5847, tot=2.9057 | aux: ce=2.0730, dice=0.6291, tot=2.7021]
+[2026-06-26 11:16:38]   step 40/107  loss=3.8494 [main: ce=2.2625, dice=0.5843, tot=2.8468 | aux: ce=1.8949, dice=0.6115, tot=2.5063]
+[2026-06-26 11:16:55]   step 60/107  loss=3.6549 [main: ce=2.1294, dice=0.5807, tot=2.7100 | aux: ce=1.7650, dice=0.5972, tot=2.3622]
+[2026-06-26 11:17:13]   step 80/107  loss=3.5842 [main: ce=2.0913, dice=0.5767, tot=2.6680 | aux: ce=1.7064, dice=0.5841, tot=2.2905]
+[2026-06-26 11:17:29]   step 100/107  loss=3.5163 [main: ce=2.0510, dice=0.5741, tot=2.6251 | aux: ce=1.6517, dice=0.5761, tot=2.2278]
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/monai/utils/deprecate_utils.py:221: FutureWarning: monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.
+  warn_deprecated(argname, msg, warning_category)
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/monai/utils/deprecate_utils.py:221: FutureWarning: monai.metrics.utils get_mask_edges:always_return_as_numpy: Argument `always_return_as_numpy` has been deprecated since version 1.5.0. It will be removed in version 1.7.0. The option is removed and the return type will always be equal to the input type.
+  warn_deprecated(argname, msg, warning_category)
+Epoch 1: Loss: 3.5177 [main: ce=2.0548, dice=0.5749, tot=2.6297 | aux: ce=1.6449, dice=0.5751, tot=2.2200] | Val Dice: 0.5425 | Val IoU: 0.4059 | Val HD95: 62.8776 | LR: 2.7e-05
+>>> New Best Model Saved! Dice: 0.5425
+[2026-06-26 11:18:00]   step 20/107  loss=2.8258 [main: ce=1.6817, dice=0.4971, tot=2.1787 | aux: ce=1.1422, dice=0.4754, tot=1.6176]
+[2026-06-26 11:18:17]   step 40/107  loss=2.6696 [main: ce=1.5770, dice=0.4744, tot=2.0514 | aux: ce=1.0836, dice=0.4619, tot=1.5455]
+[2026-06-26 11:18:35]   step 60/107  loss=2.5775 [main: ce=1.5159, dice=0.4657, tot=1.9816 | aux: ce=1.0344, dice=0.4554, tot=1.4898]
+[2026-06-26 11:18:52]   step 80/107  loss=2.5033 [main: ce=1.4650, dice=0.4612, tot=1.9262 | aux: ce=0.9948, dice=0.4479, tot=1.4428]
+[2026-06-26 11:19:09]   step 100/107  loss=2.4354 [main: ce=1.4143, dice=0.4594, tot=1.8737 | aux: ce=0.9559, dice=0.4483, tot=1.4042]
+Epoch 2: Loss: 2.4057 [main: ce=1.3922, dice=0.4587, tot=1.8509 | aux: ce=0.9390, dice=0.4479, tot=1.3869] | Val Dice: 0.6249 | Val IoU: 0.4721 | Val HD95: 59.4934 | LR: 5.4e-05
+>>> New Best Model Saved! Dice: 0.6249
+[2026-06-26 11:19:38]   step 20/107  loss=1.7546 [main: ce=0.8752, dice=0.4378, tot=1.3130 | aux: ce=0.6460, dice=0.4580, tot=1.1040]
+[2026-06-26 11:19:56]   step 40/107  loss=1.7044 [main: ce=0.8424, dice=0.4310, tot=1.2734 | aux: ce=0.6332, dice=0.4444, tot=1.0777]
+[2026-06-26 11:20:13]   step 60/107  loss=1.7526 [main: ce=0.8806, dice=0.4340, tot=1.3146 | aux: ce=0.6510, dice=0.4442, tot=1.0951]
+[2026-06-26 11:20:30]   step 80/107  loss=1.7267 [main: ce=0.8562, dice=0.4357, tot=1.2919 | aux: ce=0.6457, dice=0.4413, tot=1.0870]
+[2026-06-26 11:20:47]   step 100/107  loss=1.7057 [main: ce=0.8348, dice=0.4375, tot=1.2723 | aux: ce=0.6397, dice=0.4437, tot=1.0835]
+Epoch 3: Loss: 1.6981 [main: ce=0.8312, dice=0.4356, tot=1.2668 | aux: ce=0.6393, dice=0.4388, tot=1.0781] | Val Dice: 0.6143 | Val IoU: 0.4810 | Val HD95: 54.7259 | LR: 8.1e-05
+[2026-06-26 11:21:15]   step 20/107  loss=1.5244 [main: ce=0.6869, dice=0.4145, tot=1.1014 | aux: ce=0.6288, dice=0.4287, tot=1.0575]
+[2026-06-26 11:21:33]   step 40/107  loss=1.5137 [main: ce=0.6670, dice=0.4050, tot=1.0720 | aux: ce=0.6678, dice=0.4366, tot=1.1044]
+[2026-06-26 11:21:50]   step 60/107  loss=1.4774 [main: ce=0.6453, dice=0.4030, tot=1.0483 | aux: ce=0.6367, dice=0.4361, tot=1.0728]
+[2026-06-26 11:22:07]   step 80/107  loss=1.4456 [main: ce=0.6235, dice=0.3993, tot=1.0228 | aux: ce=0.6253, dice=0.4316, tot=1.0569]
+[2026-06-26 11:22:24]   step 100/107  loss=1.4382 [main: ce=0.6166, dice=0.3999, tot=1.0165 | aux: ce=0.6241, dice=0.4299, tot=1.0541]
+Epoch 4: Loss: 1.4321 [main: ce=0.6139, dice=0.3983, tot=1.0122 | aux: ce=0.6216, dice=0.4280, tot=1.0496] | Val Dice: 0.6868 | Val IoU: 0.5488 | Val HD95: 54.8734 | LR: 1.1e-04
+>>> New Best Model Saved! Dice: 0.6868
+[2026-06-26 11:22:53]   step 20/107  loss=1.4144 [main: ce=0.5913, dice=0.4127, tot=1.0039 | aux: ce=0.5886, dice=0.4375, tot=1.0261]
+[2026-06-26 11:23:10]   step 40/107  loss=1.4604 [main: ce=0.6144, dice=0.4128, tot=1.0272 | aux: ce=0.6491, dice=0.4340, tot=1.0830]
+[2026-06-26 11:23:28]   step 60/107  loss=1.4357 [main: ce=0.5948, dice=0.4092, tot=1.0040 | aux: ce=0.6330, dice=0.4462, tot=1.0793]
+[2026-06-26 11:23:45]   step 80/107  loss=1.3956 [main: ce=0.5785, dice=0.3960, tot=0.9744 | aux: ce=0.6206, dice=0.4324, tot=1.0530]
+[2026-06-26 11:24:02]   step 100/107  loss=1.3812 [main: ce=0.5718, dice=0.3944, tot=0.9662 | aux: ce=0.6060, dice=0.4314, tot=1.0374]
+Epoch 5: Loss: 1.3811 [main: ce=0.5729, dice=0.3941, tot=0.9671 | aux: ce=0.6055, dice=0.4297, tot=1.0351] | Val Dice: 0.7036 | Val IoU: 0.5671 | Val HD95: 47.2950 | LR: 1.3e-04
+>>> New Best Model Saved! Dice: 0.7036
+[2026-06-26 11:24:31]   step 20/107  loss=1.3406 [main: ce=0.5657, dice=0.3787, tot=0.9444 | aux: ce=0.5755, dice=0.4152, tot=0.9906]
+[2026-06-26 11:24:49]   step 40/107  loss=1.3426 [main: ce=0.5523, dice=0.3806, tot=0.9329 | aux: ce=0.6015, dice=0.4227, tot=1.0242]
+[2026-06-26 11:25:05]   step 60/107  loss=1.3499 [main: ce=0.5538, dice=0.3882, tot=0.9420 | aux: ce=0.5928, dice=0.4268, tot=1.0197]
+[2026-06-26 11:25:22]   step 80/107  loss=1.3430 [main: ce=0.5537, dice=0.3860, tot=0.9396 | aux: ce=0.5852, dice=0.4232, tot=1.0085]
+[2026-06-26 11:25:40]   step 100/107  loss=1.3221 [main: ce=0.5412, dice=0.3831, tot=0.9243 | aux: ce=0.5747, dice=0.4198, tot=0.9946]
+Epoch 6: Loss: 1.3130 [main: ce=0.5355, dice=0.3813, tot=0.9169 | aux: ce=0.5723, dice=0.4180, tot=0.9903] | Val Dice: 0.6933 | Val IoU: 0.5570 | Val HD95: 50.7910 | LR: 1.6e-04
+[2026-06-26 11:26:09]   step 20/107  loss=1.2995 [main: ce=0.5406, dice=0.3797, tot=0.9203 | aux: ce=0.5493, dice=0.3987, tot=0.9480]
+[2026-06-26 11:26:26]   step 40/107  loss=1.3026 [main: ce=0.5357, dice=0.3817, tot=0.9174 | aux: ce=0.5561, dice=0.4069, tot=0.9630]
+[2026-06-26 11:26:43]   step 60/107  loss=1.3141 [main: ce=0.5397, dice=0.3810, tot=0.9207 | aux: ce=0.5720, dice=0.4113, tot=0.9833]
+[2026-06-26 11:27:00]   step 80/107  loss=1.2965 [main: ce=0.5290, dice=0.3795, tot=0.9085 | aux: ce=0.5644, dice=0.4054, tot=0.9698]
+[2026-06-26 11:27:17]   step 100/107  loss=1.2981 [main: ce=0.5310, dice=0.3792, tot=0.9101 | aux: ce=0.5617, dice=0.4081, tot=0.9699]
+Epoch 7: Loss: 1.2986 [main: ce=0.5292, dice=0.3793, tot=0.9085 | aux: ce=0.5630, dice=0.4122, tot=0.9752] | Val Dice: 0.6172 | Val IoU: 0.4679 | Val HD95: 58.1220 | LR: 1.9e-04
+[2026-06-26 11:27:46]   step 20/107  loss=1.2639 [main: ce=0.4798, dice=0.3847, tot=0.8645 | aux: ce=0.5746, dice=0.4239, tot=0.9985]
+[2026-06-26 11:28:03]   step 40/107  loss=1.2770 [main: ce=0.5035, dice=0.3741, tot=0.8776 | aux: ce=0.5858, dice=0.4129, tot=0.9987]
+[2026-06-26 11:28:20]   step 60/107  loss=1.2995 [main: ce=0.5232, dice=0.3779, tot=0.9011 | aux: ce=0.5847, dice=0.4112, tot=0.9959]
+[2026-06-26 11:28:37]   step 80/107  loss=1.2903 [main: ce=0.5159, dice=0.3778, tot=0.8937 | aux: ce=0.5818, dice=0.4097, tot=0.9915]
+[2026-06-26 11:28:54]   step 100/107  loss=1.2903 [main: ce=0.5165, dice=0.3769, tot=0.8933 | aux: ce=0.5786, dice=0.4140, tot=0.9925]
+Epoch 8: Loss: 1.2865 [main: ce=0.5130, dice=0.3775, tot=0.8905 | aux: ce=0.5764, dice=0.4136, tot=0.9901] | Val Dice: 0.7071 | Val IoU: 0.5659 | Val HD95: 54.4249 | LR: 2.1e-04
+>>> New Best Model Saved! Dice: 0.7071
+[2026-06-26 11:29:24]   step 20/107  loss=1.2711 [main: ce=0.5038, dice=0.3841, tot=0.8879 | aux: ce=0.5479, dice=0.4102, tot=0.9580]
+[2026-06-26 11:29:41]   step 40/107  loss=1.2905 [main: ce=0.5124, dice=0.3868, tot=0.8992 | aux: ce=0.5610, dice=0.4172, tot=0.9782]
+[2026-06-26 11:29:58]   step 60/107  loss=1.2922 [main: ce=0.5187, dice=0.3836, tot=0.9023 | aux: ce=0.5623, dice=0.4125, tot=0.9748]
+[2026-06-26 11:30:15]   step 80/107  loss=1.2890 [main: ce=0.5157, dice=0.3858, tot=0.9015 | aux: ce=0.5554, dice=0.4135, tot=0.9689]
+[2026-06-26 11:30:32]   step 100/107  loss=1.2655 [main: ce=0.5048, dice=0.3787, tot=0.8835 | aux: ce=0.5479, dice=0.4070, tot=0.9549]
+Epoch 9: Loss: 1.2599 [main: ce=0.5042, dice=0.3745, tot=0.8786 | aux: ce=0.5478, dice=0.4052, tot=0.9531] | Val Dice: 0.6714 | Val IoU: 0.5427 | Val HD95: 60.8317 | LR: 2.4e-04
+[2026-06-26 11:31:01]   step 20/107  loss=1.2067 [main: ce=0.4606, dice=0.3624, tot=0.8230 | aux: ce=0.5422, dice=0.4169, tot=0.9591]
+[2026-06-26 11:31:18]   step 40/107  loss=1.3018 [main: ce=0.5338, dice=0.3758, tot=0.9096 | aux: ce=0.5685, dice=0.4118, tot=0.9804]
+[2026-06-26 11:31:36]   step 60/107  loss=1.2733 [main: ce=0.5117, dice=0.3753, tot=0.8870 | aux: ce=0.5583, dice=0.4074, tot=0.9657]
+[2026-06-26 11:31:53]   step 80/107  loss=1.2686 [main: ce=0.5143, dice=0.3718, tot=0.8861 | aux: ce=0.5536, dice=0.4027, tot=0.9562]
+[2026-06-26 11:32:10]   step 100/107  loss=1.2487 [main: ce=0.5017, dice=0.3675, tot=0.8692 | aux: ce=0.5471, dice=0.4017, tot=0.9488]
+Epoch 10: Loss: 1.2478 [main: ce=0.5008, dice=0.3667, tot=0.8676 | aux: ce=0.5487, dice=0.4018, tot=0.9505] | Val Dice: 0.7155 | Val IoU: 0.5806 | Val HD95: 53.7781 | LR: 2.7e-04
+>>> New Best Model Saved! Dice: 0.7155
+[2026-06-26 11:32:39]   step 20/107  loss=1.2886 [main: ce=0.5176, dice=0.3776, tot=0.8952 | aux: ce=0.5619, dice=0.4216, tot=0.9835]
+[2026-06-26 11:32:56]   step 40/107  loss=1.2682 [main: ce=0.5067, dice=0.3741, tot=0.8808 | aux: ce=0.5578, dice=0.4107, tot=0.9685]
+[2026-06-26 11:33:13]   step 60/107  loss=1.2256 [main: ce=0.4859, dice=0.3628, tot=0.8486 | aux: ce=0.5426, dice=0.3999, tot=0.9425]
+[2026-06-26 11:33:31]   step 80/107  loss=1.2305 [main: ce=0.4920, dice=0.3604, tot=0.8524 | aux: ce=0.5491, dice=0.3963, tot=0.9453]
+[2026-06-26 11:33:48]   step 100/107  loss=1.2282 [main: ce=0.4909, dice=0.3633, tot=0.8542 | aux: ce=0.5410, dice=0.3941, tot=0.9351]
+Epoch 11: Loss: 1.2175 [main: ce=0.4847, dice=0.3620, tot=0.8468 | aux: ce=0.5351, dice=0.3917, tot=0.9268] | Val Dice: 0.6875 | Val IoU: 0.5564 | Val HD95: 54.9784 | LR: 2.9e-04
+[2026-06-26 11:34:17]   step 20/107  loss=1.2374 [main: ce=0.4938, dice=0.3746, tot=0.8684 | aux: ce=0.5253, dice=0.3974, tot=0.9226]
+[2026-06-26 11:34:34]   step 40/107  loss=1.2803 [main: ce=0.5128, dice=0.3832, tot=0.8960 | aux: ce=0.5607, dice=0.4002, tot=0.9609]
+[2026-06-26 11:34:51]   step 60/107  loss=1.2697 [main: ce=0.5078, dice=0.3818, tot=0.8896 | aux: ce=0.5516, dice=0.3985, tot=0.9501]
+[2026-06-26 11:35:09]   step 80/107  loss=1.2447 [main: ce=0.4990, dice=0.3762, tot=0.8752 | aux: ce=0.5350, dice=0.3887, tot=0.9237]
+[2026-06-26 11:35:26]   step 100/107  loss=1.2519 [main: ce=0.5017, dice=0.3769, tot=0.8787 | aux: ce=0.5381, dice=0.3950, tot=0.9331]
+Epoch 12: Loss: 1.2475 [main: ce=0.4983, dice=0.3773, tot=0.8756 | aux: ce=0.5352, dice=0.3945, tot=0.9298] | Val Dice: 0.6820 | Val IoU: 0.5510 | Val HD95: 64.0224 | LR: 3.2e-04
+[2026-06-26 11:35:55]   step 20/107  loss=1.2418 [main: ce=0.5120, dice=0.3655, tot=0.8775 | aux: ce=0.5339, dice=0.3769, tot=0.9109]
+[2026-06-26 11:36:12]   step 40/107  loss=1.2148 [main: ce=0.4882, dice=0.3665, tot=0.8548 | aux: ce=0.5198, dice=0.3803, tot=0.9000]
+[2026-06-26 11:36:28]   step 60/107  loss=1.1920 [main: ce=0.4744, dice=0.3625, tot=0.8370 | aux: ce=0.5084, dice=0.3793, tot=0.8877]
+[2026-06-26 11:36:45]   step 80/107  loss=1.2399 [main: ce=0.4980, dice=0.3698, tot=0.8678 | aux: ce=0.5370, dice=0.3931, tot=0.9301]
+[2026-06-26 11:37:02]   step 100/107  loss=1.2143 [main: ce=0.4849, dice=0.3632, tot=0.8481 | aux: ce=0.5274, dice=0.3880, tot=0.9154]
+Epoch 13: Loss: 1.2138 [main: ce=0.4866, dice=0.3619, tot=0.8485 | aux: ce=0.5258, dice=0.3874, tot=0.9132] | Val Dice: 0.6926 | Val IoU: 0.5528 | Val HD95: 57.9635 | LR: 3.5e-04
+[2026-06-26 11:37:32]   step 20/107  loss=1.1376 [main: ce=0.4551, dice=0.3470, tot=0.8021 | aux: ce=0.4814, dice=0.3573, tot=0.8388]
+[2026-06-26 11:37:49]   step 40/107  loss=1.2108 [main: ce=0.4827, dice=0.3637, tot=0.8464 | aux: ce=0.5199, dice=0.3911, tot=0.9111]
+[2026-06-26 11:38:06]   step 60/107  loss=1.2175 [main: ce=0.4801, dice=0.3642, tot=0.8443 | aux: ce=0.5317, dice=0.4013, tot=0.9330]
+[2026-06-26 11:38:23]   step 80/107  loss=1.2211 [main: ce=0.4828, dice=0.3648, tot=0.8476 | aux: ce=0.5356, dice=0.3982, tot=0.9338]
+[2026-06-26 11:38:40]   step 100/107  loss=1.2206 [main: ce=0.4864, dice=0.3635, tot=0.8499 | aux: ce=0.5345, dice=0.3924, tot=0.9269]
+Epoch 14: Loss: 1.2242 [main: ce=0.4884, dice=0.3636, tot=0.8519 | aux: ce=0.5377, dice=0.3931, tot=0.9307] | Val Dice: 0.5675 | Val IoU: 0.4201 | Val HD95: 68.2782 | LR: 3.7e-04
+[2026-06-26 11:39:09]   step 20/107  loss=1.0941 [main: ce=0.4375, dice=0.3149, tot=0.7524 | aux: ce=0.4874, dice=0.3667, tot=0.8542]
+[2026-06-26 11:39:26]   step 40/107  loss=1.1615 [main: ce=0.4547, dice=0.3398, tot=0.7945 | aux: ce=0.5174, dice=0.4001, tot=0.9175]
+[2026-06-26 11:39:44]   step 60/107  loss=1.1635 [main: ce=0.4510, dice=0.3401, tot=0.7912 | aux: ce=0.5256, dice=0.4053, tot=0.9309]
+[2026-06-26 11:40:00]   step 80/107  loss=1.1945 [main: ce=0.4692, dice=0.3459, tot=0.8151 | aux: ce=0.5408, dice=0.4077, tot=0.9485]
+[2026-06-26 11:40:17]   step 100/107  loss=1.1929 [main: ce=0.4651, dice=0.3458, tot=0.8109 | aux: ce=0.5463, dice=0.4089, tot=0.9552]
+Epoch 15: Loss: 1.1933 [main: ce=0.4643, dice=0.3479, tot=0.8123 | aux: ce=0.5423, dice=0.4102, tot=0.9525] | Val Dice: 0.6714 | Val IoU: 0.5318 | Val HD95: 59.5647 | LR: 4.0e-04
+[2026-06-26 11:40:46]   step 20/107  loss=1.2783 [main: ce=0.4906, dice=0.3759, tot=0.8665 | aux: ce=0.5965, dice=0.4329, tot=1.0295]
+[2026-06-26 11:41:03]   step 40/107  loss=1.2477 [main: ce=0.4863, dice=0.3646, tot=0.8509 | aux: ce=0.5657, dice=0.4263, tot=0.9920]
+[2026-06-26 11:41:21]   step 60/107  loss=1.1855 [main: ce=0.4588, dice=0.3505, tot=0.8093 | aux: ce=0.5365, dice=0.4040, tot=0.9404]
+[2026-06-26 11:41:38]   step 80/107  loss=1.1987 [main: ce=0.4683, dice=0.3546, tot=0.8229 | aux: ce=0.5381, dice=0.4014, tot=0.9395]
+[2026-06-26 11:41:55]   step 100/107  loss=1.1915 [main: ce=0.4652, dice=0.3556, tot=0.8208 | aux: ce=0.5283, dice=0.3986, tot=0.9268]
+Epoch 16: Loss: 1.2079 [main: ce=0.4771, dice=0.3584, tot=0.8355 | aux: ce=0.5332, dice=0.3978, tot=0.9310] | Val Dice: 0.5465 | Val IoU: 0.3977 | Val HD95: 67.9537 | LR: 4.3e-04
+[2026-06-26 11:42:24]   step 20/107  loss=1.1952 [main: ce=0.4674, dice=0.3748, tot=0.8423 | aux: ce=0.4895, dice=0.3927, tot=0.8822]
+[2026-06-26 11:42:41]   step 40/107  loss=1.2065 [main: ce=0.4701, dice=0.3668, tot=0.8368 | aux: ce=0.5270, dice=0.3972, tot=0.9241]
+[2026-06-26 11:42:58]   step 60/107  loss=1.1847 [main: ce=0.4611, dice=0.3566, tot=0.8177 | aux: ce=0.5243, dice=0.3934, tot=0.9177]
+[2026-06-26 11:43:16]   step 80/107  loss=1.1882 [main: ce=0.4670, dice=0.3534, tot=0.8204 | aux: ce=0.5285, dice=0.3909, tot=0.9194]
+[2026-06-26 11:43:33]   step 100/107  loss=1.1946 [main: ce=0.4680, dice=0.3573, tot=0.8253 | aux: ce=0.5290, dice=0.3942, tot=0.9232]
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/monai/metrics/utils.py:332: UserWarning: the prediction of class 0 is all 0, this may result in nan/inf distance.
+  warnings.warn(
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/monai/metrics/utils.py:332: UserWarning: the prediction of class 0 is all 0, this may result in nan/inf distance.
+  warnings.warn(
+Epoch 17: Loss: 1.1959 [main: ce=0.4704, dice=0.3579, tot=0.8284 | aux: ce=0.5264, dice=0.3923, tot=0.9187] | Val Dice: 0.4609 | Val IoU: 0.3748 | Val HD95: nan | LR: 4.5e-04
+[2026-06-26 11:44:02]   step 20/107  loss=1.2276 [main: ce=0.4678, dice=0.3602, tot=0.8280 | aux: ce=0.5810, dice=0.4180, tot=0.9990]
+[2026-06-26 11:44:18]   step 40/107  loss=1.2362 [main: ce=0.4765, dice=0.3710, tot=0.8475 | aux: ce=0.5526, dice=0.4193, tot=0.9719]
+[2026-06-26 11:44:35]   step 60/107  loss=1.2279 [main: ce=0.4738, dice=0.3663, tot=0.8400 | aux: ce=0.5556, dice=0.4140, tot=0.9696]
+[2026-06-26 11:44:53]   step 80/107  loss=1.2249 [main: ce=0.4741, dice=0.3616, tot=0.8357 | aux: ce=0.5574, dice=0.4155, tot=0.9730]
+[2026-06-26 11:45:10]   step 100/107  loss=1.2183 [main: ce=0.4702, dice=0.3611, tot=0.8312 | aux: ce=0.5548, dice=0.4128, tot=0.9676]
+Epoch 18: Loss: 1.2194 [main: ce=0.4732, dice=0.3602, tot=0.8334 | aux: ce=0.5524, dice=0.4126, tot=0.9650] | Val Dice: 0.5845 | Val IoU: 0.4354 | Val HD95: 69.2785 | LR: 4.8e-04
+[2026-06-26 11:45:39]   step 20/107  loss=1.2343 [main: ce=0.4957, dice=0.3717, tot=0.8674 | aux: ce=0.5241, dice=0.3931, tot=0.9172]
+[2026-06-26 11:45:56]   step 40/107  loss=1.2012 [main: ce=0.4651, dice=0.3638, tot=0.8289 | aux: ce=0.5337, dice=0.3971, tot=0.9309]
+[2026-06-26 11:46:13]   step 60/107  loss=1.1940 [main: ce=0.4697, dice=0.3546, tot=0.8243 | aux: ce=0.5300, dice=0.3943, tot=0.9242]
+[2026-06-26 11:46:30]   step 80/107  loss=1.2026 [main: ce=0.4736, dice=0.3569, tot=0.8305 | aux: ce=0.5327, dice=0.3975, tot=0.9302]
+[2026-06-26 11:46:47]   step 100/107  loss=1.2098 [main: ce=0.4787, dice=0.3589, tot=0.8376 | aux: ce=0.5339, dice=0.3965, tot=0.9304]
+Epoch 19: Loss: 1.2092 [main: ce=0.4790, dice=0.3593, tot=0.8383 | aux: ce=0.5321, dice=0.3951, tot=0.9273] | Val Dice: 0.6045 | Val IoU: 0.4821 | Val HD95: 84.2148 | LR: 5.1e-04
+[2026-06-26 11:47:16]   step 20/107  loss=1.1680 [main: ce=0.4684, dice=0.3464, tot=0.8148 | aux: ce=0.5144, dice=0.3688, tot=0.8832]
+[2026-06-26 11:47:33]   step 40/107  loss=1.1192 [main: ce=0.4423, dice=0.3354, tot=0.7777 | aux: ce=0.4899, dice=0.3638, tot=0.8537]
+[2026-06-26 11:47:50]   step 60/107  loss=1.1627 [main: ce=0.4664, dice=0.3460, tot=0.8125 | aux: ce=0.5038, dice=0.3717, tot=0.8756]
+[2026-06-26 11:48:07]   step 80/107  loss=1.1795 [main: ce=0.4717, dice=0.3515, tot=0.8231 | aux: ce=0.5123, dice=0.3788, tot=0.8910]
+[2026-06-26 11:48:24]   step 100/107  loss=1.1889 [main: ce=0.4756, dice=0.3554, tot=0.8310 | aux: ce=0.5146, dice=0.3803, tot=0.8949]
+Epoch 20: Loss: 1.1938 [main: ce=0.4785, dice=0.3568, tot=0.8353 | aux: ce=0.5153, dice=0.3809, tot=0.8962] | Val Dice: 0.5530 | Val IoU: 0.4407 | Val HD95: 96.6329 | LR: 5.3e-04
+[2026-06-26 11:48:53]   step 20/107  loss=1.2384 [main: ce=0.4909, dice=0.3848, tot=0.8757 | aux: ce=0.5056, dice=0.4011, tot=0.9067]
+[2026-06-26 11:49:10]   step 40/107  loss=1.2189 [main: ce=0.4944, dice=0.3641, tot=0.8585 | aux: ce=0.5179, dice=0.3830, tot=0.9009]
+[2026-06-26 11:49:28]   step 60/107  loss=1.1955 [main: ce=0.4758, dice=0.3643, tot=0.8401 | aux: ce=0.5074, dice=0.3811, tot=0.8885]
+[2026-06-26 11:49:45]   step 80/107  loss=1.1665 [main: ce=0.4694, dice=0.3522, tot=0.8216 | aux: ce=0.4926, dice=0.3696, tot=0.8623]
+[2026-06-26 11:50:02]   step 100/107  loss=1.1673 [main: ce=0.4710, dice=0.3517, tot=0.8227 | aux: ce=0.4922, dice=0.3693, tot=0.8615]
+Epoch 21: Loss: 1.1688 [main: ce=0.4702, dice=0.3527, tot=0.8229 | aux: ce=0.4946, dice=0.3701, tot=0.8647] | Val Dice: 0.5244 | Val IoU: 0.3857 | Val HD95: 76.2177 | LR: 5.6e-04
+[2026-06-26 11:50:30]   step 20/107  loss=1.2037 [main: ce=0.4881, dice=0.3586, tot=0.8466 | aux: ce=0.5153, dice=0.3775, tot=0.8928]
+[2026-06-26 11:50:48]   step 40/107  loss=1.1902 [main: ce=0.4767, dice=0.3542, tot=0.8309 | aux: ce=0.5212, dice=0.3772, tot=0.8983]
+[2026-06-26 11:51:05]   step 60/107  loss=1.1657 [main: ce=0.4667, dice=0.3474, tot=0.8141 | aux: ce=0.5080, dice=0.3709, tot=0.8788]
+[2026-06-26 11:51:22]   step 80/107  loss=1.1906 [main: ce=0.4808, dice=0.3542, tot=0.8349 | aux: ce=0.5118, dice=0.3774, tot=0.8891]
+[2026-06-26 11:51:39]   step 100/107  loss=1.2004 [main: ce=0.4839, dice=0.3633, tot=0.8472 | aux: ce=0.5057, dice=0.3773, tot=0.8830]
+Epoch 22: Loss: 1.1978 [main: ce=0.4818, dice=0.3634, tot=0.8452 | aux: ce=0.5060, dice=0.3756, tot=0.8816] | Val Dice: 0.5599 | Val IoU: 0.4166 | Val HD95: 71.5565 | LR: 5.9e-04
+[2026-06-26 11:52:08]   step 20/107  loss=1.2302 [main: ce=0.4978, dice=0.3697, tot=0.8675 | aux: ce=0.5185, dice=0.3881, tot=0.9067]
+[2026-06-26 11:52:25]   step 40/107  loss=1.2130 [main: ce=0.4892, dice=0.3706, tot=0.8598 | aux: ce=0.5048, dice=0.3783, tot=0.8831]
+[2026-06-26 11:52:43]   step 60/107  loss=1.1946 [main: ce=0.4812, dice=0.3631, tot=0.8443 | aux: ce=0.5005, dice=0.3751, tot=0.8757]
+[2026-06-26 11:53:00]   step 80/107  loss=1.1865 [main: ce=0.4808, dice=0.3619, tot=0.8427 | aux: ce=0.4914, dice=0.3681, tot=0.8595]
+[2026-06-26 11:53:18]   step 100/107  loss=1.1941 [main: ce=0.4858, dice=0.3661, tot=0.8519 | aux: ce=0.4874, dice=0.3680, tot=0.8554]
+Epoch 23: Loss: 1.2030 [main: ce=0.4891, dice=0.3679, tot=0.8569 | aux: ce=0.4962, dice=0.3689, tot=0.8651] | Val Dice: 0.7288 | Val IoU: 0.5930 | Val HD95: 51.1550 | LR: 6.1e-04
+>>> New Best Model Saved! Dice: 0.7288
+[2026-06-26 11:53:47]   step 20/107  loss=1.2332 [main: ce=0.5110, dice=0.3692, tot=0.8802 | aux: ce=0.5036, dice=0.3791, tot=0.8826]
+[2026-06-26 11:54:04]   step 40/107  loss=1.2259 [main: ce=0.5001, dice=0.3711, tot=0.8712 | aux: ce=0.5070, dice=0.3797, tot=0.8867]
+[2026-06-26 11:54:21]   step 60/107  loss=1.2268 [main: ce=0.5023, dice=0.3740, tot=0.8763 | aux: ce=0.5019, dice=0.3743, tot=0.8762]
+[2026-06-26 11:54:38]   step 80/107  loss=1.2119 [main: ce=0.4886, dice=0.3769, tot=0.8655 | aux: ce=0.4922, dice=0.3737, tot=0.8659]
+[2026-06-26 11:54:56]   step 100/107  loss=1.2074 [main: ce=0.4895, dice=0.3720, tot=0.8615 | aux: ce=0.4943, dice=0.3704, tot=0.8647]
+Epoch 24: Loss: 1.2097 [main: ce=0.4898, dice=0.3726, tot=0.8623 | aux: ce=0.4968, dice=0.3718, tot=0.8685] | Val Dice: 0.6840 | Val IoU: 0.5398 | Val HD95: 53.8165 | LR: 6.4e-04
+[2026-06-26 11:55:25]   step 20/107  loss=1.2261 [main: ce=0.4937, dice=0.3923, tot=0.8860 | aux: ce=0.4854, dice=0.3651, tot=0.8504]
+[2026-06-26 11:55:42]   step 40/107  loss=1.2000 [main: ce=0.4815, dice=0.3750, tot=0.8565 | aux: ce=0.4911, dice=0.3677, tot=0.8588]
+[2026-06-26 11:55:59]   step 60/107  loss=1.2005 [main: ce=0.4844, dice=0.3709, tot=0.8553 | aux: ce=0.4921, dice=0.3709, tot=0.8630]
+[2026-06-26 11:56:16]   step 80/107  loss=1.1881 [main: ce=0.4794, dice=0.3657, tot=0.8451 | aux: ce=0.4914, dice=0.3660, tot=0.8574]
+[2026-06-26 11:56:34]   step 100/107  loss=1.1901 [main: ce=0.4805, dice=0.3657, tot=0.8462 | aux: ce=0.4910, dice=0.3686, tot=0.8597]
+Epoch 25: Loss: 1.1990 [main: ce=0.4874, dice=0.3672, tot=0.8546 | aux: ce=0.4919, dice=0.3690, tot=0.8609] | Val Dice: 0.6423 | Val IoU: 0.4987 | Val HD95: 60.3338 | LR: 6.7e-04
+[2026-06-26 11:57:03]   step 20/107  loss=1.2056 [main: ce=0.4772, dice=0.3878, tot=0.8650 | aux: ce=0.4827, dice=0.3686, tot=0.8514]
+[2026-06-26 11:57:20]   step 40/107  loss=1.2229 [main: ce=0.4924, dice=0.3835, tot=0.8758 | aux: ce=0.4931, dice=0.3746, tot=0.8678]
+[2026-06-26 11:57:37]   step 60/107  loss=1.2122 [main: ce=0.4851, dice=0.3794, tot=0.8645 | aux: ce=0.4925, dice=0.3767, tot=0.8692]
+[2026-06-26 11:57:54]   step 80/107  loss=1.1994 [main: ce=0.4824, dice=0.3713, tot=0.8537 | aux: ce=0.4931, dice=0.3713, tot=0.8643]
+[2026-06-26 11:58:11]   step 100/107  loss=1.1977 [main: ce=0.4865, dice=0.3677, tot=0.8542 | aux: ce=0.4937, dice=0.3651, tot=0.8588]
+Epoch 26: Loss: 1.1918 [main: ce=0.4822, dice=0.3671, tot=0.8494 | aux: ce=0.4911, dice=0.3650, tot=0.8561] | Val Dice: 0.6907 | Val IoU: 0.5462 | Val HD95: 54.5687 | LR: 6.9e-04
+[2026-06-26 11:58:40]   step 20/107  loss=1.0757 [main: ce=0.4494, dice=0.3312, tot=0.7806 | aux: ce=0.4217, dice=0.3160, tot=0.7378]
+[2026-06-26 11:58:58]   step 40/107  loss=1.0813 [main: ce=0.4353, dice=0.3309, tot=0.7662 | aux: ce=0.4491, dice=0.3387, tot=0.7878]
+[2026-06-26 11:59:15]   step 60/107  loss=1.1232 [main: ce=0.4489, dice=0.3415, tot=0.7905 | aux: ce=0.4755, dice=0.3565, tot=0.8319]
+[2026-06-26 11:59:32]   step 80/107  loss=1.1187 [main: ce=0.4507, dice=0.3380, tot=0.7887 | aux: ce=0.4721, dice=0.3529, tot=0.8249]
+[2026-06-26 11:59:49]   step 100/107  loss=1.1313 [main: ce=0.4563, dice=0.3399, tot=0.7961 | aux: ce=0.4809, dice=0.3570, tot=0.8379]
+Epoch 27: Loss: 1.1395 [main: ce=0.4587, dice=0.3429, tot=0.8016 | aux: ce=0.4835, dice=0.3613, tot=0.8448] | Val Dice: 0.7097 | Val IoU: 0.5761 | Val HD95: 53.9638 | LR: 7.2e-04
+[2026-06-26 12:00:18]   step 20/107  loss=1.1044 [main: ce=0.4396, dice=0.3492, tot=0.7889 | aux: ce=0.4433, dice=0.3457, tot=0.7890]
+[2026-06-26 12:00:35]   step 40/107  loss=1.1286 [main: ce=0.4518, dice=0.3476, tot=0.7995 | aux: ce=0.4678, dice=0.3551, tot=0.8229]
+[2026-06-26 12:00:52]   step 60/107  loss=1.1542 [main: ce=0.4650, dice=0.3524, tot=0.8174 | aux: ce=0.4811, dice=0.3608, tot=0.8419]
+[2026-06-26 12:01:10]   step 80/107  loss=1.1763 [main: ce=0.4779, dice=0.3550, tot=0.8328 | aux: ce=0.4971, dice=0.3615, tot=0.8586]
+[2026-06-26 12:01:27]   step 100/107  loss=1.1818 [main: ce=0.4771, dice=0.3577, tot=0.8348 | aux: ce=0.4999, dice=0.3676, tot=0.8675]
+Epoch 28: Loss: 1.1833 [main: ce=0.4761, dice=0.3601, tot=0.8362 | aux: ce=0.4980, dice=0.3697, tot=0.8677] | Val Dice: 0.7166 | Val IoU: 0.5827 | Val HD95: 53.0574 | LR: 7.5e-04
+[2026-06-26 12:01:55]   step 20/107  loss=1.1569 [main: ce=0.4555, dice=0.3683, tot=0.8238 | aux: ce=0.4621, dice=0.3706, tot=0.8327]
+[2026-06-26 12:02:12]   step 40/107  loss=1.1315 [main: ce=0.4510, dice=0.3522, tot=0.8032 | aux: ce=0.4640, dice=0.3566, tot=0.8206]
+[2026-06-26 12:02:29]   step 60/107  loss=1.1473 [main: ce=0.4630, dice=0.3475, tot=0.8105 | aux: ce=0.4828, dice=0.3592, tot=0.8420]
+[2026-06-26 12:02:47]   step 80/107  loss=1.1622 [main: ce=0.4694, dice=0.3505, tot=0.8199 | aux: ce=0.4906, dice=0.3652, tot=0.8558]
+[2026-06-26 12:03:04]   step 100/107  loss=1.1395 [main: ce=0.4545, dice=0.3454, tot=0.7999 | aux: ce=0.4850, dice=0.3640, tot=0.8490]
+Epoch 29: Loss: 1.1443 [main: ce=0.4591, dice=0.3451, tot=0.8042 | aux: ce=0.4861, dice=0.3643, tot=0.8504] | Val Dice: 0.7268 | Val IoU: 0.5922 | Val HD95: 48.7728 | LR: 7.7e-04
+[2026-06-26 12:03:32]   step 20/107  loss=1.0607 [main: ce=0.4098, dice=0.3325, tot=0.7424 | aux: ce=0.4500, dice=0.3458, tot=0.7958]
+[2026-06-26 12:03:49]   step 40/107  loss=1.1168 [main: ce=0.4449, dice=0.3467, tot=0.7916 | aux: ce=0.4582, dice=0.3550, tot=0.8132]
+[2026-06-26 12:04:07]   step 60/107  loss=1.1378 [main: ce=0.4514, dice=0.3492, tot=0.8005 | aux: ce=0.4797, dice=0.3635, tot=0.8432]
+[2026-06-26 12:04:24]   step 80/107  loss=1.1307 [main: ce=0.4540, dice=0.3435, tot=0.7975 | aux: ce=0.4760, dice=0.3569, tot=0.8330]
+[2026-06-26 12:04:41]   step 100/107  loss=1.1403 [main: ce=0.4557, dice=0.3475, tot=0.8033 | aux: ce=0.4827, dice=0.3599, tot=0.8426]
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:232: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+/root/miniconda3/envs/zsq_accl_mine/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:232: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+Epoch 30: Loss: 1.1455 [main: ce=0.4595, dice=0.3471, tot=0.8067 | aux: ce=0.4858, dice=0.3611, tot=0.8469] | Val Dice: 0.7442 | Val IoU: 0.6154 | Val HD95: 48.1000 | LR: 8.0e-04
+>>> New Best Model Saved! Dice: 0.7442
+[2026-06-26 12:05:11]   step 20/107  loss=1.1188 [main: ce=0.4591, dice=0.3387, tot=0.7977 | aux: ce=0.4559, dice=0.3469, tot=0.8028]
+[2026-06-26 12:05:28]   step 40/107  loss=1.1396 [main: ce=0.4585, dice=0.3499, tot=0.8084 | aux: ce=0.4722, dice=0.3558, tot=0.8280]
+[2026-06-26 12:05:45]   step 60/107  loss=1.1160 [main: ce=0.4502, dice=0.3394, tot=0.7897 | aux: ce=0.4640, dice=0.3520, tot=0.8160]
+[2026-06-26 12:06:02]   step 80/107  loss=1.1130 [main: ce=0.4501, dice=0.3376, tot=0.7877 | aux: ce=0.4648, dice=0.3484, tot=0.8132]
+[2026-06-26 12:06:19]   step 100/107  loss=1.1322 [main: ce=0.4576, dice=0.3416, tot=0.7991 | aux: ce=0.4765, dice=0.3562, tot=0.8326]
+Epoch 31: Loss: 1.1300 [main: ce=0.4560, dice=0.3420, tot=0.7980 | aux: ce=0.4742, dice=0.3557, tot=0.8299] | Val Dice: 0.6652 | Val IoU: 0.5201 | Val HD95: 58.6550 | LR: 8.0e-04
+[2026-06-26 12:06:47]   step 20/107  loss=1.0881 [main: ce=0.4384, dice=0.3311, tot=0.7695 | aux: ce=0.4618, dice=0.3347, tot=0.7966]
+[2026-06-26 12:07:05]   step 40/107  loss=1.1271 [main: ce=0.4552, dice=0.3434, tot=0.7986 | aux: ce=0.4651, dice=0.3561, tot=0.8212]
+[2026-06-26 12:07:21]   step 60/107  loss=1.1225 [main: ce=0.4476, dice=0.3418, tot=0.7894 | aux: ce=0.4762, dice=0.3564, tot=0.8326]
+[2026-06-26 12:07:39]   step 80/107  loss=1.1153 [main: ce=0.4414, dice=0.3364, tot=0.7778 | aux: ce=0.4814, dice=0.3623, tot=0.8438]
+[2026-06-26 12:07:55]   step 100/107  loss=1.1111 [main: ce=0.4411, dice=0.3328, tot=0.7740 | aux: ce=0.4832, dice=0.3595, tot=0.8428]
+Epoch 32: Loss: 1.1049 [main: ce=0.4389, dice=0.3315, tot=0.7704 | aux: ce=0.4782, dice=0.3579, tot=0.8361] | Val Dice: 0.7079 | Val IoU: 0.5691 | Val HD95: 55.5947 | LR: 8.0e-04
+[2026-06-26 12:08:24]   step 20/107  loss=1.0843 [main: ce=0.4422, dice=0.3168, tot=0.7590 | aux: ce=0.4702, dice=0.3432, tot=0.8134]
+[2026-06-26 12:08:41]   step 40/107  loss=1.0505 [main: ce=0.4236, dice=0.3148, tot=0.7384 | aux: ce=0.4434, dice=0.3368, tot=0.7801]
+[2026-06-26 12:08:58]   step 60/107  loss=1.0935 [main: ce=0.4442, dice=0.3243, tot=0.7685 | aux: ce=0.4681, dice=0.3443, tot=0.8125]
+[2026-06-26 12:09:16]   step 80/107  loss=1.1170 [main: ce=0.4511, dice=0.3361, tot=0.7872 | aux: ce=0.4734, dice=0.3510, tot=0.8244]
+[2026-06-26 12:09:32]   step 100/107  loss=1.1143 [main: ce=0.4494, dice=0.3347, tot=0.7841 | aux: ce=0.4731, dice=0.3525, tot=0.8256]
+Epoch 33: Loss: 1.1097 [main: ce=0.4474, dice=0.3330, tot=0.7804 | aux: ce=0.4720, dice=0.3511, tot=0.8231] | Val Dice: 0.7192 | Val IoU: 0.5901 | Val HD95: 50.9424 | LR: 8.0e-04
+[2026-06-26 12:10:01]   step 20/107  loss=1.0964 [main: ce=0.4333, dice=0.3381, tot=0.7714 | aux: ce=0.4556, dice=0.3570, tot=0.8126]
+[2026-06-26 12:10:19]   step 40/107  loss=1.0560 [main: ce=0.4166, dice=0.3266, tot=0.7432 | aux: ce=0.4416, dice=0.3403, tot=0.7818]
+[2026-06-26 12:10:36]   step 60/107  loss=1.1172 [main: ce=0.4465, dice=0.3382, tot=0.7847 | aux: ce=0.4743, dice=0.3570, tot=0.8313]
+[2026-06-26 12:10:54]   step 80/107  loss=1.1424 [main: ce=0.4557, dice=0.3427, tot=0.7984 | aux: ce=0.4967, dice=0.3633, tot=0.8600]
+[2026-06-26 12:11:11]   step 100/107  loss=1.1312 [main: ce=0.4499, dice=0.3401, tot=0.7900 | aux: ce=0.4889, dice=0.3640, tot=0.8529]
+Epoch 34: Loss: 1.1350 [main: ce=0.4528, dice=0.3411, tot=0.7939 | aux: ce=0.4891, dice=0.3638, tot=0.8528] | Val Dice: 0.7132 | Val IoU: 0.5738 | Val HD95: 68.1443 | LR: 8.0e-04
+[2026-06-26 12:11:39]   step 20/107  loss=1.0857 [main: ce=0.4292, dice=0.3450, tot=0.7742 | aux: ce=0.4331, dice=0.3455, tot=0.7786]
+[2026-06-26 12:11:56]   step 40/107  loss=1.0905 [main: ce=0.4342, dice=0.3422, tot=0.7764 | aux: ce=0.4466, dice=0.3385, tot=0.7851]
+[2026-06-26 12:12:13]   step 60/107  loss=1.0959 [main: ce=0.4362, dice=0.3405, tot=0.7767 | aux: ce=0.4557, dice=0.3421, tot=0.7978]
+[2026-06-26 12:12:31]   step 80/107  loss=1.0931 [main: ce=0.4391, dice=0.3368, tot=0.7759 | aux: ce=0.4534, dice=0.3396, tot=0.7930]
+[2026-06-26 12:12:48]   step 100/107  loss=1.1025 [main: ce=0.4478, dice=0.3364, tot=0.7842 | aux: ce=0.4572, dice=0.3386, tot=0.7958]
+Epoch 35: Loss: 1.1153 [main: ce=0.4531, dice=0.3403, tot=0.7934 | aux: ce=0.4624, dice=0.3424, tot=0.8048] | Val Dice: 0.4917 | Val IoU: 0.3494 | Val HD95: 79.0870 | LR: 8.0e-04
+[2026-06-26 12:13:17]   step 20/107  loss=1.1466 [main: ce=0.4516, dice=0.3620, tot=0.8136 | aux: ce=0.4658, dice=0.3667, tot=0.8325]
+[2026-06-26 12:13:34]   step 40/107  loss=1.1175 [main: ce=0.4454, dice=0.3461, tot=0.7915 | aux: ce=0.4633, dice=0.3517, tot=0.8151]
+[2026-06-26 12:13:51]   step 60/107  loss=1.1053 [main: ce=0.4422, dice=0.3421, tot=0.7843 | aux: ce=0.4525, dice=0.3500, tot=0.8025]
+[2026-06-26 12:14:08]   step 80/107  loss=1.1164 [main: ce=0.4475, dice=0.3459, tot=0.7934 | aux: ce=0.4572, dice=0.3502, tot=0.8074]
+[2026-06-26 12:14:25]   step 100/107  loss=1.1270 [main: ce=0.4551, dice=0.3453, tot=0.8005 | aux: ce=0.4675, dice=0.3489, tot=0.8165]
+Epoch 36: Loss: 1.1323 [main: ce=0.4577, dice=0.3460, tot=0.8037 | aux: ce=0.4708, dice=0.3508, tot=0.8217] | Val Dice: 0.6644 | Val IoU: 0.5231 | Val HD95: 60.1873 | LR: 8.0e-04
+[2026-06-26 12:14:54]   step 20/107  loss=1.0976 [main: ce=0.4335, dice=0.3531, tot=0.7866 | aux: ce=0.4279, dice=0.3497, tot=0.7776]
+[2026-06-26 12:15:12]   step 40/107  loss=1.1135 [main: ce=0.4520, dice=0.3381, tot=0.7901 | aux: ce=0.4621, dice=0.3464, tot=0.8085]
+[2026-06-26 12:15:29]   step 60/107  loss=1.0883 [main: ce=0.4363, dice=0.3316, tot=0.7679 | aux: ce=0.4562, dice=0.3448, tot=0.8011]
+[2026-06-26 12:15:46]   step 80/107  loss=1.0768 [main: ce=0.4294, dice=0.3305, tot=0.7599 | aux: ce=0.4490, dice=0.3431, tot=0.7922]
+[2026-06-26 12:16:03]   step 100/107  loss=1.1052 [main: ce=0.4455, dice=0.3367, tot=0.7821 | aux: ce=0.4606, dice=0.3470, tot=0.8076]
+Epoch 37: Loss: 1.1099 [main: ce=0.4479, dice=0.3377, tot=0.7857 | aux: ce=0.4633, dice=0.3473, tot=0.8105] | Val Dice: 0.7025 | Val IoU: 0.5622 | Val HD95: 57.0674 | LR: 7.9e-04
+[2026-06-26 12:16:32]   step 20/107  loss=1.0404 [main: ce=0.3968, dice=0.3345, tot=0.7312 | aux: ce=0.4204, dice=0.3523, tot=0.7728]
+[2026-06-26 12:16:49]   step 40/107  loss=1.0589 [main: ce=0.4177, dice=0.3279, tot=0.7456 | aux: ce=0.4405, dice=0.3428, tot=0.7833]
+[2026-06-26 12:17:06]   step 60/107  loss=1.0599 [main: ce=0.4226, dice=0.3265, tot=0.7491 | aux: ce=0.4392, dice=0.3379, tot=0.7771]
+[2026-06-26 12:17:24]   step 80/107  loss=1.0876 [main: ce=0.4387, dice=0.3315, tot=0.7702 | aux: ce=0.4526, dice=0.3407, tot=0.7933]
+[2026-06-26 12:17:41]   step 100/107  loss=1.0876 [main: ce=0.4372, dice=0.3342, tot=0.7714 | aux: ce=0.4504, dice=0.3402, tot=0.7906]
+Epoch 38: Loss: 1.0892 [main: ce=0.4374, dice=0.3344, tot=0.7718 | aux: ce=0.4510, dice=0.3424, tot=0.7933] | Val Dice: 0.6967 | Val IoU: 0.5655 | Val HD95: 64.9751 | LR: 7.9e-04
+[2026-06-26 12:18:10]   step 20/107  loss=1.2197 [main: ce=0.4917, dice=0.3571, tot=0.8488 | aux: ce=0.5490, dice=0.3781, tot=0.9271]
+[2026-06-26 12:18:27]   step 40/107  loss=1.1346 [main: ce=0.4431, dice=0.3440, tot=0.7871 | aux: ce=0.4957, dice=0.3731, tot=0.8688]
+[2026-06-26 12:18:44]   step 60/107  loss=1.1286 [main: ce=0.4487, dice=0.3378, tot=0.7865 | aux: ce=0.4883, dice=0.3670, tot=0.8553]
+[2026-06-26 12:19:01]   step 80/107  loss=1.1094 [main: ce=0.4405, dice=0.3363, tot=0.7768 | aux: ce=0.4738, dice=0.3578, tot=0.8315]
+[2026-06-26 12:19:18]   step 100/107  loss=1.0942 [main: ce=0.4345, dice=0.3320, tot=0.7665 | aux: ce=0.4668, dice=0.3525, tot=0.8193]
+Epoch 39: Loss: 1.0933 [main: ce=0.4347, dice=0.3296, tot=0.7643 | aux: ce=0.4704, dice=0.3520, tot=0.8224] | Val Dice: 0.6719 | Val IoU: 0.5449 | Val HD95: 64.1819 | LR: 7.9e-04
+[2026-06-26 12:19:46]   step 20/107  loss=1.0060 [main: ce=0.4058, dice=0.3084, tot=0.7142 | aux: ce=0.4046, dice=0.3251, tot=0.7297]
+[2026-06-26 12:20:04]   step 40/107  loss=1.0043 [main: ce=0.4031, dice=0.3052, tot=0.7083 | aux: ce=0.4198, dice=0.3203, tot=0.7401]
+[2026-06-26 12:20:21]   step 60/107  loss=1.0397 [main: ce=0.4254, dice=0.3084, tot=0.7338 | aux: ce=0.4390, dice=0.3257, tot=0.7647]
+[2026-06-26 12:20:38]   step 80/107  loss=1.0818 [main: ce=0.4397, dice=0.3251, tot=0.7648 | aux: ce=0.4533, dice=0.3393, tot=0.7925]
+[2026-06-26 12:20:56]   step 100/107  loss=1.0800 [main: ce=0.4357, dice=0.3255, tot=0.7612 | aux: ce=0.4556, dice=0.3414, tot=0.7970]
+Epoch 40: Loss: 1.0756 [main: ce=0.4316, dice=0.3243, tot=0.7559 | aux: ce=0.4561, dice=0.3430, tot=0.7991] | Val Dice: 0.6152 | Val IoU: 0.4911 | Val HD95: 79.6149 | LR: 7.9e-04
+[2026-06-26 12:21:24]   step 20/107  loss=1.1103 [main: ce=0.4731, dice=0.3190, tot=0.7921 | aux: ce=0.4653, dice=0.3301, tot=0.7954]
+[2026-06-26 12:21:41]   step 40/107  loss=1.0829 [main: ce=0.4477, dice=0.3234, tot=0.7711 | aux: ce=0.4533, dice=0.3262, tot=0.7795]
+[2026-06-26 12:21:58]   step 60/107  loss=1.0787 [main: ce=0.4420, dice=0.3238, tot=0.7658 | aux: ce=0.4512, dice=0.3309, tot=0.7821]
+[2026-06-26 12:22:16]   step 80/107  loss=1.0902 [main: ce=0.4449, dice=0.3275, tot=0.7724 | aux: ce=0.4591, dice=0.3354, tot=0.7945]
+[2026-06-26 12:22:33]   step 100/107  loss=1.1061 [main: ce=0.4489, dice=0.3355, tot=0.7844 | aux: ce=0.4625, dice=0.3418, tot=0.8043]
+Epoch 41: Loss: 1.1073 [main: ce=0.4484, dice=0.3368, tot=0.7852 | aux: ce=0.4628, dice=0.3426, tot=0.8053] | Val Dice: 0.7639 | Val IoU: 0.6355 | Val HD95: 47.2553 | LR: 7.8e-04
+>>> New Best Model Saved! Dice: 0.7639
+[2026-06-26 12:23:02]   step 20/107  loss=1.0008 [main: ce=0.4022, dice=0.3119, tot=0.7141 | aux: ce=0.4026, dice=0.3143, tot=0.7169]
+[2026-06-26 12:23:19]   step 40/107  loss=0.9939 [main: ce=0.3947, dice=0.3060, tot=0.7007 | aux: ce=0.4103, dice=0.3228, tot=0.7330]
+[2026-06-26 12:23:36]   step 60/107  loss=1.0210 [main: ce=0.4049, dice=0.3123, tot=0.7172 | aux: ce=0.4291, dice=0.3303, tot=0.7594]
+[2026-06-26 12:23:53]   step 80/107  loss=1.0249 [main: ce=0.4068, dice=0.3131, tot=0.7199 | aux: ce=0.4319, dice=0.3307, tot=0.7626]
+[2026-06-26 12:24:10]   step 100/107  loss=1.0421 [main: ce=0.4182, dice=0.3155, tot=0.7337 | aux: ce=0.4393, dice=0.3317, tot=0.7710]
+Epoch 42: Loss: 1.0488 [main: ce=0.4224, dice=0.3184, tot=0.7408 | aux: ce=0.4383, dice=0.3316, tot=0.7699] | Val Dice: 0.3311 | Val IoU: 0.2269 | Val HD95: 90.9550 | LR: 7.8e-04
+[2026-06-26 12:24:39]   step 20/107  loss=1.0700 [main: ce=0.4274, dice=0.3439, tot=0.7713 | aux: ce=0.4176, dice=0.3293, tot=0.7469]
+[2026-06-26 12:24:56]   step 40/107  loss=1.0444 [main: ce=0.4145, dice=0.3318, tot=0.7463 | aux: ce=0.4186, dice=0.3266, tot=0.7452]
+[2026-06-26 12:25:13]   step 60/107  loss=1.1071 [main: ce=0.4488, dice=0.3355, tot=0.7843 | aux: ce=0.4658, dice=0.3414, tot=0.8072]
+[2026-06-26 12:25:30]   step 80/107  loss=1.0999 [main: ce=0.4431, dice=0.3367, tot=0.7799 | aux: ce=0.4589, dice=0.3412, tot=0.8000]
+[2026-06-26 12:25:47]   step 100/107  loss=1.0997 [main: ce=0.4403, dice=0.3341, tot=0.7744 | aux: ce=0.4664, dice=0.3469, tot=0.8132]
+Epoch 43: Loss: 1.0993 [main: ce=0.4396, dice=0.3345, tot=0.7741 | aux: ce=0.4651, dice=0.3480, tot=0.8132] | Val Dice: 0.7538 | Val IoU: 0.6198 | Val HD95: 54.9627 | LR: 7.8e-04
+[2026-06-26 12:26:16]   step 20/107  loss=1.0536 [main: ce=0.4099, dice=0.3126, tot=0.7225 | aux: ce=0.4771, dice=0.3505, tot=0.8276]
+[2026-06-26 12:26:34]   step 40/107  loss=1.0682 [main: ce=0.4144, dice=0.3177, tot=0.7321 | aux: ce=0.4766, dice=0.3638, tot=0.8403]
+[2026-06-26 12:26:51]   step 60/107  loss=1.0453 [main: ce=0.4104, dice=0.3128, tot=0.7232 | aux: ce=0.4566, dice=0.3488, tot=0.8054]
+[2026-06-26 12:27:08]   step 80/107  loss=1.0439 [main: ce=0.4118, dice=0.3133, tot=0.7251 | aux: ce=0.4538, dice=0.3431, tot=0.7968]
+[2026-06-26 12:27:24]   step 100/107  loss=1.0663 [main: ce=0.4243, dice=0.3200, tot=0.7443 | aux: ce=0.4587, dice=0.3465, tot=0.8052]
+Epoch 44: Loss: 1.0629 [main: ce=0.4223, dice=0.3203, tot=0.7426 | aux: ce=0.4557, dice=0.3450, tot=0.8007] | Val Dice: 0.7476 | Val IoU: 0.6137 | Val HD95: 51.0721 | LR: 7.7e-04
+[2026-06-26 12:27:53]   step 20/107  loss=1.0533 [main: ce=0.4173, dice=0.3227, tot=0.7400 | aux: ce=0.4389, dice=0.3445, tot=0.7834]
+[2026-06-26 12:28:10]   step 40/107  loss=1.0534 [main: ce=0.4208, dice=0.3232, tot=0.7440 | aux: ce=0.4378, dice=0.3356, tot=0.7734]
+[2026-06-26 12:28:28]   step 60/107  loss=1.0164 [main: ce=0.4012, dice=0.3121, tot=0.7133 | aux: ce=0.4279, dice=0.3298, tot=0.7577]
+[2026-06-26 12:28:45]   step 80/107  loss=1.0344 [main: ce=0.4159, dice=0.3125, tot=0.7284 | aux: ce=0.4346, dice=0.3303, tot=0.7648]
+[2026-06-26 12:29:02]   step 100/107  loss=1.0475 [main: ce=0.4199, dice=0.3192, tot=0.7391 | aux: ce=0.4381, dice=0.3329, tot=0.7710]
+Epoch 45: Loss: 1.0456 [main: ce=0.4184, dice=0.3181, tot=0.7364 | aux: ce=0.4399, dice=0.3330, tot=0.7729] | Val Dice: 0.7505 | Val IoU: 0.6226 | Val HD95: 48.6081 | LR: 7.7e-04
+[2026-06-26 12:29:31]   step 20/107  loss=1.0759 [main: ce=0.4444, dice=0.3185, tot=0.7629 | aux: ce=0.4399, dice=0.3426, tot=0.7825]
+[2026-06-26 12:29:49]   step 40/107  loss=1.0701 [main: ce=0.4246, dice=0.3230, tot=0.7476 | aux: ce=0.4617, dice=0.3447, tot=0.8064]
+[2026-06-26 12:30:06]   step 60/107  loss=1.0266 [main: ce=0.4051, dice=0.3075, tot=0.7126 | aux: ce=0.4481, dice=0.3370, tot=0.7851]
+[2026-06-26 12:30:23]   step 80/107  loss=1.0444 [main: ce=0.4164, dice=0.3125, tot=0.7289 | aux: ce=0.4511, dice=0.3377, tot=0.7888]
+[2026-06-26 12:30:40]   step 100/107  loss=1.0379 [main: ce=0.4127, dice=0.3102, tot=0.7229 | aux: ce=0.4520, dice=0.3355, tot=0.7875]
+Epoch 46: Loss: 1.0387 [main: ce=0.4127, dice=0.3103, tot=0.7230 | aux: ce=0.4521, dice=0.3372, tot=0.7893] | Val Dice: 0.7245 | Val IoU: 0.5830 | Val HD95: 60.5454 | LR: 7.7e-04
+[2026-06-26 12:31:09]   step 20/107  loss=0.9890 [main: ce=0.3939, dice=0.3014, tot=0.6954 | aux: ce=0.4088, dice=0.3253, tot=0.7341]
+[2026-06-26 12:31:26]   step 40/107  loss=1.0224 [main: ce=0.4091, dice=0.3088, tot=0.7180 | aux: ce=0.4331, dice=0.3279, tot=0.7611]
+[2026-06-26 12:31:43]   step 60/107  loss=1.0312 [main: ce=0.4140, dice=0.3100, tot=0.7240 | aux: ce=0.4374, dice=0.3306, tot=0.7680]
+[2026-06-26 12:32:00]   step 80/107  loss=1.0328 [main: ce=0.4134, dice=0.3080, tot=0.7214 | aux: ce=0.4470, dice=0.3317, tot=0.7787]
+[2026-06-26 12:32:18]   step 100/107  loss=1.0306 [main: ce=0.4117, dice=0.3078, tot=0.7195 | aux: ce=0.4456, dice=0.3321, tot=0.7778]
+Epoch 47: Loss: 1.0237 [main: ce=0.4077, dice=0.3071, tot=0.7148 | aux: ce=0.4409, dice=0.3314, tot=0.7723] | Val Dice: 0.7109 | Val IoU: 0.5834 | Val HD95: 53.9559 | LR: 7.6e-04
+[2026-06-26 12:32:46]   step 20/107  loss=0.9522 [main: ce=0.3700, dice=0.2886, tot=0.6587 | aux: ce=0.4091, dice=0.3247, tot=0.7338]
+[2026-06-26 12:33:03]   step 40/107  loss=0.9808 [main: ce=0.3917, dice=0.2888, tot=0.6805 | aux: ce=0.4246, dice=0.3261, tot=0.7507]
+[2026-06-26 12:33:20]   step 60/107  loss=0.9907 [main: ce=0.3948, dice=0.2939, tot=0.6887 | aux: ce=0.4258, dice=0.3292, tot=0.7550]
+[2026-06-26 12:33:37]   step 80/107  loss=1.0070 [main: ce=0.4008, dice=0.2994, tot=0.7002 | aux: ce=0.4355, dice=0.3315, tot=0.7670]
+[2026-06-26 12:33:54]   step 100/107  loss=1.0032 [main: ce=0.3993, dice=0.2978, tot=0.6971 | aux: ce=0.4350, dice=0.3302, tot=0.7652]
+Epoch 48: Loss: 1.0023 [main: ce=0.3973, dice=0.2985, tot=0.6958 | aux: ce=0.4351, dice=0.3311, tot=0.7661] | Val Dice: 0.6211 | Val IoU: 0.4934 | Val HD95: 65.6940 | LR: 7.6e-04
+[2026-06-26 12:34:23]   step 20/107  loss=1.1323 [main: ce=0.4778, dice=0.3244, tot=0.8023 | aux: ce=0.4894, dice=0.3358, tot=0.8252]
+[2026-06-26 12:34:40]   step 40/107  loss=1.0647 [main: ce=0.4345, dice=0.3151, tot=0.7497 | aux: ce=0.4557, dice=0.3319, tot=0.7875]
+[2026-06-26 12:34:57]   step 60/107  loss=1.0373 [main: ce=0.4172, dice=0.3120, tot=0.7292 | aux: ce=0.4406, dice=0.3298, tot=0.7704]
+[2026-06-26 12:35:14]   step 80/107  loss=1.0034 [main: ce=0.4006, dice=0.3008, tot=0.7014 | aux: ce=0.4319, dice=0.3229, tot=0.7548]
+[2026-06-26 12:35:31]   step 100/107  loss=1.0053 [main: ce=0.4020, dice=0.3004, tot=0.7024 | aux: ce=0.4323, dice=0.3250, tot=0.7573]
+Epoch 49: Loss: 1.0000 [main: ce=0.3989, dice=0.2992, tot=0.6982 | aux: ce=0.4306, dice=0.3240, tot=0.7545] | Val Dice: 0.6941 | Val IoU: 0.5636 | Val HD95: 46.2397 | LR: 7.5e-04
+[2026-06-26 12:35:59]   step 20/107  loss=0.9506 [main: ce=0.3694, dice=0.2865, tot=0.6560 | aux: ce=0.4121, dice=0.3246, tot=0.7367]
+[2026-06-26 12:36:17]   step 40/107  loss=0.9780 [main: ce=0.3903, dice=0.2893, tot=0.6795 | aux: ce=0.4258, dice=0.3202, tot=0.7460]
+[2026-06-26 12:36:34]   step 60/107  loss=0.9691 [main: ce=0.3854, dice=0.2875, tot=0.6729 | aux: ce=0.4218, dice=0.3185, tot=0.7403]
+[2026-06-26 12:36:51]   step 80/107  loss=0.9436 [main: ce=0.3718, dice=0.2805, tot=0.6523 | aux: ce=0.4146, dice=0.3138, tot=0.7283]
+[2026-06-26 12:37:08]   step 100/107  loss=0.9710 [main: ce=0.3868, dice=0.2883, tot=0.6751 | aux: ce=0.4223, dice=0.3175, tot=0.7398]
+Epoch 50: Loss: 0.9666 [main: ce=0.3844, dice=0.2880, tot=0.6724 | aux: ce=0.4187, dice=0.3168, tot=0.7354] | Val Dice: 0.7172 | Val IoU: 0.5840 | Val HD95: 58.7086 | LR: 7.5e-04
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7172
+[2026-06-26 12:37:37]   step 20/107  loss=1.0056 [main: ce=0.4124, dice=0.3065, tot=0.7189 | aux: ce=0.4047, dice=0.3120, tot=0.7167]
+[2026-06-26 12:37:54]   step 40/107  loss=0.9989 [main: ce=0.4070, dice=0.3068, tot=0.7138 | aux: ce=0.4044, dice=0.3084, tot=0.7128]
+[2026-06-26 12:38:11]   step 60/107  loss=0.9829 [main: ce=0.3958, dice=0.3020, tot=0.6978 | aux: ce=0.4022, dice=0.3105, tot=0.7127]
+[2026-06-26 12:38:29]   step 80/107  loss=0.9722 [main: ce=0.3915, dice=0.2972, tot=0.6887 | aux: ce=0.4001, dice=0.3086, tot=0.7088]
+[2026-06-26 12:38:46]   step 100/107  loss=0.9967 [main: ce=0.4039, dice=0.3027, tot=0.7066 | aux: ce=0.4124, dice=0.3127, tot=0.7251]
+Epoch 51: Loss: 0.9982 [main: ce=0.4044, dice=0.3031, tot=0.7075 | aux: ce=0.4131, dice=0.3136, tot=0.7267] | Val Dice: 0.7579 | Val IoU: 0.6280 | Val HD95: 48.7153 | LR: 7.4e-04
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7579
+[2026-06-26 12:39:15]   step 20/107  loss=1.0677 [main: ce=0.4398, dice=0.3158, tot=0.7556 | aux: ce=0.4488, dice=0.3314, tot=0.7802]
+[2026-06-26 12:39:32]   step 40/107  loss=1.0401 [main: ce=0.4199, dice=0.3058, tot=0.7256 | aux: ce=0.4565, dice=0.3296, tot=0.7861]
+[2026-06-26 12:39:50]   step 60/107  loss=1.0096 [main: ce=0.4036, dice=0.3028, tot=0.7063 | aux: ce=0.4307, dice=0.3274, tot=0.7581]
+[2026-06-26 12:40:07]   step 80/107  loss=0.9776 [main: ce=0.3880, dice=0.2933, tot=0.6814 | aux: ce=0.4198, dice=0.3207, tot=0.7405]
+[2026-06-26 12:40:24]   step 100/107  loss=0.9584 [main: ce=0.3795, dice=0.2856, tot=0.6651 | aux: ce=0.4169, dice=0.3165, tot=0.7333]
+Epoch 52: Loss: 0.9555 [main: ce=0.3791, dice=0.2837, tot=0.6628 | aux: ce=0.4167, dice=0.3150, tot=0.7317] | Val Dice: 0.4284 | Val IoU: 0.2965 | Val HD95: 78.1100 | LR: 7.4e-04
+[2026-06-26 12:40:53]   step 20/107  loss=0.9480 [main: ce=0.3863, dice=0.2776, tot=0.6638 | aux: ce=0.4020, dice=0.3084, tot=0.7105]
+[2026-06-26 12:41:10]   step 40/107  loss=0.9323 [main: ce=0.3681, dice=0.2790, tot=0.6471 | aux: ce=0.4034, dice=0.3096, tot=0.7130]
+[2026-06-26 12:41:26]   step 60/107  loss=0.9494 [main: ce=0.3813, dice=0.2833, tot=0.6646 | aux: ce=0.4031, dice=0.3090, tot=0.7121]
+[2026-06-26 12:41:44]   step 80/107  loss=0.9347 [main: ce=0.3754, dice=0.2824, tot=0.6578 | aux: ce=0.3901, dice=0.3021, tot=0.6921]
+[2026-06-26 12:42:01]   step 100/107  loss=0.9435 [main: ce=0.3818, dice=0.2838, tot=0.6656 | aux: ce=0.3934, dice=0.3014, tot=0.6948]
+Epoch 53: Loss: 0.9416 [main: ce=0.3790, dice=0.2840, tot=0.6630 | aux: ce=0.3952, dice=0.3013, tot=0.6965] | Val Dice: 0.7483 | Val IoU: 0.6193 | Val HD95: 42.1842 | LR: 7.3e-04
+[2026-06-26 12:42:30]   step 20/107  loss=0.9502 [main: ce=0.3966, dice=0.2772, tot=0.6738 | aux: ce=0.3859, dice=0.3052, tot=0.6910]
+[2026-06-26 12:42:47]   step 40/107  loss=0.9574 [main: ce=0.3856, dice=0.2854, tot=0.6710 | aux: ce=0.4077, dice=0.3084, tot=0.7161]
+[2026-06-26 12:43:04]   step 60/107  loss=0.9751 [main: ce=0.3988, dice=0.2900, tot=0.6887 | aux: ce=0.4070, dice=0.3089, tot=0.7159]
+[2026-06-26 12:43:21]   step 80/107  loss=1.0181 [main: ce=0.4176, dice=0.3030, tot=0.7206 | aux: ce=0.4262, dice=0.3176, tot=0.7437]
+[2026-06-26 12:43:38]   step 100/107  loss=1.0507 [main: ce=0.4384, dice=0.3192, tot=0.7576 | aux: ce=0.4174, dice=0.3154, tot=0.7328]
+Epoch 54: Loss: 1.0619 [main: ce=0.4452, dice=0.3250, tot=0.7702 | aux: ce=0.4146, dice=0.3146, tot=0.7292] | Val Dice: 0.4381 | Val IoU: 0.3033 | Val HD95: 69.8307 | LR: 7.2e-04
+[2026-06-26 12:44:07]   step 20/107  loss=1.2242 [main: ce=0.5292, dice=0.4054, tot=0.9346 | aux: ce=0.4122, dice=0.3118, tot=0.7241]
+[2026-06-26 12:44:24]   step 40/107  loss=1.1585 [main: ce=0.4826, dice=0.3896, tot=0.8722 | aux: ce=0.3986, dice=0.3172, tot=0.7158]
+[2026-06-26 12:44:41]   step 60/107  loss=1.1246 [main: ce=0.4721, dice=0.3696, tot=0.8417 | aux: ce=0.4004, dice=0.3071, tot=0.7074]
+[2026-06-26 12:44:58]   step 80/107  loss=1.1452 [main: ce=0.4844, dice=0.3724, tot=0.8568 | aux: ce=0.4096, dice=0.3115, tot=0.7211]
+[2026-06-26 12:45:15]   step 100/107  loss=1.1393 [main: ce=0.4841, dice=0.3685, tot=0.8526 | aux: ce=0.4113, dice=0.3054, tot=0.7167]
+Epoch 55: Loss: 1.1309 [main: ce=0.4786, dice=0.3665, tot=0.8451 | aux: ce=0.4099, dice=0.3045, tot=0.7144] | Val Dice: 0.6493 | Val IoU: 0.5245 | Val HD95: 72.3043 | LR: 7.2e-04
+[2026-06-26 12:45:43]   step 20/107  loss=1.0965 [main: ce=0.4595, dice=0.3473, tot=0.8068 | aux: ce=0.4004, dice=0.3238, tot=0.7243]
+[2026-06-26 12:46:00]   step 40/107  loss=1.0714 [main: ce=0.4514, dice=0.3398, tot=0.7912 | aux: ce=0.3969, dice=0.3035, tot=0.7004]
+[2026-06-26 12:46:18]   step 60/107  loss=1.0877 [main: ce=0.4588, dice=0.3465, tot=0.8053 | aux: ce=0.3978, dice=0.3083, tot=0.7061]
+[2026-06-26 12:46:35]   step 80/107  loss=1.0781 [main: ce=0.4546, dice=0.3410, tot=0.7956 | aux: ce=0.4015, dice=0.3048, tot=0.7063]
+[2026-06-26 12:46:52]   step 100/107  loss=1.0797 [main: ce=0.4540, dice=0.3425, tot=0.7965 | aux: ce=0.4004, dice=0.3075, tot=0.7080]
+Epoch 56: Loss: 1.0703 [main: ce=0.4479, dice=0.3416, tot=0.7894 | aux: ce=0.3965, dice=0.3056, tot=0.7021] | Val Dice: 0.6624 | Val IoU: 0.5183 | Val HD95: 63.9459 | LR: 7.1e-04
+[2026-06-26 12:47:20]   step 20/107  loss=0.9528 [main: ce=0.4016, dice=0.3146, tot=0.7162 | aux: ce=0.3254, dice=0.2662, tot=0.5916]
+[2026-06-26 12:47:38]   step 40/107  loss=0.9998 [main: ce=0.4218, dice=0.3251, tot=0.7469 | aux: ce=0.3537, dice=0.2786, tot=0.6323]
+[2026-06-26 12:47:55]   step 60/107  loss=1.0425 [main: ce=0.4421, dice=0.3343, tot=0.7765 | aux: ce=0.3742, dice=0.2910, tot=0.6652]
+[2026-06-26 12:48:12]   step 80/107  loss=1.0647 [main: ce=0.4568, dice=0.3423, tot=0.7991 | aux: ce=0.3755, dice=0.2885, tot=0.6640]
+[2026-06-26 12:48:29]   step 100/107  loss=1.0869 [main: ce=0.4655, dice=0.3503, tot=0.8158 | aux: ce=0.3862, dice=0.2916, tot=0.6778]
+Epoch 57: Loss: 1.0985 [main: ce=0.4716, dice=0.3553, tot=0.8269 | aux: ce=0.3865, dice=0.2926, tot=0.6791] | Val Dice: 0.6517 | Val IoU: 0.5013 | Val HD95: 59.7158 | LR: 7.0e-04
+[2026-06-26 12:48:57]   step 20/107  loss=1.2435 [main: ce=0.5505, dice=0.4240, tot=0.9745 | aux: ce=0.3841, dice=0.2885, tot=0.6726]
+[2026-06-26 12:49:14]   step 40/107  loss=1.2407 [main: ce=0.5451, dice=0.4271, tot=0.9722 | aux: ce=0.3829, dice=0.2884, tot=0.6713]
+[2026-06-26 12:49:31]   step 60/107  loss=1.2139 [main: ce=0.5298, dice=0.4200, tot=0.9498 | aux: ce=0.3738, dice=0.2866, tot=0.6604]
+[2026-06-26 12:49:49]   step 80/107  loss=1.2346 [main: ce=0.5423, dice=0.4214, tot=0.9637 | aux: ce=0.3860, dice=0.2912, tot=0.6772]
+[2026-06-26 12:50:06]   step 100/107  loss=1.2163 [main: ce=0.5309, dice=0.4183, tot=0.9492 | aux: ce=0.3779, dice=0.2898, tot=0.6677]
+Epoch 58: Loss: 1.2172 [main: ce=0.5313, dice=0.4185, tot=0.9498 | aux: ce=0.3778, dice=0.2909, tot=0.6687] | Val Dice: 0.6896 | Val IoU: 0.5477 | Val HD95: 67.6526 | LR: 7.0e-04
+[2026-06-26 12:50:34]   step 20/107  loss=1.1423 [main: ce=0.5094, dice=0.3933, tot=0.9027 | aux: ce=0.3378, dice=0.2614, tot=0.5991]
+[2026-06-26 12:50:51]   step 40/107  loss=1.1517 [main: ce=0.5090, dice=0.3881, tot=0.8971 | aux: ce=0.3603, dice=0.2762, tot=0.6365]
+[2026-06-26 12:51:08]   step 60/107  loss=1.1510 [main: ce=0.4996, dice=0.3949, tot=0.8945 | aux: ce=0.3604, dice=0.2807, tot=0.6412]
+[2026-06-26 12:51:25]   step 80/107  loss=1.1614 [main: ce=0.5060, dice=0.3993, tot=0.9053 | aux: ce=0.3584, dice=0.2818, tot=0.6402]
+[2026-06-26 12:51:42]   step 100/107  loss=1.1588 [main: ce=0.5082, dice=0.3953, tot=0.9035 | aux: ce=0.3609, dice=0.2774, tot=0.6383]
+Epoch 59: Loss: 1.1570 [main: ce=0.5058, dice=0.3955, tot=0.9013 | aux: ce=0.3607, dice=0.2787, tot=0.6395] | Val Dice: 0.6083 | Val IoU: 0.4563 | Val HD95: 68.0490 | LR: 6.9e-04
+[2026-06-26 12:52:11]   step 20/107  loss=1.0559 [main: ce=0.4524, dice=0.3730, tot=0.8254 | aux: ce=0.3128, dice=0.2636, tot=0.5764]
+[2026-06-26 12:52:28]   step 40/107  loss=1.0679 [main: ce=0.4596, dice=0.3696, tot=0.8292 | aux: ce=0.3359, dice=0.2609, tot=0.5968]
+[2026-06-26 12:52:45]   step 60/107  loss=1.1062 [main: ce=0.4819, dice=0.3713, tot=0.8531 | aux: ce=0.3605, dice=0.2722, tot=0.6327]
+[2026-06-26 12:53:02]   step 80/107  loss=1.1398 [main: ce=0.5032, dice=0.3844, tot=0.8876 | aux: ce=0.3586, dice=0.2719, tot=0.6305]
+[2026-06-26 12:53:20]   step 100/107  loss=1.1536 [main: ce=0.5108, dice=0.3901, tot=0.9009 | aux: ce=0.3586, dice=0.2732, tot=0.6319]
+Epoch 60: Loss: 1.1529 [main: ce=0.5088, dice=0.3919, tot=0.9007 | aux: ce=0.3572, dice=0.2733, tot=0.6304] | Val Dice: 0.6528 | Val IoU: 0.5032 | Val HD95: 66.7387 | LR: 6.8e-04
+[2026-06-26 12:53:49]   step 20/107  loss=1.1192 [main: ce=0.4899, dice=0.3886, tot=0.8785 | aux: ce=0.3337, dice=0.2679, tot=0.6016]
+[2026-06-26 12:54:06]   step 40/107  loss=1.1041 [main: ce=0.4758, dice=0.3891, tot=0.8649 | aux: ce=0.3309, dice=0.2672, tot=0.5981]
+[2026-06-26 12:54:23]   step 60/107  loss=1.0978 [main: ce=0.4789, dice=0.3796, tot=0.8585 | aux: ce=0.3361, dice=0.2620, tot=0.5981]
+[2026-06-26 12:54:40]   step 80/107  loss=1.1217 [main: ce=0.4967, dice=0.3837, tot=0.8805 | aux: ce=0.3404, dice=0.2626, tot=0.6031]
+[2026-06-26 12:54:57]   step 100/107  loss=1.1158 [main: ce=0.4892, dice=0.3850, tot=0.8743 | aux: ce=0.3384, dice=0.2655, tot=0.6039]
+Epoch 61: Loss: 1.1123 [main: ce=0.4873, dice=0.3838, tot=0.8711 | aux: ce=0.3384, dice=0.2646, tot=0.6030] | Val Dice: 0.7015 | Val IoU: 0.5563 | Val HD95: 55.4670 | LR: 6.8e-04
+[2026-06-26 12:55:26]   step 20/107  loss=1.1169 [main: ce=0.4952, dice=0.3658, tot=0.8609 | aux: ce=0.3750, dice=0.2649, tot=0.6400]
+[2026-06-26 12:55:43]   step 40/107  loss=1.0840 [main: ce=0.4793, dice=0.3669, tot=0.8462 | aux: ce=0.3362, dice=0.2585, tot=0.5946]
+[2026-06-26 12:56:00]   step 60/107  loss=1.0771 [main: ce=0.4778, dice=0.3616, tot=0.8394 | aux: ce=0.3398, dice=0.2544, tot=0.5942]
+[2026-06-26 12:56:18]   step 80/107  loss=1.0864 [main: ce=0.4749, dice=0.3698, tot=0.8447 | aux: ce=0.3411, dice=0.2631, tot=0.6042]
+[2026-06-26 12:56:35]   step 100/107  loss=1.0862 [main: ce=0.4748, dice=0.3690, tot=0.8438 | aux: ce=0.3424, dice=0.2638, tot=0.6062]
+Epoch 62: Loss: 1.0878 [main: ce=0.4755, dice=0.3674, tot=0.8429 | aux: ce=0.3472, dice=0.2652, tot=0.6124] | Val Dice: 0.7000 | Val IoU: 0.5587 | Val HD95: 53.3639 | LR: 6.7e-04
+[2026-06-26 12:57:03]   step 20/107  loss=0.9785 [main: ce=0.4195, dice=0.3300, tot=0.7495 | aux: ce=0.3228, dice=0.2495, tot=0.5723]
+[2026-06-26 12:57:21]   step 40/107  loss=1.0340 [main: ce=0.4530, dice=0.3443, tot=0.7973 | aux: ce=0.3339, dice=0.2578, tot=0.5918]
+[2026-06-26 12:57:38]   step 60/107  loss=1.0551 [main: ce=0.4605, dice=0.3505, tot=0.8109 | aux: ce=0.3474, dice=0.2631, tot=0.6105]
+[2026-06-26 12:57:55]   step 80/107  loss=1.0658 [main: ce=0.4632, dice=0.3554, tot=0.8186 | aux: ce=0.3493, dice=0.2687, tot=0.6180]
+[2026-06-26 12:58:12]   step 100/107  loss=1.0405 [main: ce=0.4492, dice=0.3495, tot=0.7988 | aux: ce=0.3402, dice=0.2642, tot=0.6043]
+Epoch 63: Loss: 1.0456 [main: ce=0.4550, dice=0.3495, tot=0.8044 | aux: ce=0.3398, dice=0.2632, tot=0.6030] | Val Dice: 0.5917 | Val IoU: 0.4451 | Val HD95: 67.6212 | LR: 6.6e-04
+[2026-06-26 12:58:41]   step 20/107  loss=1.0468 [main: ce=0.4571, dice=0.3607, tot=0.8179 | aux: ce=0.3191, dice=0.2531, tot=0.5723]
+[2026-06-26 12:58:58]   step 40/107  loss=1.0258 [main: ce=0.4436, dice=0.3536, tot=0.7972 | aux: ce=0.3197, dice=0.2520, tot=0.5716]
+[2026-06-26 12:59:15]   step 60/107  loss=1.0399 [main: ce=0.4559, dice=0.3496, tot=0.8055 | aux: ce=0.3337, dice=0.2522, tot=0.5859]
+[2026-06-26 12:59:32]   step 80/107  loss=1.0379 [main: ce=0.4567, dice=0.3492, tot=0.8059 | aux: ce=0.3288, dice=0.2514, tot=0.5801]
+[2026-06-26 12:59:50]   step 100/107  loss=1.0285 [main: ce=0.4511, dice=0.3487, tot=0.7998 | aux: ce=0.3219, dice=0.2498, tot=0.5717]
+Epoch 64: Loss: 1.0337 [main: ce=0.4554, dice=0.3482, tot=0.8037 | aux: ce=0.3251, dice=0.2500, tot=0.5751] | Val Dice: 0.6095 | Val IoU: 0.4918 | Val HD95: nan | LR: 6.5e-04
+[2026-06-26 13:00:18]   step 20/107  loss=1.0136 [main: ce=0.4513, dice=0.3415, tot=0.7928 | aux: ce=0.3106, dice=0.2413, tot=0.5519]
+[2026-06-26 13:00:35]   step 40/107  loss=1.0367 [main: ce=0.4633, dice=0.3485, tot=0.8117 | aux: ce=0.3205, dice=0.2420, tot=0.5625]
+[2026-06-26 13:00:52]   step 60/107  loss=1.0303 [main: ce=0.4557, dice=0.3483, tot=0.8040 | aux: ce=0.3198, dice=0.2460, tot=0.5658]
+[2026-06-26 13:01:09]   step 80/107  loss=1.0375 [main: ce=0.4587, dice=0.3464, tot=0.8051 | aux: ce=0.3300, dice=0.2509, tot=0.5809]
+[2026-06-26 13:01:26]   step 100/107  loss=1.0166 [main: ce=0.4457, dice=0.3424, tot=0.7881 | aux: ce=0.3223, dice=0.2490, tot=0.5713]
+Epoch 65: Loss: 1.0208 [main: ce=0.4490, dice=0.3422, tot=0.7912 | aux: ce=0.3256, dice=0.2483, tot=0.5739] | Val Dice: 0.6562 | Val IoU: 0.5317 | Val HD95: 59.7445 | LR: 6.4e-04
+[2026-06-26 13:01:55]   step 20/107  loss=0.9648 [main: ce=0.4361, dice=0.3221, tot=0.7582 | aux: ce=0.2921, dice=0.2243, tot=0.5164]
+[2026-06-26 13:02:12]   step 40/107  loss=0.9615 [main: ce=0.4209, dice=0.3298, tot=0.7507 | aux: ce=0.2923, dice=0.2347, tot=0.5270]
+[2026-06-26 13:02:29]   step 60/107  loss=0.9933 [main: ce=0.4391, dice=0.3404, tot=0.7795 | aux: ce=0.2996, dice=0.2350, tot=0.5346]
+[2026-06-26 13:02:46]   step 80/107  loss=1.0173 [main: ce=0.4497, dice=0.3470, tot=0.7966 | aux: ce=0.3103, dice=0.2413, tot=0.5515]
+[2026-06-26 13:03:04]   step 100/107  loss=1.0139 [main: ce=0.4482, dice=0.3449, tot=0.7931 | aux: ce=0.3112, dice=0.2407, tot=0.5519]
+Epoch 66: Loss: 1.0062 [main: ce=0.4438, dice=0.3438, tot=0.7876 | aux: ce=0.3075, dice=0.2391, tot=0.5466] | Val Dice: 0.7681 | Val IoU: 0.6370 | Val HD95: 47.6163 | LR: 6.4e-04
+>>> New Best Model Saved! Dice: 0.7681
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7681
+[2026-06-26 13:03:34]   step 20/107  loss=1.0004 [main: ce=0.4386, dice=0.3382, tot=0.7768 | aux: ce=0.3172, dice=0.2416, tot=0.5589]
+[2026-06-26 13:03:51]   step 40/107  loss=1.0104 [main: ce=0.4466, dice=0.3415, tot=0.7881 | aux: ce=0.3142, dice=0.2417, tot=0.5559]
+[2026-06-26 13:04:09]   step 60/107  loss=1.0160 [main: ce=0.4544, dice=0.3441, tot=0.7985 | aux: ce=0.3063, dice=0.2375, tot=0.5438]
+[2026-06-26 13:04:26]   step 80/107  loss=1.0162 [main: ce=0.4540, dice=0.3461, tot=0.8001 | aux: ce=0.3052, dice=0.2350, tot=0.5403]
+[2026-06-26 13:04:43]   step 100/107  loss=1.0118 [main: ce=0.4494, dice=0.3452, tot=0.7945 | aux: ce=0.3072, dice=0.2360, tot=0.5431]
+Epoch 67: Loss: 1.0110 [main: ce=0.4485, dice=0.3455, tot=0.7940 | aux: ce=0.3063, dice=0.2362, tot=0.5425] | Val Dice: 0.7259 | Val IoU: 0.5918 | Val HD95: 52.9880 | LR: 6.3e-04
+[2026-06-26 13:05:11]   step 20/107  loss=1.0433 [main: ce=0.4782, dice=0.3503, tot=0.8285 | aux: ce=0.3048, dice=0.2323, tot=0.5371]
+[2026-06-26 13:05:28]   step 40/107  loss=1.0548 [main: ce=0.4811, dice=0.3535, tot=0.8346 | aux: ce=0.3129, dice=0.2378, tot=0.5507]
+[2026-06-26 13:05:46]   step 60/107  loss=1.0232 [main: ce=0.4623, dice=0.3503, tot=0.8127 | aux: ce=0.2963, dice=0.2299, tot=0.5262]
+[2026-06-26 13:06:03]   step 80/107  loss=1.0025 [main: ce=0.4503, dice=0.3434, tot=0.7937 | aux: ce=0.2937, dice=0.2283, tot=0.5220]
+[2026-06-26 13:06:20]   step 100/107  loss=1.0026 [main: ce=0.4510, dice=0.3415, tot=0.7925 | aux: ce=0.2961, dice=0.2290, tot=0.5252]
+Epoch 68: Loss: 1.0010 [main: ce=0.4502, dice=0.3411, tot=0.7913 | aux: ce=0.2958, dice=0.2285, tot=0.5243] | Val Dice: 0.7082 | Val IoU: 0.5641 | Val HD95: 57.0415 | LR: 6.2e-04
+[2026-06-26 13:06:49]   step 20/107  loss=0.9494 [main: ce=0.4328, dice=0.3340, tot=0.7668 | aux: ce=0.2528, dice=0.2035, tot=0.4564]
+[2026-06-26 13:07:06]   step 40/107  loss=0.9586 [main: ce=0.4391, dice=0.3298, tot=0.7689 | aux: ce=0.2681, dice=0.2064, tot=0.4744]
+[2026-06-26 13:07:23]   step 60/107  loss=0.9496 [main: ce=0.4298, dice=0.3279, tot=0.7577 | aux: ce=0.2709, dice=0.2089, tot=0.4798]
+[2026-06-26 13:07:40]   step 80/107  loss=0.9502 [main: ce=0.4287, dice=0.3277, tot=0.7563 | aux: ce=0.2741, dice=0.2107, tot=0.4848]
+[2026-06-26 13:07:58]   step 100/107  loss=0.9535 [main: ce=0.4299, dice=0.3291, tot=0.7590 | aux: ce=0.2733, dice=0.2130, tot=0.4863]
+Epoch 69: Loss: 0.9493 [main: ce=0.4265, dice=0.3286, tot=0.7551 | aux: ce=0.2720, dice=0.2137, tot=0.4856] | Val Dice: 0.7149 | Val IoU: 0.5869 | Val HD95: 49.5627 | LR: 6.1e-04
+[2026-06-26 13:08:26]   step 20/107  loss=0.9833 [main: ce=0.4446, dice=0.3335, tot=0.7782 | aux: ce=0.2936, dice=0.2191, tot=0.5127]
+[2026-06-26 13:08:43]   step 40/107  loss=0.9477 [main: ce=0.4261, dice=0.3246, tot=0.7507 | aux: ce=0.2792, dice=0.2133, tot=0.4925]
+[2026-06-26 13:09:00]   step 60/107  loss=0.9607 [main: ce=0.4350, dice=0.3279, tot=0.7629 | aux: ce=0.2824, dice=0.2121, tot=0.4945]
+[2026-06-26 13:09:17]   step 80/107  loss=0.9634 [main: ce=0.4380, dice=0.3293, tot=0.7673 | aux: ce=0.2781, dice=0.2121, tot=0.4902]
+[2026-06-26 13:09:34]   step 100/107  loss=0.9611 [main: ce=0.4343, dice=0.3308, tot=0.7651 | aux: ce=0.2766, dice=0.2134, tot=0.4899]
+Epoch 70: Loss: 0.9576 [main: ce=0.4329, dice=0.3296, tot=0.7625 | aux: ce=0.2757, dice=0.2119, tot=0.4876] | Val Dice: 0.6300 | Val IoU: 0.4803 | Val HD95: 63.2208 | LR: 6.0e-04
+[2026-06-26 13:10:03]   step 20/107  loss=1.0780 [main: ce=0.5073, dice=0.3505, tot=0.8578 | aux: ce=0.3306, dice=0.2199, tot=0.5505]
+[2026-06-26 13:10:20]   step 40/107  loss=1.0329 [main: ce=0.4816, dice=0.3424, tot=0.8240 | aux: ce=0.3045, dice=0.2177, tot=0.5222]
+[2026-06-26 13:10:37]   step 60/107  loss=1.0123 [main: ce=0.4629, dice=0.3440, tot=0.8069 | aux: ce=0.2947, dice=0.2189, tot=0.5137]
+[2026-06-26 13:10:54]   step 80/107  loss=0.9904 [main: ce=0.4518, dice=0.3386, tot=0.7904 | aux: ce=0.2873, dice=0.2127, tot=0.5000]
+[2026-06-26 13:11:11]   step 100/107  loss=0.9797 [main: ce=0.4503, dice=0.3348, tot=0.7852 | aux: ce=0.2774, dice=0.2087, tot=0.4862]
+Epoch 71: Loss: 0.9821 [main: ce=0.4509, dice=0.3374, tot=0.7884 | aux: ce=0.2759, dice=0.2085, tot=0.4844] | Val Dice: 0.6342 | Val IoU: 0.4799 | Val HD95: 62.7184 | LR: 5.9e-04
+[2026-06-26 13:11:40]   step 20/107  loss=1.0483 [main: ce=0.4953, dice=0.3729, tot=0.8682 | aux: ce=0.2585, dice=0.1916, tot=0.4501]
+[2026-06-26 13:11:58]   step 40/107  loss=1.0660 [main: ce=0.4979, dice=0.3817, tot=0.8796 | aux: ce=0.2646, dice=0.2015, tot=0.4661]
+[2026-06-26 13:12:15]   step 60/107  loss=1.0338 [main: ce=0.4804, dice=0.3684, tot=0.8488 | aux: ce=0.2646, dice=0.1979, tot=0.4625]
+[2026-06-26 13:12:32]   step 80/107  loss=1.0187 [main: ce=0.4726, dice=0.3649, tot=0.8376 | aux: ce=0.2561, dice=0.1968, tot=0.4529]
+[2026-06-26 13:12:49]   step 100/107  loss=1.0074 [main: ce=0.4659, dice=0.3582, tot=0.8241 | aux: ce=0.2606, dice=0.1977, tot=0.4582]
+Epoch 72: Loss: 1.0020 [main: ce=0.4616, dice=0.3570, tot=0.8186 | aux: ce=0.2606, dice=0.1980, tot=0.4585] | Val Dice: 0.7076 | Val IoU: 0.5675 | Val HD95: 56.7495 | LR: 5.8e-04
+[2026-06-26 13:13:18]   step 20/107  loss=0.9321 [main: ce=0.4366, dice=0.3401, tot=0.7767 | aux: ce=0.2097, dice=0.1789, tot=0.3886]
+[2026-06-26 13:13:35]   step 40/107  loss=0.9484 [main: ce=0.4431, dice=0.3366, tot=0.7797 | aux: ce=0.2381, dice=0.1837, tot=0.4218]
+[2026-06-26 13:13:53]   step 60/107  loss=0.9501 [main: ce=0.4413, dice=0.3362, tot=0.7775 | aux: ce=0.2434, dice=0.1881, tot=0.4315]
+[2026-06-26 13:14:10]   step 80/107  loss=0.9558 [main: ce=0.4443, dice=0.3354, tot=0.7796 | aux: ce=0.2506, dice=0.1897, tot=0.4403]
+[2026-06-26 13:14:27]   step 100/107  loss=0.9638 [main: ce=0.4463, dice=0.3386, tot=0.7849 | aux: ce=0.2527, dice=0.1945, tot=0.4472]
+Epoch 73: Loss: 0.9676 [main: ce=0.4487, dice=0.3398, tot=0.7885 | aux: ce=0.2533, dice=0.1943, tot=0.4477] | Val Dice: 0.7335 | Val IoU: 0.5978 | Val HD95: 49.0159 | LR: 5.7e-04
+[2026-06-26 13:14:55]   step 20/107  loss=0.9183 [main: ce=0.4140, dice=0.3390, tot=0.7531 | aux: ce=0.2264, dice=0.1868, tot=0.4132]
+[2026-06-26 13:15:12]   step 40/107  loss=0.9418 [main: ce=0.4384, dice=0.3360, tot=0.7744 | aux: ce=0.2370, dice=0.1816, tot=0.4185]
+[2026-06-26 13:15:30]   step 60/107  loss=0.9407 [main: ce=0.4396, dice=0.3319, tot=0.7715 | aux: ce=0.2413, dice=0.1816, tot=0.4229]
+[2026-06-26 13:15:47]   step 80/107  loss=0.9400 [main: ce=0.4388, dice=0.3299, tot=0.7687 | aux: ce=0.2448, dice=0.1835, tot=0.4283]
+[2026-06-26 13:16:04]   step 100/107  loss=0.9315 [main: ce=0.4318, dice=0.3290, tot=0.7608 | aux: ce=0.2426, dice=0.1842, tot=0.4268]
+Epoch 74: Loss: 0.9359 [main: ce=0.4343, dice=0.3304, tot=0.7647 | aux: ce=0.2430, dice=0.1849, tot=0.4279] | Val Dice: 0.7302 | Val IoU: 0.5909 | Val HD95: 57.2103 | LR: 5.6e-04
+[2026-06-26 13:16:33]   step 20/107  loss=0.8988 [main: ce=0.4115, dice=0.3236, tot=0.7351 | aux: ce=0.2286, dice=0.1805, tot=0.4091]
+[2026-06-26 13:16:50]   step 40/107  loss=0.8663 [main: ce=0.3973, dice=0.3085, tot=0.7059 | aux: ce=0.2286, dice=0.1724, tot=0.4011]
+[2026-06-26 13:17:07]   step 60/107  loss=0.8663 [main: ce=0.3990, dice=0.3062, tot=0.7052 | aux: ce=0.2275, dice=0.1753, tot=0.4028]
+[2026-06-26 13:17:24]   step 80/107  loss=0.8933 [main: ce=0.4149, dice=0.3176, tot=0.7325 | aux: ce=0.2251, dice=0.1771, tot=0.4022]
+[2026-06-26 13:17:42]   step 100/107  loss=0.9085 [main: ce=0.4230, dice=0.3211, tot=0.7441 | aux: ce=0.2332, dice=0.1776, tot=0.4108]
+Epoch 75: Loss: 0.9097 [main: ce=0.4245, dice=0.3213, tot=0.7457 | aux: ce=0.2326, dice=0.1774, tot=0.4100] | Val Dice: 0.5969 | Val IoU: 0.4459 | Val HD95: 66.4887 | LR: 5.5e-04
+[2026-06-26 13:18:10]   step 20/107  loss=0.8376 [main: ce=0.3817, dice=0.3081, tot=0.6898 | aux: ce=0.2053, dice=0.1643, tot=0.3696]
+[2026-06-26 13:18:27]   step 40/107  loss=0.8716 [main: ce=0.4026, dice=0.3137, tot=0.7163 | aux: ce=0.2185, dice=0.1696, tot=0.3881]
+[2026-06-26 13:18:44]   step 60/107  loss=0.8808 [main: ce=0.4088, dice=0.3173, tot=0.7261 | aux: ce=0.2166, dice=0.1701, tot=0.3867]
+[2026-06-26 13:19:01]   step 80/107  loss=0.8976 [main: ce=0.4168, dice=0.3234, tot=0.7402 | aux: ce=0.2219, dice=0.1716, tot=0.3936]
+[2026-06-26 13:19:18]   step 100/107  loss=0.9045 [main: ce=0.4206, dice=0.3264, tot=0.7470 | aux: ce=0.2222, dice=0.1715, tot=0.3936]
+Epoch 76: Loss: 0.9054 [main: ce=0.4214, dice=0.3255, tot=0.7470 | aux: ce=0.2242, dice=0.1718, tot=0.3961] | Val Dice: 0.7461 | Val IoU: 0.6140 | Val HD95: 49.2756 | LR: 5.4e-04
+[2026-06-26 13:19:47]   step 20/107  loss=0.9226 [main: ce=0.4312, dice=0.3320, tot=0.7632 | aux: ce=0.2233, dice=0.1752, tot=0.3984]
+[2026-06-26 13:20:05]   step 40/107  loss=0.9212 [main: ce=0.4288, dice=0.3291, tot=0.7579 | aux: ce=0.2310, dice=0.1771, tot=0.4081]
+[2026-06-26 13:20:22]   step 60/107  loss=0.8972 [main: ce=0.4143, dice=0.3229, tot=0.7373 | aux: ce=0.2245, dice=0.1752, tot=0.3997]
+[2026-06-26 13:20:38]   step 80/107  loss=0.8897 [main: ce=0.4142, dice=0.3189, tot=0.7331 | aux: ce=0.2211, dice=0.1705, tot=0.3916]
+[2026-06-26 13:20:56]   step 100/107  loss=0.8944 [main: ce=0.4169, dice=0.3182, tot=0.7351 | aux: ce=0.2257, dice=0.1725, tot=0.3982]
+Epoch 77: Loss: 0.9011 [main: ce=0.4216, dice=0.3204, tot=0.7419 | aux: ce=0.2255, dice=0.1725, tot=0.3980] | Val Dice: 0.7148 | Val IoU: 0.5879 | Val HD95: 54.8226 | LR: 5.3e-04
+[2026-06-26 13:21:24]   step 20/107  loss=0.8475 [main: ce=0.3939, dice=0.3161, tot=0.7100 | aux: ce=0.1896, dice=0.1542, tot=0.3438]
+[2026-06-26 13:21:42]   step 40/107  loss=0.8637 [main: ce=0.4082, dice=0.3133, tot=0.7214 | aux: ce=0.1989, dice=0.1568, tot=0.3557]
+[2026-06-26 13:21:59]   step 60/107  loss=0.8759 [main: ce=0.4195, dice=0.3111, tot=0.7306 | aux: ce=0.2084, dice=0.1549, tot=0.3633]
+[2026-06-26 13:22:16]   step 80/107  loss=0.8950 [main: ce=0.4278, dice=0.3214, tot=0.7491 | aux: ce=0.2066, dice=0.1581, tot=0.3647]
+[2026-06-26 13:22:33]   step 100/107  loss=0.8817 [main: ce=0.4183, dice=0.3211, tot=0.7393 | aux: ce=0.2001, dice=0.1557, tot=0.3558]
+Epoch 78: Loss: 0.8887 [main: ce=0.4226, dice=0.3228, tot=0.7454 | aux: ce=0.2022, dice=0.1561, tot=0.3583] | Val Dice: 0.6633 | Val IoU: 0.5161 | Val HD95: 60.8647 | LR: 5.2e-04
+[2026-06-26 13:23:01]   step 20/107  loss=0.8967 [main: ce=0.4202, dice=0.3322, tot=0.7525 | aux: ce=0.2038, dice=0.1568, tot=0.3606]
+[2026-06-26 13:23:19]   step 40/107  loss=0.8980 [main: ce=0.4297, dice=0.3325, tot=0.7622 | aux: ce=0.1925, dice=0.1469, tot=0.3395]
+[2026-06-26 13:23:36]   step 60/107  loss=0.8817 [main: ce=0.4177, dice=0.3293, tot=0.7470 | aux: ce=0.1869, dice=0.1498, tot=0.3367]
+[2026-06-26 13:23:53]   step 80/107  loss=0.9078 [main: ce=0.4360, dice=0.3341, tot=0.7701 | aux: ce=0.1940, dice=0.1501, tot=0.3441]
+[2026-06-26 13:24:10]   step 100/107  loss=0.9124 [main: ce=0.4355, dice=0.3376, tot=0.7730 | aux: ce=0.1970, dice=0.1513, tot=0.3484]
+Epoch 79: Loss: 0.9187 [main: ce=0.4410, dice=0.3382, tot=0.7793 | aux: ce=0.1967, dice=0.1518, tot=0.3485] | Val Dice: 0.7675 | Val IoU: 0.6364 | Val HD95: 57.3465 | LR: 5.1e-04
+[2026-06-26 13:24:39]   step 20/107  loss=0.8896 [main: ce=0.4365, dice=0.3240, tot=0.7605 | aux: ce=0.1861, dice=0.1365, tot=0.3226]
+[2026-06-26 13:24:56]   step 40/107  loss=0.8837 [main: ce=0.4127, dice=0.3180, tot=0.7307 | aux: ce=0.2257, dice=0.1568, tot=0.3825]
+[2026-06-26 13:25:13]   step 60/107  loss=0.8966 [main: ce=0.4146, dice=0.3155, tot=0.7301 | aux: ce=0.2468, dice=0.1695, tot=0.4163]
+[2026-06-26 13:25:31]   step 80/107  loss=0.8987 [main: ce=0.4097, dice=0.3174, tot=0.7272 | aux: ce=0.2502, dice=0.1785, tot=0.4287]
+[2026-06-26 13:25:48]   step 100/107  loss=0.9109 [main: ce=0.4153, dice=0.3230, tot=0.7383 | aux: ce=0.2494, dice=0.1823, tot=0.4317]
+Epoch 80: Loss: 0.9290 [main: ce=0.4266, dice=0.3249, tot=0.7515 | aux: ce=0.2590, dice=0.1849, tot=0.4439] | Val Dice: 0.7168 | Val IoU: 0.5899 | Val HD95: 47.7211 | LR: 5.0e-04
+[2026-06-26 13:26:16]   step 20/107  loss=0.8918 [main: ce=0.4073, dice=0.3223, tot=0.7296 | aux: ce=0.2277, dice=0.1778, tot=0.4055]
+[2026-06-26 13:26:34]   step 40/107  loss=0.8751 [main: ce=0.4043, dice=0.3183, tot=0.7225 | aux: ce=0.2114, dice=0.1700, tot=0.3814]
+[2026-06-26 13:26:51]   step 60/107  loss=0.8466 [main: ce=0.3929, dice=0.3075, tot=0.7004 | aux: ce=0.2041, dice=0.1615, tot=0.3656]
+[2026-06-26 13:27:08]   step 80/107  loss=0.8725 [main: ce=0.4092, dice=0.3113, tot=0.7205 | aux: ce=0.2156, dice=0.1644, tot=0.3800]
+[2026-06-26 13:27:25]   step 100/107  loss=0.8690 [main: ce=0.4072, dice=0.3127, tot=0.7199 | aux: ce=0.2091, dice=0.1636, tot=0.3727]
+Epoch 81: Loss: 0.8767 [main: ce=0.4131, dice=0.3140, tot=0.7271 | aux: ce=0.2104, dice=0.1636, tot=0.3740] | Val Dice: 0.7692 | Val IoU: 0.6376 | Val HD95: 51.3836 | LR: 4.9e-04
+>>> New Best Model Saved! Dice: 0.7692
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7692
+[2026-06-26 13:27:56]   step 20/107  loss=0.8427 [main: ce=0.3901, dice=0.3119, tot=0.7020 | aux: ce=0.1987, dice=0.1532, tot=0.3519]
+[2026-06-26 13:28:13]   step 40/107  loss=0.8394 [main: ce=0.3945, dice=0.3098, tot=0.7043 | aux: ce=0.1917, dice=0.1462, tot=0.3378]
+[2026-06-26 13:28:30]   step 60/107  loss=0.8472 [main: ce=0.4032, dice=0.3127, tot=0.7159 | aux: ce=0.1849, dice=0.1434, tot=0.3283]
+[2026-06-26 13:28:47]   step 80/107  loss=0.8392 [main: ce=0.3986, dice=0.3093, tot=0.7079 | aux: ce=0.1849, dice=0.1433, tot=0.3282]
+[2026-06-26 13:29:04]   step 100/107  loss=0.8427 [main: ce=0.4019, dice=0.3074, tot=0.7092 | aux: ce=0.1889, dice=0.1446, tot=0.3335]
+Epoch 82: Loss: 0.8459 [main: ce=0.4042, dice=0.3075, tot=0.7117 | aux: ce=0.1902, dice=0.1455, tot=0.3357] | Val Dice: 0.7543 | Val IoU: 0.6276 | Val HD95: 44.8953 | LR: 4.8e-04
+[2026-06-26 13:29:33]   step 20/107  loss=0.8492 [main: ce=0.4149, dice=0.3069, tot=0.7218 | aux: ce=0.1780, dice=0.1405, tot=0.3185]
+[2026-06-26 13:29:50]   step 40/107  loss=0.8331 [main: ce=0.4009, dice=0.3082, tot=0.7091 | aux: ce=0.1726, dice=0.1374, tot=0.3100]
+[2026-06-26 13:30:07]   step 60/107  loss=0.8153 [main: ce=0.3921, dice=0.3022, tot=0.6942 | aux: ce=0.1677, dice=0.1351, tot=0.3027]
+[2026-06-26 13:30:24]   step 80/107  loss=0.8037 [main: ce=0.3839, dice=0.2963, tot=0.6801 | aux: ce=0.1726, dice=0.1364, tot=0.3090]
+[2026-06-26 13:30:41]   step 100/107  loss=0.8012 [main: ce=0.3835, dice=0.2928, tot=0.6763 | aux: ce=0.1762, dice=0.1361, tot=0.3123]
+Epoch 83: Loss: 0.8066 [main: ce=0.3865, dice=0.2934, tot=0.6798 | aux: ce=0.1794, dice=0.1376, tot=0.3170] | Val Dice: 0.7718 | Val IoU: 0.6473 | Val HD95: 50.6418 | LR: 4.7e-04
+>>> New Best Model Saved! Dice: 0.7718
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7718
+[2026-06-26 13:31:12]   step 20/107  loss=0.7540 [main: ce=0.3658, dice=0.2747, tot=0.6405 | aux: ce=0.1637, dice=0.1199, tot=0.2836]
+[2026-06-26 13:31:30]   step 40/107  loss=0.7672 [main: ce=0.3717, dice=0.2746, tot=0.6463 | aux: ce=0.1728, dice=0.1295, tot=0.3023]
+[2026-06-26 13:31:47]   step 60/107  loss=0.7503 [main: ce=0.3593, dice=0.2751, tot=0.6344 | aux: ce=0.1622, dice=0.1276, tot=0.2898]
+[2026-06-26 13:32:04]   step 80/107  loss=0.7624 [main: ce=0.3651, dice=0.2797, tot=0.6448 | aux: ce=0.1653, dice=0.1286, tot=0.2939]
+[2026-06-26 13:32:21]   step 100/107  loss=0.7834 [main: ce=0.3782, dice=0.2846, tot=0.6628 | aux: ce=0.1703, dice=0.1312, tot=0.3015]
+Epoch 84: Loss: 0.7890 [main: ce=0.3792, dice=0.2869, tot=0.6661 | aux: ce=0.1742, dice=0.1328, tot=0.3070] | Val Dice: 0.7736 | Val IoU: 0.6468 | Val HD95: 47.6355 | LR: 4.6e-04
+>>> New Best Model Saved! Dice: 0.7736
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7736
+[2026-06-26 13:32:51]   step 20/107  loss=0.8530 [main: ce=0.4112, dice=0.3059, tot=0.7171 | aux: ce=0.1951, dice=0.1447, tot=0.3398]
+[2026-06-26 13:33:08]   step 40/107  loss=0.8396 [main: ce=0.4067, dice=0.3008, tot=0.7075 | aux: ce=0.1877, dice=0.1424, tot=0.3302]
+[2026-06-26 13:33:26]   step 60/107  loss=0.8160 [main: ce=0.3896, dice=0.2997, tot=0.6893 | aux: ce=0.1765, dice=0.1404, tot=0.3169]
+[2026-06-26 13:33:42]   step 80/107  loss=0.8097 [main: ce=0.3877, dice=0.2966, tot=0.6843 | aux: ce=0.1750, dice=0.1385, tot=0.3135]
+[2026-06-26 13:34:00]   step 100/107  loss=0.8193 [main: ce=0.3935, dice=0.2996, tot=0.6932 | aux: ce=0.1776, dice=0.1378, tot=0.3154]
+Epoch 85: Loss: 0.8253 [main: ce=0.3963, dice=0.3017, tot=0.6980 | aux: ce=0.1790, dice=0.1394, tot=0.3183] | Val Dice: 0.6489 | Val IoU: 0.5050 | Val HD95: 62.2507 | LR: 4.5e-04
+[2026-06-26 13:34:28]   step 20/107  loss=0.7676 [main: ce=0.3661, dice=0.2854, tot=0.6515 | aux: ce=0.1662, dice=0.1240, tot=0.2902]
+[2026-06-26 13:34:45]   step 40/107  loss=0.8006 [main: ce=0.3850, dice=0.2991, tot=0.6840 | aux: ce=0.1642, dice=0.1271, tot=0.2913]
+[2026-06-26 13:35:03]   step 60/107  loss=0.8223 [main: ce=0.3947, dice=0.3043, tot=0.6989 | aux: ce=0.1742, dice=0.1342, tot=0.3084]
+[2026-06-26 13:35:20]   step 80/107  loss=0.8144 [main: ce=0.3920, dice=0.3019, tot=0.6939 | aux: ce=0.1694, dice=0.1320, tot=0.3013]
+[2026-06-26 13:35:37]   step 100/107  loss=0.8068 [main: ce=0.3874, dice=0.2976, tot=0.6850 | aux: ce=0.1725, dice=0.1320, tot=0.3046]
+Epoch 86: Loss: 0.8038 [main: ce=0.3863, dice=0.2960, tot=0.6823 | aux: ce=0.1724, dice=0.1313, tot=0.3036] | Val Dice: 0.6755 | Val IoU: 0.5372 | Val HD95: 57.4286 | LR: 4.4e-04
+[2026-06-26 13:36:06]   step 20/107  loss=0.8652 [main: ce=0.4316, dice=0.3032, tot=0.7349 | aux: ce=0.1845, dice=0.1415, tot=0.3260]
+[2026-06-26 13:36:23]   step 40/107  loss=0.8101 [main: ce=0.3901, dice=0.2923, tot=0.6824 | aux: ce=0.1810, dice=0.1383, tot=0.3193]
+[2026-06-26 13:36:40]   step 60/107  loss=0.8311 [main: ce=0.4011, dice=0.2962, tot=0.6973 | aux: ce=0.1920, dice=0.1426, tot=0.3347]
+[2026-06-26 13:36:57]   step 80/107  loss=0.8182 [main: ce=0.3936, dice=0.2935, tot=0.6871 | aux: ce=0.1871, dice=0.1405, tot=0.3276]
+[2026-06-26 13:37:14]   step 100/107  loss=0.8078 [main: ce=0.3886, dice=0.2918, tot=0.6804 | aux: ce=0.1806, dice=0.1379, tot=0.3185]
+Epoch 87: Loss: 0.7995 [main: ce=0.3841, dice=0.2894, tot=0.6735 | aux: ce=0.1785, dice=0.1364, tot=0.3149] | Val Dice: 0.7657 | Val IoU: 0.6380 | Val HD95: 48.6283 | LR: 4.3e-04
+[2026-06-26 13:37:43]   step 20/107  loss=0.7314 [main: ce=0.3610, dice=0.2676, tot=0.6285 | aux: ce=0.1446, dice=0.1126, tot=0.2573]
+[2026-06-26 13:38:00]   step 40/107  loss=0.7225 [main: ce=0.3520, dice=0.2707, tot=0.6227 | aux: ce=0.1389, dice=0.1107, tot=0.2496]
+[2026-06-26 13:38:17]   step 60/107  loss=0.7558 [main: ce=0.3709, dice=0.2803, tot=0.6512 | aux: ce=0.1459, dice=0.1155, tot=0.2614]
+[2026-06-26 13:38:34]   step 80/107  loss=0.7517 [main: ce=0.3653, dice=0.2809, tot=0.6462 | aux: ce=0.1478, dice=0.1159, tot=0.2637]
+[2026-06-26 13:38:52]   step 100/107  loss=0.7586 [main: ce=0.3708, dice=0.2808, tot=0.6516 | aux: ce=0.1505, dice=0.1169, tot=0.2674]
+Epoch 88: Loss: 0.7558 [main: ce=0.3680, dice=0.2806, tot=0.6487 | aux: ce=0.1502, dice=0.1176, tot=0.2678] | Val Dice: 0.7801 | Val IoU: 0.6538 | Val HD95: 44.2350 | LR: 4.2e-04
+>>> New Best Model Saved! Dice: 0.7801
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7801
+[2026-06-26 13:39:22]   step 20/107  loss=0.7192 [main: ce=0.3466, dice=0.2737, tot=0.6204 | aux: ce=0.1373, dice=0.1098, tot=0.2471]
+[2026-06-26 13:39:40]   step 40/107  loss=0.7477 [main: ce=0.3670, dice=0.2766, tot=0.6437 | aux: ce=0.1474, dice=0.1127, tot=0.2601]
+[2026-06-26 13:39:57]   step 60/107  loss=0.7666 [main: ce=0.3742, dice=0.2821, tot=0.6562 | aux: ce=0.1559, dice=0.1200, tot=0.2759]
+[2026-06-26 13:40:14]   step 80/107  loss=0.7726 [main: ce=0.3721, dice=0.2834, tot=0.6556 | aux: ce=0.1645, dice=0.1280, tot=0.2925]
+[2026-06-26 13:40:31]   step 100/107  loss=0.7590 [main: ce=0.3640, dice=0.2773, tot=0.6413 | aux: ce=0.1669, dice=0.1274, tot=0.2943]
+Epoch 89: Loss: 0.7605 [main: ce=0.3642, dice=0.2781, tot=0.6424 | aux: ce=0.1676, dice=0.1279, tot=0.2954] | Val Dice: 0.7705 | Val IoU: 0.6434 | Val HD95: 44.9539 | LR: 4.1e-04
+[2026-06-26 13:41:00]   step 20/107  loss=0.7250 [main: ce=0.3471, dice=0.2653, tot=0.6124 | aux: ce=0.1583, dice=0.1231, tot=0.2815]
+[2026-06-26 13:41:17]   step 40/107  loss=0.7270 [main: ce=0.3549, dice=0.2687, tot=0.6236 | aux: ce=0.1448, dice=0.1138, tot=0.2586]
+[2026-06-26 13:41:34]   step 60/107  loss=0.7385 [main: ce=0.3581, dice=0.2724, tot=0.6305 | aux: ce=0.1521, dice=0.1180, tot=0.2701]
+[2026-06-26 13:41:51]   step 80/107  loss=0.7524 [main: ce=0.3654, dice=0.2757, tot=0.6411 | aux: ce=0.1579, dice=0.1204, tot=0.2783]
+[2026-06-26 13:42:08]   step 100/107  loss=0.7623 [main: ce=0.3710, dice=0.2776, tot=0.6486 | aux: ce=0.1616, dice=0.1227, tot=0.2843]
+Epoch 90: Loss: 0.7617 [main: ce=0.3697, dice=0.2782, tot=0.6479 | aux: ce=0.1615, dice=0.1231, tot=0.2847] | Val Dice: 0.7825 | Val IoU: 0.6563 | Val HD95: 42.8594 | LR: 4.0e-04
+>>> New Best Model Saved! Dice: 0.7825
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7825
+[2026-06-26 13:42:38]   step 20/107  loss=0.7398 [main: ce=0.3562, dice=0.2770, tot=0.6332 | aux: ce=0.1478, dice=0.1186, tot=0.2664]
+[2026-06-26 13:42:56]   step 40/107  loss=0.7407 [main: ce=0.3578, dice=0.2726, tot=0.6304 | aux: ce=0.1557, dice=0.1199, tot=0.2756]
+[2026-06-26 13:43:13]   step 60/107  loss=0.7228 [main: ce=0.3460, dice=0.2690, tot=0.6151 | aux: ce=0.1506, dice=0.1187, tot=0.2693]
+[2026-06-26 13:43:30]   step 80/107  loss=0.7335 [main: ce=0.3545, dice=0.2696, tot=0.6241 | aux: ce=0.1543, dice=0.1192, tot=0.2735]
+[2026-06-26 13:43:47]   step 100/107  loss=0.7425 [main: ce=0.3607, dice=0.2733, tot=0.6340 | aux: ce=0.1527, dice=0.1186, tot=0.2713]
+Epoch 91: Loss: 0.7415 [main: ce=0.3586, dice=0.2747, tot=0.6334 | aux: ce=0.1513, dice=0.1189, tot=0.2702] | Val Dice: 0.7641 | Val IoU: 0.6347 | Val HD95: 45.1230 | LR: 3.9e-04
+[2026-06-26 13:44:16]   step 20/107  loss=0.7174 [main: ce=0.3489, dice=0.2792, tot=0.6281 | aux: ce=0.1187, dice=0.1045, tot=0.2233]
+[2026-06-26 13:44:33]   step 40/107  loss=0.7327 [main: ce=0.3670, dice=0.2762, tot=0.6432 | aux: ce=0.1229, dice=0.1010, tot=0.2239]
+[2026-06-26 13:44:50]   step 60/107  loss=0.7353 [main: ce=0.3675, dice=0.2745, tot=0.6420 | aux: ce=0.1303, dice=0.1029, tot=0.2332]
+[2026-06-26 13:45:08]   step 80/107  loss=0.7337 [main: ce=0.3642, dice=0.2748, tot=0.6390 | aux: ce=0.1327, dice=0.1042, tot=0.2369]
+[2026-06-26 13:45:25]   step 100/107  loss=0.7327 [main: ce=0.3606, dice=0.2748, tot=0.6354 | aux: ce=0.1366, dice=0.1068, tot=0.2434]
+Epoch 92: Loss: 0.7330 [main: ce=0.3608, dice=0.2737, tot=0.6345 | aux: ce=0.1389, dice=0.1073, tot=0.2462] | Val Dice: 0.7741 | Val IoU: 0.6451 | Val HD95: 51.9654 | LR: 3.8e-04
+[2026-06-26 13:45:54]   step 20/107  loss=0.7129 [main: ce=0.3556, dice=0.2662, tot=0.6217 | aux: ce=0.1280, dice=0.0998, tot=0.2279]
+[2026-06-26 13:46:11]   step 40/107  loss=0.6932 [main: ce=0.3357, dice=0.2636, tot=0.5993 | aux: ce=0.1266, dice=0.1081, tot=0.2347]
+[2026-06-26 13:46:28]   step 60/107  loss=0.7056 [main: ce=0.3443, dice=0.2670, tot=0.6113 | aux: ce=0.1289, dice=0.1070, tot=0.2359]
+[2026-06-26 13:46:45]   step 80/107  loss=0.7138 [main: ce=0.3497, dice=0.2682, tot=0.6179 | aux: ce=0.1321, dice=0.1078, tot=0.2399]
+[2026-06-26 13:47:02]   step 100/107  loss=0.7197 [main: ce=0.3554, dice=0.2681, tot=0.6235 | aux: ce=0.1342, dice=0.1063, tot=0.2405]
+Epoch 93: Loss: 0.7191 [main: ce=0.3541, dice=0.2687, tot=0.6229 | aux: ce=0.1346, dice=0.1059, tot=0.2405] | Val Dice: 0.7624 | Val IoU: 0.6354 | Val HD95: 44.2424 | LR: 3.7e-04
+[2026-06-26 13:47:30]   step 20/107  loss=0.7215 [main: ce=0.3634, dice=0.2649, tot=0.6283 | aux: ce=0.1283, dice=0.1047, tot=0.2330]
+[2026-06-26 13:47:48]   step 40/107  loss=0.7290 [main: ce=0.3669, dice=0.2678, tot=0.6347 | aux: ce=0.1320, dice=0.1037, tot=0.2358]
+[2026-06-26 13:48:04]   step 60/107  loss=0.7247 [main: ce=0.3582, dice=0.2690, tot=0.6272 | aux: ce=0.1366, dice=0.1073, tot=0.2439]
+[2026-06-26 13:48:21]   step 80/107  loss=0.7182 [main: ce=0.3520, dice=0.2668, tot=0.6188 | aux: ce=0.1392, dice=0.1094, tot=0.2486]
+[2026-06-26 13:48:38]   step 100/107  loss=0.7152 [main: ce=0.3508, dice=0.2654, tot=0.6161 | aux: ce=0.1383, dice=0.1094, tot=0.2478]
+Epoch 94: Loss: 0.7184 [main: ce=0.3541, dice=0.2656, tot=0.6197 | aux: ce=0.1381, dice=0.1087, tot=0.2468] | Val Dice: 0.7905 | Val IoU: 0.6660 | Val HD95: 44.9071 | LR: 3.6e-04
+>>> New Best Model Saved! Dice: 0.7905
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7905
+[2026-06-26 13:49:09]   step 20/107  loss=0.7339 [main: ce=0.3629, dice=0.2811, tot=0.6440 | aux: ce=0.1240, dice=0.1008, tot=0.2249]
+[2026-06-26 13:49:26]   step 40/107  loss=0.7681 [main: ce=0.3843, dice=0.2801, tot=0.6644 | aux: ce=0.1489, dice=0.1102, tot=0.2591]
+[2026-06-26 13:49:43]   step 60/107  loss=0.7259 [main: ce=0.3588, dice=0.2682, tot=0.6271 | aux: ce=0.1400, dice=0.1072, tot=0.2472]
+[2026-06-26 13:50:00]   step 80/107  loss=0.7015 [main: ce=0.3460, dice=0.2582, tot=0.6042 | aux: ce=0.1386, dice=0.1046, tot=0.2433]
+[2026-06-26 13:50:17]   step 100/107  loss=0.6893 [main: ce=0.3393, dice=0.2559, tot=0.5952 | aux: ce=0.1320, dice=0.1033, tot=0.2353]
+Epoch 95: Loss: 0.6894 [main: ce=0.3387, dice=0.2570, tot=0.5956 | aux: ce=0.1312, dice=0.1033, tot=0.2345] | Val Dice: 0.7720 | Val IoU: 0.6451 | Val HD95: 44.4618 | LR: 3.5e-04
+[2026-06-26 13:50:46]   step 20/107  loss=0.6643 [main: ce=0.3239, dice=0.2436, tot=0.5675 | aux: ce=0.1432, dice=0.0990, tot=0.2421]
+[2026-06-26 13:51:04]   step 40/107  loss=0.6762 [main: ce=0.3369, dice=0.2483, tot=0.5852 | aux: ce=0.1308, dice=0.0968, tot=0.2276]
+[2026-06-26 13:51:21]   step 60/107  loss=0.6872 [main: ce=0.3388, dice=0.2550, tot=0.5938 | aux: ce=0.1331, dice=0.1003, tot=0.2334]
+[2026-06-26 13:51:38]   step 80/107  loss=0.6802 [main: ce=0.3359, dice=0.2521, tot=0.5880 | aux: ce=0.1310, dice=0.0994, tot=0.2305]
+[2026-06-26 13:51:55]   step 100/107  loss=0.6817 [main: ce=0.3360, dice=0.2540, tot=0.5900 | aux: ce=0.1291, dice=0.1001, tot=0.2292]
+Epoch 96: Loss: 0.6810 [main: ce=0.3358, dice=0.2534, tot=0.5893 | aux: ce=0.1292, dice=0.1002, tot=0.2294] | Val Dice: 0.7387 | Val IoU: 0.6076 | Val HD95: 54.3908 | LR: 3.4e-04
+[2026-06-26 13:52:23]   step 20/107  loss=0.7347 [main: ce=0.3689, dice=0.2787, tot=0.6475 | aux: ce=0.1188, dice=0.0991, tot=0.2180]
+[2026-06-26 13:52:40]   step 40/107  loss=0.7107 [main: ce=0.3566, dice=0.2673, tot=0.6239 | aux: ce=0.1191, dice=0.0979, tot=0.2170]
+[2026-06-26 13:52:58]   step 60/107  loss=0.6822 [main: ce=0.3384, dice=0.2588, tot=0.5973 | aux: ce=0.1164, dice=0.0960, tot=0.2124]
+[2026-06-26 13:53:15]   step 80/107  loss=0.6704 [main: ce=0.3314, dice=0.2546, tot=0.5860 | aux: ce=0.1164, dice=0.0948, tot=0.2111]
+[2026-06-26 13:53:33]   step 100/107  loss=0.6728 [main: ce=0.3333, dice=0.2530, tot=0.5863 | aux: ce=0.1199, dice=0.0965, tot=0.2163]
+Epoch 97: Loss: 0.6777 [main: ce=0.3367, dice=0.2540, tot=0.5907 | aux: ce=0.1206, dice=0.0970, tot=0.2176] | Val Dice: 0.7896 | Val IoU: 0.6671 | Val HD95: 38.8517 | LR: 3.3e-04
+[2026-06-26 13:54:01]   step 20/107  loss=0.6777 [main: ce=0.3397, dice=0.2595, tot=0.5992 | aux: ce=0.1081, dice=0.0882, tot=0.1963]
+[2026-06-26 13:54:18]   step 40/107  loss=0.6678 [main: ce=0.3337, dice=0.2557, tot=0.5894 | aux: ce=0.1069, dice=0.0890, tot=0.1959]
+[2026-06-26 13:54:35]   step 60/107  loss=0.6700 [main: ce=0.3348, dice=0.2536, tot=0.5884 | aux: ce=0.1133, dice=0.0908, tot=0.2041]
+[2026-06-26 13:54:52]   step 80/107  loss=0.6696 [main: ce=0.3353, dice=0.2540, tot=0.5893 | aux: ce=0.1108, dice=0.0898, tot=0.2007]
+[2026-06-26 13:55:09]   step 100/107  loss=0.6767 [main: ce=0.3387, dice=0.2557, tot=0.5944 | aux: ce=0.1137, dice=0.0921, tot=0.2058]
+Epoch 98: Loss: 0.6763 [main: ce=0.3389, dice=0.2546, tot=0.5935 | aux: ce=0.1149, dice=0.0923, tot=0.2072] | Val Dice: 0.7936 | Val IoU: 0.6716 | Val HD95: 41.3847 | LR: 3.2e-04
+>>> New Best Model Saved! Dice: 0.7936
+>>> New Best Window Model Saved! (ep50-100) Dice: 0.7936
+[2026-06-26 13:55:40]   step 20/107  loss=0.6715 [main: ce=0.3304, dice=0.2554, tot=0.5858 | aux: ce=0.1149, dice=0.0995, tot=0.2144]
+[2026-06-26 13:55:57]   step 40/107  loss=0.6629 [main: ce=0.3249, dice=0.2529, tot=0.5779 | aux: ce=0.1173, dice=0.0953, tot=0.2126]
+[2026-06-26 13:56:14]   step 60/107  loss=0.6589 [main: ce=0.3276, dice=0.2473, tot=0.5749 | aux: ce=0.1174, dice=0.0926, tot=0.2100]
+[2026-06-26 13:56:31]   step 80/107  loss=0.6499 [main: ce=0.3227, dice=0.2458, tot=0.5686 | aux: ce=0.1122, dice=0.0911, tot=0.2033]
+[2026-06-26 13:56:48]   step 100/107  loss=0.6569 [main: ce=0.3266, dice=0.2482, tot=0.5748 | aux: ce=0.1137, dice=0.0916, tot=0.2053]
+Epoch 99: Loss: 0.6550 [main: ce=0.3255, dice=0.2475, tot=0.5731 | aux: ce=0.1135, dice=0.0912, tot=0.2047] | Val Dice: 0.7874 | Val IoU: 0.6628 | Val HD95: 46.9031 | LR: 3.1e-04
+[2026-06-26 13:57:17]   step 20/107  loss=0.6234 [main: ce=0.3030, dice=0.2425, tot=0.5455 | aux: ce=0.1091, dice=0.0858, tot=0.1949]
+[2026-06-26 13:57:34]   step 40/107  loss=0.6246 [main: ce=0.3080, dice=0.2392, tot=0.5472 | aux: ce=0.1069, dice=0.0867, tot=0.1936]
+[2026-06-26 13:57:51]   step 60/107  loss=0.6515 [main: ce=0.3237, dice=0.2465, tot=0.5701 | aux: ce=0.1136, dice=0.0897, tot=0.2033]
+[2026-06-26 13:58:08]   step 80/107  loss=0.6548 [main: ce=0.3253, dice=0.2473, tot=0.5726 | aux: ce=0.1150, dice=0.0905, tot=0.2055]
+[2026-06-26 13:58:25]   step 100/107  loss=0.6501 [main: ce=0.3232, dice=0.2457, tot=0.5690 | aux: ce=0.1135, dice=0.0894, tot=0.2029]
+Epoch 100: Loss: 0.6491 [main: ce=0.3234, dice=0.2453, tot=0.5687 | aux: ce=0.1122, dice=0.0888, tot=0.2009] | Val Dice: 0.7833 | Val IoU: 0.6560 | Val HD95: 45.7420 | LR: 3.0e-04
+[2026-06-26 13:58:54]   step 20/107  loss=0.6465 [main: ce=0.3292, dice=0.2408, tot=0.5700 | aux: ce=0.1086, dice=0.0826, tot=0.1912]
+[2026-06-26 13:59:11]   step 40/107  loss=0.6625 [main: ce=0.3445, dice=0.2418, tot=0.5862 | aux: ce=0.1089, dice=0.0817, tot=0.1906]
+[2026-06-26 13:59:28]   step 60/107  loss=0.6507 [main: ce=0.3326, dice=0.2399, tot=0.5724 | aux: ce=0.1105, dice=0.0851, tot=0.1956]
+[2026-06-26 13:59:45]   step 80/107  loss=0.6456 [main: ce=0.3256, dice=0.2415, tot=0.5671 | aux: ce=0.1091, dice=0.0871, tot=0.1963]
+[2026-06-26 14:00:02]   step 100/107  loss=0.6478 [main: ce=0.3260, dice=0.2430, tot=0.5690 | aux: ce=0.1098, dice=0.0874, tot=0.1971]
+Epoch 101: Loss: 0.6448 [main: ce=0.3231, dice=0.2434, tot=0.5665 | aux: ce=0.1085, dice=0.0875, tot=0.1959] | Val Dice: 0.7824 | Val IoU: 0.6577 | Val HD95: 41.5124 | LR: 2.9e-04
+[2026-06-26 14:00:31]   step 20/107  loss=0.6404 [main: ce=0.3172, dice=0.2478, tot=0.5650 | aux: ce=0.1025, dice=0.0861, tot=0.1886]
+[2026-06-26 14:00:48]   step 40/107  loss=0.6236 [main: ce=0.3134, dice=0.2380, tot=0.5514 | aux: ce=0.0983, dice=0.0822, tot=0.1805]
+[2026-06-26 14:01:06]   step 60/107  loss=0.6610 [main: ce=0.3383, dice=0.2497, tot=0.5880 | aux: ce=0.1011, dice=0.0815, tot=0.1825]
+[2026-06-26 14:01:23]   step 80/107  loss=0.6614 [main: ce=0.3356, dice=0.2508, tot=0.5864 | aux: ce=0.1035, dice=0.0839, tot=0.1874]
+[2026-06-26 14:01:40]   step 100/107  loss=0.6598 [main: ce=0.3330, dice=0.2499, tot=0.5829 | aux: ce=0.1064, dice=0.0858, tot=0.1922]
+Epoch 102: Loss: 0.6607 [main: ce=0.3333, dice=0.2495, tot=0.5828 | aux: ce=0.1079, dice=0.0867, tot=0.1946] | Val Dice: 0.7715 | Val IoU: 0.6451 | Val HD95: 42.7370 | LR: 2.8e-04
+[2026-06-26 14:02:09]   step 20/107  loss=0.6460 [main: ce=0.3324, dice=0.2456, tot=0.5781 | aux: ce=0.0954, dice=0.0745, tot=0.1699]
+[2026-06-26 14:02:26]   step 40/107  loss=0.6345 [main: ce=0.3196, dice=0.2428, tot=0.5624 | aux: ce=0.1012, dice=0.0790, tot=0.1802]
+[2026-06-26 14:02:43]   step 60/107  loss=0.6319 [main: ce=0.3140, dice=0.2403, tot=0.5543 | aux: ce=0.1099, dice=0.0840, tot=0.1939]
+[2026-06-26 14:03:01]   step 80/107  loss=0.6306 [main: ce=0.3143, dice=0.2379, tot=0.5522 | aux: ce=0.1105, dice=0.0855, tot=0.1961]
+[2026-06-26 14:03:18]   step 100/107  loss=0.6468 [main: ce=0.3235, dice=0.2442, tot=0.5677 | aux: ce=0.1099, dice=0.0879, tot=0.1978]
+Epoch 103: Loss: 0.6450 [main: ce=0.3217, dice=0.2441, tot=0.5658 | aux: ce=0.1100, dice=0.0880, tot=0.1980] | Val Dice: 0.7901 | Val IoU: 0.6669 | Val HD95: 42.8654 | LR: 2.7e-04
+[2026-06-26 14:03:46]   step 20/107  loss=0.6352 [main: ce=0.3193, dice=0.2430, tot=0.5623 | aux: ce=0.1017, dice=0.0806, tot=0.1823]
+[2026-06-26 14:04:03]   step 40/107  loss=0.6412 [main: ce=0.3221, dice=0.2497, tot=0.5718 | aux: ce=0.0947, dice=0.0790, tot=0.1737]
+[2026-06-26 14:04:20]   step 60/107  loss=0.6401 [main: ce=0.3197, dice=0.2481, tot=0.5679 | aux: ce=0.0993, dice=0.0813, tot=0.1806]
+[2026-06-26 14:04:38]   step 80/107  loss=0.6341 [main: ce=0.3170, dice=0.2446, tot=0.5616 | aux: ce=0.1001, dice=0.0812, tot=0.1812]
+[2026-06-26 14:04:55]   step 100/107  loss=0.6297 [main: ce=0.3156, dice=0.2417, tot=0.5573 | aux: ce=0.0999, dice=0.0812, tot=0.1811]
+Epoch 104: Loss: 0.6215 [main: ce=0.3105, dice=0.2389, tot=0.5495 | aux: ce=0.0990, dice=0.0811, tot=0.1801] | Val Dice: 0.7836 | Val IoU: 0.6591 | Val HD95: 42.6076 | LR: 2.6e-04
+[2026-06-26 14:05:24]   step 20/107  loss=0.6349 [main: ce=0.3327, dice=0.2374, tot=0.5701 | aux: ce=0.0877, dice=0.0741, tot=0.1619]
+[2026-06-26 14:05:41]   step 40/107  loss=0.6232 [main: ce=0.3182, dice=0.2374, tot=0.5556 | aux: ce=0.0919, dice=0.0773, tot=0.1692]
+[2026-06-26 14:05:57]   step 60/107  loss=0.6154 [main: ce=0.3135, dice=0.2330, tot=0.5465 | aux: ce=0.0954, dice=0.0769, tot=0.1723]
+[2026-06-26 14:06:15]   step 80/107  loss=0.6184 [main: ce=0.3148, dice=0.2334, tot=0.5482 | aux: ce=0.0978, dice=0.0778, tot=0.1756]
+[2026-06-26 14:06:32]   step 100/107  loss=0.6245 [main: ce=0.3175, dice=0.2358, tot=0.5534 | aux: ce=0.0983, dice=0.0795, tot=0.1778]
+Epoch 105: Loss: 0.6246 [main: ce=0.3167, dice=0.2368, tot=0.5535 | aux: ce=0.0979, dice=0.0800, tot=0.1778] | Val Dice: 0.7867 | Val IoU: 0.6642 | Val HD95: 43.5803 | LR: 2.5e-04
+[2026-06-26 14:07:01]   step 20/107  loss=0.6332 [main: ce=0.3185, dice=0.2375, tot=0.5560 | aux: ce=0.1060, dice=0.0868, tot=0.1929]
+[2026-06-26 14:07:18]   step 40/107  loss=0.6264 [main: ce=0.3161, dice=0.2360, tot=0.5521 | aux: ce=0.1037, dice=0.0822, tot=0.1859]
+[2026-06-26 14:07:35]   step 60/107  loss=0.6156 [main: ce=0.3106, dice=0.2319, tot=0.5425 | aux: ce=0.1013, dice=0.0815, tot=0.1828]
+[2026-06-26 14:07:52]   step 80/107  loss=0.6175 [main: ce=0.3120, dice=0.2334, tot=0.5454 | aux: ce=0.0997, dice=0.0805, tot=0.1802]
+[2026-06-26 14:08:09]   step 100/107  loss=0.6129 [main: ce=0.3094, dice=0.2325, tot=0.5419 | aux: ce=0.0980, dice=0.0796, tot=0.1776]
+Epoch 106: Loss: 0.6117 [main: ce=0.3079, dice=0.2332, tot=0.5411 | aux: ce=0.0970, dice=0.0797, tot=0.1767] | Val Dice: 0.7906 | Val IoU: 0.6678 | Val HD95: 46.5006 | LR: 2.4e-04
+[2026-06-26 14:08:38]   step 20/107  loss=0.5971 [main: ce=0.2972, dice=0.2344, tot=0.5316 | aux: ce=0.0877, dice=0.0761, tot=0.1638]
+[2026-06-26 14:08:55]   step 40/107  loss=0.5911 [main: ce=0.2910, dice=0.2310, tot=0.5220 | aux: ce=0.0934, dice=0.0794, tot=0.1728]
+[2026-06-26 14:09:13]   step 60/107  loss=0.5883 [main: ce=0.2926, dice=0.2264, tot=0.5189 | aux: ce=0.0950, dice=0.0785, tot=0.1735]
+[2026-06-26 14:09:30]   step 80/107  loss=0.5891 [main: ce=0.2952, dice=0.2261, tot=0.5213 | aux: ce=0.0928, dice=0.0766, tot=0.1694]
+[2026-06-26 14:09:47]   step 100/107  loss=0.5958 [main: ce=0.3007, dice=0.2272, tot=0.5279 | aux: ce=0.0933, dice=0.0764, tot=0.1697]
+Epoch 107: Loss: 0.5915 [main: ce=0.2973, dice=0.2264, tot=0.5238 | aux: ce=0.0926, dice=0.0766, tot=0.1692] | Val Dice: 0.7799 | Val IoU: 0.6558 | Val HD95: 42.5208 | LR: 2.3e-04
+[2026-06-26 14:10:15]   step 20/107  loss=0.5964 [main: ce=0.3048, dice=0.2255, tot=0.5302 | aux: ce=0.0931, dice=0.0723, tot=0.1655]
+[2026-06-26 14:10:33]   step 40/107  loss=0.5873 [main: ce=0.2991, dice=0.2241, tot=0.5231 | aux: ce=0.0887, dice=0.0718, tot=0.1604]
+[2026-06-26 14:10:50]   step 60/107  loss=0.5973 [main: ce=0.3028, dice=0.2301, tot=0.5329 | aux: ce=0.0871, dice=0.0739, tot=0.1610]
+[2026-06-26 14:11:07]   step 80/107  loss=0.5937 [main: ce=0.3005, dice=0.2273, tot=0.5278 | aux: ce=0.0904, dice=0.0744, tot=0.1648]
+[2026-06-26 14:11:25]   step 100/107  loss=0.5985 [main: ce=0.3050, dice=0.2276, tot=0.5326 | aux: ce=0.0902, dice=0.0746, tot=0.1648]
+Epoch 108: Loss: 0.5962 [main: ce=0.3036, dice=0.2269, tot=0.5306 | aux: ce=0.0898, dice=0.0744, tot=0.1642] | Val Dice: 0.7913 | Val IoU: 0.6673 | Val HD95: 42.7126 | LR: 2.2e-04
+[2026-06-26 14:11:53]   step 20/107  loss=0.5922 [main: ce=0.2978, dice=0.2317, tot=0.5294 | aux: ce=0.0859, dice=0.0711, tot=0.1569]
+[2026-06-26 14:12:10]   step 40/107  loss=0.6030 [main: ce=0.3051, dice=0.2351, tot=0.5402 | aux: ce=0.0843, dice=0.0728, tot=0.1570]
+[2026-06-26 14:12:27]   step 60/107  loss=0.5899 [main: ce=0.2967, dice=0.2301, tot=0.5268 | aux: ce=0.0857, dice=0.0720, tot=0.1577]
+[2026-06-26 14:12:44]   step 80/107  loss=0.5809 [main: ce=0.2899, dice=0.2274, tot=0.5174 | aux: ce=0.0858, dice=0.0731, tot=0.1588]
+[2026-06-26 14:13:02]   step 100/107  loss=0.5912 [main: ce=0.2966, dice=0.2293, tot=0.5259 | aux: ce=0.0890, dice=0.0743, tot=0.1633]
+Epoch 109: Loss: 0.5976 [main: ce=0.3010, dice=0.2305, tot=0.5315 | aux: ce=0.0903, dice=0.0751, tot=0.1654] | Val Dice: 0.7878 | Val IoU: 0.6636 | Val HD95: 40.0407 | LR: 2.1e-04
+[2026-06-26 14:13:30]   step 20/107  loss=0.6522 [main: ce=0.3324, dice=0.2550, tot=0.5873 | aux: ce=0.0871, dice=0.0751, tot=0.1622]
+[2026-06-26 14:13:47]   step 40/107  loss=0.6505 [main: ce=0.3282, dice=0.2564, tot=0.5846 | aux: ce=0.0893, dice=0.0754, tot=0.1647]
+[2026-06-26 14:14:04]   step 60/107  loss=0.6485 [main: ce=0.3298, dice=0.2512, tot=0.5810 | aux: ce=0.0925, dice=0.0762, tot=0.1686]
+[2026-06-26 14:14:21]   step 80/107  loss=0.6472 [main: ce=0.3287, dice=0.2506, tot=0.5793 | aux: ce=0.0930, dice=0.0766, tot=0.1697]
+[2026-06-26 14:14:39]   step 100/107  loss=0.6295 [main: ce=0.3187, dice=0.2445, tot=0.5632 | aux: ce=0.0903, dice=0.0756, tot=0.1659]
+Epoch 110: Loss: 0.6282 [main: ce=0.3186, dice=0.2433, tot=0.5619 | aux: ce=0.0902, dice=0.0754, tot=0.1657] | Val Dice: 0.6483 | Val IoU: 0.5151 | Val HD95: 66.5463 | LR: 2.0e-04
+[2026-06-26 14:15:08]   step 20/107  loss=0.5642 [main: ce=0.2711, dice=0.2287, tot=0.4998 | aux: ce=0.0837, dice=0.0773, tot=0.1610]
+[2026-06-26 14:15:25]   step 40/107  loss=0.5745 [main: ce=0.2890, dice=0.2230, tot=0.5119 | aux: ce=0.0839, dice=0.0725, tot=0.1564]
+[2026-06-26 14:15:42]   step 60/107  loss=0.5753 [main: ce=0.2884, dice=0.2240, tot=0.5124 | aux: ce=0.0846, dice=0.0726, tot=0.1572]
+[2026-06-26 14:15:59]   step 80/107  loss=0.5862 [main: ce=0.2943, dice=0.2270, tot=0.5213 | aux: ce=0.0880, dice=0.0744, tot=0.1624]
+[2026-06-26 14:16:16]   step 100/107  loss=0.5972 [main: ce=0.3023, dice=0.2302, tot=0.5325 | aux: ce=0.0882, dice=0.0736, tot=0.1618]
+Epoch 111: Loss: 0.5926 [main: ce=0.2994, dice=0.2290, tot=0.5284 | aux: ce=0.0870, dice=0.0734, tot=0.1604] | Val Dice: 0.7837 | Val IoU: 0.6601 | Val HD95: 42.2342 | LR: 1.9e-04
+[2026-06-26 14:16:45]   step 20/107  loss=0.5879 [main: ce=0.3016, dice=0.2262, tot=0.5278 | aux: ce=0.0824, dice=0.0678, tot=0.1502]
+[2026-06-26 14:17:02]   step 40/107  loss=0.5912 [main: ce=0.3059, dice=0.2244, tot=0.5303 | aux: ce=0.0837, dice=0.0687, tot=0.1523]
+[2026-06-26 14:17:20]   step 60/107  loss=0.5907 [main: ce=0.3045, dice=0.2241, tot=0.5286 | aux: ce=0.0855, dice=0.0696, tot=0.1551]
+[2026-06-26 14:17:36]   step 80/107  loss=0.5881 [main: ce=0.2994, dice=0.2265, tot=0.5259 | aux: ce=0.0845, dice=0.0710, tot=0.1555]
+[2026-06-26 14:17:54]   step 100/107  loss=0.5879 [main: ce=0.2990, dice=0.2268, tot=0.5258 | aux: ce=0.0843, dice=0.0710, tot=0.1553]
+Epoch 112: Loss: 0.5853 [main: ce=0.2961, dice=0.2270, tot=0.5231 | aux: ce=0.0842, dice=0.0713, tot=0.1555] | Val Dice: 0.7936 | Val IoU: 0.6709 | Val HD95: 42.7543 | LR: 1.8e-04
+>>> New Best Model Saved! Dice: 0.7936
+[2026-06-26 14:18:24]   step 20/107  loss=0.6212 [main: ce=0.3176, dice=0.2392, tot=0.5568 | aux: ce=0.0883, dice=0.0729, tot=0.1612]
+[2026-06-26 14:18:41]   step 40/107  loss=0.5699 [main: ce=0.2847, dice=0.2257, tot=0.5104 | aux: ce=0.0802, dice=0.0685, tot=0.1487]
+[2026-06-26 14:18:58]   step 60/107  loss=0.5765 [main: ce=0.2893, dice=0.2258, tot=0.5152 | aux: ce=0.0832, dice=0.0701, tot=0.1533]
+[2026-06-26 14:19:15]   step 80/107  loss=0.5657 [main: ce=0.2860, dice=0.2200, tot=0.5060 | aux: ce=0.0813, dice=0.0681, tot=0.1494]
+[2026-06-26 14:19:33]   step 100/107  loss=0.5621 [main: ce=0.2848, dice=0.2178, tot=0.5026 | aux: ce=0.0809, dice=0.0679, tot=0.1488]
+Epoch 113: Loss: 0.5588 [main: ce=0.2826, dice=0.2167, tot=0.4993 | aux: ce=0.0808, dice=0.0679, tot=0.1487] | Val Dice: 0.7791 | Val IoU: 0.6544 | Val HD95: 45.7280 | LR: 1.7e-04
+[2026-06-26 14:20:01]   step 20/107  loss=0.5665 [main: ce=0.2927, dice=0.2141, tot=0.5069 | aux: ce=0.0815, dice=0.0676, tot=0.1492]
+[2026-06-26 14:20:18]   step 40/107  loss=0.5704 [main: ce=0.2956, dice=0.2166, tot=0.5122 | aux: ce=0.0793, dice=0.0663, tot=0.1455]
+[2026-06-26 14:20:35]   step 60/107  loss=0.5524 [main: ce=0.2805, dice=0.2143, tot=0.4948 | aux: ce=0.0776, dice=0.0663, tot=0.1440]
+[2026-06-26 14:20:53]   step 80/107  loss=0.5547 [main: ce=0.2810, dice=0.2159, tot=0.4968 | aux: ce=0.0776, dice=0.0671, tot=0.1447]
+[2026-06-26 14:21:10]   step 100/107  loss=0.5630 [main: ce=0.2870, dice=0.2172, tot=0.5042 | aux: ce=0.0797, dice=0.0672, tot=0.1469]
+Epoch 114: Loss: 0.5605 [main: ce=0.2850, dice=0.2165, tot=0.5015 | aux: ce=0.0801, dice=0.0675, tot=0.1476] | Val Dice: 0.7897 | Val IoU: 0.6676 | Val HD95: 42.1406 | LR: 1.7e-04
+[2026-06-26 14:21:38]   step 20/107  loss=0.5779 [main: ce=0.2939, dice=0.2240, tot=0.5179 | aux: ce=0.0813, dice=0.0685, tot=0.1498]
+[2026-06-26 14:21:55]   step 40/107  loss=0.5804 [main: ce=0.2998, dice=0.2231, tot=0.5230 | aux: ce=0.0789, dice=0.0646, tot=0.1435]
+[2026-06-26 14:22:12]   step 60/107  loss=0.5692 [main: ce=0.2909, dice=0.2214, tot=0.5122 | aux: ce=0.0771, dice=0.0653, tot=0.1424]
+[2026-06-26 14:22:30]   step 80/107  loss=0.5612 [main: ce=0.2854, dice=0.2179, tot=0.5033 | aux: ce=0.0787, dice=0.0661, tot=0.1448]
+[2026-06-26 14:22:47]   step 100/107  loss=0.5611 [main: ce=0.2845, dice=0.2171, tot=0.5016 | aux: ce=0.0807, dice=0.0682, tot=0.1489]
+Epoch 115: Loss: 0.5574 [main: ce=0.2819, dice=0.2161, tot=0.4980 | aux: ce=0.0801, dice=0.0684, tot=0.1485] | Val Dice: 0.7851 | Val IoU: 0.6645 | Val HD95: 46.9297 | LR: 1.6e-04
+[2026-06-26 14:23:15]   step 20/107  loss=0.5202 [main: ce=0.2627, dice=0.2034, tot=0.4661 | aux: ce=0.0739, dice=0.0614, tot=0.1353]
+[2026-06-26 14:23:32]   step 40/107  loss=0.5540 [main: ce=0.2835, dice=0.2133, tot=0.4968 | aux: ce=0.0776, dice=0.0653, tot=0.1429]
+[2026-06-26 14:23:49]   step 60/107  loss=0.5603 [main: ce=0.2862, dice=0.2164, tot=0.5026 | aux: ce=0.0774, dice=0.0668, tot=0.1442]
+[2026-06-26 14:24:07]   step 80/107  loss=0.5641 [main: ce=0.2884, dice=0.2168, tot=0.5052 | aux: ce=0.0802, dice=0.0671, tot=0.1472]
+[2026-06-26 14:24:24]   step 100/107  loss=0.5659 [main: ce=0.2898, dice=0.2175, tot=0.5073 | aux: ce=0.0795, dice=0.0671, tot=0.1466]
+Epoch 116: Loss: 0.5610 [main: ce=0.2858, dice=0.2169, tot=0.5027 | aux: ce=0.0786, dice=0.0673, tot=0.1459] | Val Dice: 0.7789 | Val IoU: 0.6570 | Val HD95: 43.1883 | LR: 1.5e-04
+[2026-06-26 14:24:53]   step 20/107  loss=0.5361 [main: ce=0.2792, dice=0.2025, tot=0.4817 | aux: ce=0.0759, dice=0.0603, tot=0.1362]
+[2026-06-26 14:25:10]   step 40/107  loss=0.5562 [main: ce=0.2857, dice=0.2123, tot=0.4980 | aux: ce=0.0794, dice=0.0661, tot=0.1455]
+[2026-06-26 14:25:27]   step 60/107  loss=0.5402 [main: ce=0.2774, dice=0.2075, tot=0.4849 | aux: ce=0.0748, dice=0.0636, tot=0.1384]
+[2026-06-26 14:25:44]   step 80/107  loss=0.5406 [main: ce=0.2766, dice=0.2084, tot=0.4850 | aux: ce=0.0755, dice=0.0637, tot=0.1391]
+[2026-06-26 14:26:01]   step 100/107  loss=0.5521 [main: ce=0.2812, dice=0.2122, tot=0.4934 | aux: ce=0.0798, dice=0.0671, tot=0.1469]
+Epoch 117: Loss: 0.5552 [main: ce=0.2823, dice=0.2133, tot=0.4956 | aux: ce=0.0808, dice=0.0681, tot=0.1488] | Val Dice: 0.7935 | Val IoU: 0.6720 | Val HD95: 44.3989 | LR: 1.4e-04
+[2026-06-26 14:26:29]   step 20/107  loss=0.5596 [main: ce=0.2830, dice=0.2162, tot=0.4992 | aux: ce=0.0837, dice=0.0674, tot=0.1510]
+[2026-06-26 14:26:47]   step 40/107  loss=0.5597 [main: ce=0.2802, dice=0.2175, tot=0.4976 | aux: ce=0.0838, dice=0.0715, tot=0.1553]
+[2026-06-26 14:27:04]   step 60/107  loss=0.5471 [main: ce=0.2752, dice=0.2116, tot=0.4868 | aux: ce=0.0820, dice=0.0687, tot=0.1508]
+[2026-06-26 14:27:21]   step 80/107  loss=0.5522 [main: ce=0.2786, dice=0.2144, tot=0.4930 | aux: ce=0.0798, dice=0.0682, tot=0.1480]
+[2026-06-26 14:27:39]   step 100/107  loss=0.5534 [main: ce=0.2795, dice=0.2146, tot=0.4941 | aux: ce=0.0798, dice=0.0683, tot=0.1481]
+Epoch 118: Loss: 0.5491 [main: ce=0.2771, dice=0.2134, tot=0.4905 | aux: ce=0.0786, dice=0.0679, tot=0.1465] | Val Dice: 0.7895 | Val IoU: 0.6664 | Val HD95: 48.2078 | LR: 1.3e-04
+[2026-06-26 14:28:07]   step 20/107  loss=0.4912 [main: ce=0.2388, dice=0.1974, tot=0.4362 | aux: ce=0.0715, dice=0.0659, tot=0.1374]
+[2026-06-26 14:28:25]   step 40/107  loss=0.5090 [main: ce=0.2510, dice=0.2016, tot=0.4526 | aux: ce=0.0728, dice=0.0682, tot=0.1410]
+[2026-06-26 14:28:42]   step 60/107  loss=0.5200 [main: ce=0.2622, dice=0.2040, tot=0.4662 | aux: ce=0.0701, dice=0.0644, tot=0.1344]
+[2026-06-26 14:28:59]   step 80/107  loss=0.5230 [main: ce=0.2647, dice=0.2037, tot=0.4685 | aux: ce=0.0723, dice=0.0641, tot=0.1364]
+[2026-06-26 14:29:16]   step 100/107  loss=0.5269 [main: ce=0.2657, dice=0.2059, tot=0.4716 | aux: ce=0.0738, dice=0.0644, tot=0.1383]
+Epoch 119: Loss: 0.5298 [main: ce=0.2684, dice=0.2063, tot=0.4747 | aux: ce=0.0737, dice=0.0641, tot=0.1377] | Val Dice: 0.7982 | Val IoU: 0.6777 | Val HD95: 42.2195 | LR: 1.3e-04
+>>> New Best Model Saved! Dice: 0.7982
+[2026-06-26 14:29:45]   step 20/107  loss=0.5380 [main: ce=0.2732, dice=0.2104, tot=0.4836 | aux: ce=0.0713, dice=0.0645, tot=0.1358]
+[2026-06-26 14:30:03]   step 40/107  loss=0.5327 [main: ce=0.2685, dice=0.2079, tot=0.4763 | aux: ce=0.0756, dice=0.0652, tot=0.1408]
+[2026-06-26 14:30:20]   step 60/107  loss=0.5184 [main: ce=0.2600, dice=0.2027, tot=0.4627 | aux: ce=0.0744, dice=0.0648, tot=0.1392]
+[2026-06-26 14:30:37]   step 80/107  loss=0.5154 [main: ce=0.2582, dice=0.2024, tot=0.4606 | aux: ce=0.0732, dice=0.0640, tot=0.1371]
+[2026-06-26 14:30:54]   step 100/107  loss=0.5222 [main: ce=0.2635, dice=0.2039, tot=0.4674 | aux: ce=0.0732, dice=0.0636, tot=0.1368]
+Epoch 120: Loss: 0.5221 [main: ce=0.2631, dice=0.2031, tot=0.4663 | aux: ce=0.0750, dice=0.0646, tot=0.1396] | Val Dice: 0.7973 | Val IoU: 0.6765 | Val HD95: 43.3300 | LR: 1.2e-04
+[2026-06-26 14:31:22]   step 20/107  loss=0.5034 [main: ce=0.2403, dice=0.2041, tot=0.4444 | aux: ce=0.0775, dice=0.0700, tot=0.1475]
+[2026-06-26 14:31:40]   step 40/107  loss=0.5238 [main: ce=0.2602, dice=0.2050, tot=0.4652 | aux: ce=0.0780, dice=0.0686, tot=0.1465]
+[2026-06-26 14:31:57]   step 60/107  loss=0.5195 [main: ce=0.2610, dice=0.2026, tot=0.4636 | aux: ce=0.0747, dice=0.0650, tot=0.1397]
+[2026-06-26 14:32:14]   step 80/107  loss=0.5282 [main: ce=0.2675, dice=0.2043, tot=0.4718 | aux: ce=0.0758, dice=0.0652, tot=0.1410]
+[2026-06-26 14:32:31]   step 100/107  loss=0.5219 [main: ce=0.2637, dice=0.2025, tot=0.4663 | aux: ce=0.0743, dice=0.0647, tot=0.1390]
+Epoch 121: Loss: 0.5171 [main: ce=0.2601, dice=0.2015, tot=0.4617 | aux: ce=0.0739, dice=0.0647, tot=0.1386] | Val Dice: 0.7983 | Val IoU: 0.6780 | Val HD95: 42.9343 | LR: 1.1e-04
+>>> New Best Model Saved! Dice: 0.7983
+[2026-06-26 14:33:00]   step 20/107  loss=0.5085 [main: ce=0.2571, dice=0.1961, tot=0.4532 | aux: ce=0.0743, dice=0.0641, tot=0.1383]
+[2026-06-26 14:33:17]   step 40/107  loss=0.5099 [main: ce=0.2529, dice=0.2012, tot=0.4540 | aux: ce=0.0733, dice=0.0665, tot=0.1398]
+[2026-06-26 14:33:35]   step 60/107  loss=0.5104 [main: ce=0.2560, dice=0.1979, tot=0.4539 | aux: ce=0.0757, dice=0.0656, tot=0.1412]
+[2026-06-26 14:33:52]   step 80/107  loss=0.5060 [main: ce=0.2538, dice=0.1967, tot=0.4505 | aux: ce=0.0742, dice=0.0647, tot=0.1389]
+[2026-06-26 14:34:09]   step 100/107  loss=0.5106 [main: ce=0.2571, dice=0.1981, tot=0.4553 | aux: ce=0.0744, dice=0.0639, tot=0.1383]
+Epoch 122: Loss: 0.5150 [main: ce=0.2599, dice=0.1996, tot=0.4595 | aux: ce=0.0747, dice=0.0641, tot=0.1388] | Val Dice: 0.7986 | Val IoU: 0.6773 | Val HD95: 39.6188 | LR: 1.0e-04
+>>> New Best Model Saved! Dice: 0.7986
+[2026-06-26 14:34:39]   step 20/107  loss=0.5055 [main: ce=0.2485, dice=0.2036, tot=0.4522 | aux: ce=0.0669, dice=0.0663, tot=0.1332]
+[2026-06-26 14:34:56]   step 40/107  loss=0.4994 [main: ce=0.2474, dice=0.1987, tot=0.4461 | aux: ce=0.0684, dice=0.0648, tot=0.1332]
+[2026-06-26 14:35:14]   step 60/107  loss=0.5077 [main: ce=0.2538, dice=0.1991, tot=0.4529 | aux: ce=0.0713, dice=0.0655, tot=0.1368]
+[2026-06-26 14:35:31]   step 80/107  loss=0.5241 [main: ce=0.2653, dice=0.2021, tot=0.4673 | aux: ce=0.0753, dice=0.0667, tot=0.1420]
+[2026-06-26 14:35:48]   step 100/107  loss=0.5256 [main: ce=0.2664, dice=0.2030, tot=0.4694 | aux: ce=0.0746, dice=0.0659, tot=0.1405]
+Epoch 123: Loss: 0.5246 [main: ce=0.2667, dice=0.2017, tot=0.4684 | aux: ce=0.0749, dice=0.0654, tot=0.1403] | Val Dice: 0.7904 | Val IoU: 0.6662 | Val HD95: 42.8258 | LR: 9.7e-05
+[2026-06-26 14:36:17]   step 20/107  loss=0.5089 [main: ce=0.2662, dice=0.1917, tot=0.4579 | aux: ce=0.0691, dice=0.0582, tot=0.1273]
+[2026-06-26 14:36:35]   step 40/107  loss=0.5124 [main: ce=0.2636, dice=0.1971, tot=0.4607 | aux: ce=0.0691, dice=0.0601, tot=0.1292]
+[2026-06-26 14:36:52]   step 60/107  loss=0.4992 [main: ce=0.2517, dice=0.1957, tot=0.4474 | aux: ce=0.0683, dice=0.0613, tot=0.1296]
+[2026-06-26 14:37:09]   step 80/107  loss=0.5031 [main: ce=0.2549, dice=0.1959, tot=0.4508 | aux: ce=0.0695, dice=0.0613, tot=0.1309]
+[2026-06-26 14:37:26]   step 100/107  loss=0.5024 [main: ce=0.2539, dice=0.1957, tot=0.4496 | aux: ce=0.0700, dice=0.0620, tot=0.1320]
+Epoch 124: Loss: 0.4988 [main: ce=0.2519, dice=0.1949, tot=0.4468 | aux: ce=0.0688, dice=0.0612, tot=0.1300] | Val Dice: 0.7912 | Val IoU: 0.6680 | Val HD95: 43.0534 | LR: 9.0e-05
+[2026-06-26 14:37:55]   step 20/107  loss=0.5160 [main: ce=0.2633, dice=0.2019, tot=0.4652 | aux: ce=0.0672, dice=0.0598, tot=0.1269]
+[2026-06-26 14:38:12]   step 40/107  loss=0.5075 [main: ce=0.2572, dice=0.1992, tot=0.4564 | aux: ce=0.0671, dice=0.0608, tot=0.1279]
+[2026-06-26 14:38:30]   step 60/107  loss=0.5032 [main: ce=0.2548, dice=0.1972, tot=0.4520 | aux: ce=0.0669, dice=0.0611, tot=0.1280]
+[2026-06-26 14:38:47]   step 80/107  loss=0.5028 [main: ce=0.2539, dice=0.1972, tot=0.4511 | aux: ce=0.0673, dice=0.0619, tot=0.1292]
+[2026-06-26 14:39:05]   step 100/107  loss=0.5093 [main: ce=0.2600, dice=0.1971, tot=0.4571 | aux: ce=0.0693, dice=0.0612, tot=0.1305]
+Epoch 125: Loss: 0.5079 [main: ce=0.2589, dice=0.1971, tot=0.4560 | aux: ce=0.0689, dice=0.0610, tot=0.1299] | Val Dice: 0.7941 | Val IoU: 0.6714 | Val HD95: 42.5794 | LR: 8.4e-05
+[2026-06-26 14:39:34]   step 20/107  loss=0.5023 [main: ce=0.2582, dice=0.1921, tot=0.4503 | aux: ce=0.0702, dice=0.0598, tot=0.1300]
+[2026-06-26 14:39:51]   step 40/107  loss=0.5105 [main: ce=0.2584, dice=0.2008, tot=0.4591 | aux: ce=0.0671, dice=0.0612, tot=0.1283]
+[2026-06-26 14:40:09]   step 60/107  loss=0.5058 [main: ce=0.2585, dice=0.1960, tot=0.4545 | aux: ce=0.0683, dice=0.0598, tot=0.1281]
+[2026-06-26 14:40:26]   step 80/107  loss=0.5071 [main: ce=0.2598, dice=0.1959, tot=0.4557 | aux: ce=0.0689, dice=0.0597, tot=0.1286]
+[2026-06-26 14:40:44]   step 100/107  loss=0.5038 [main: ce=0.2562, dice=0.1964, tot=0.4526 | aux: ce=0.0680, dice=0.0599, tot=0.1279]
+Epoch 126: Loss: 0.5020 [main: ce=0.2545, dice=0.1961, tot=0.4506 | aux: ce=0.0685, dice=0.0601, tot=0.1286] | Val Dice: 0.8028 | Val IoU: 0.6820 | Val HD95: 43.3304 | LR: 7.7e-05
+>>> New Best Model Saved! Dice: 0.8028
+[2026-06-26 14:41:13]   step 20/107  loss=0.4922 [main: ce=0.2524, dice=0.1855, tot=0.4379 | aux: ce=0.0737, dice=0.0620, tot=0.1356]
+[2026-06-26 14:41:31]   step 40/107  loss=0.4797 [main: ce=0.2448, dice=0.1836, tot=0.4283 | aux: ce=0.0691, dice=0.0594, tot=0.1285]
+[2026-06-26 14:41:48]   step 60/107  loss=0.4853 [main: ce=0.2464, dice=0.1880, tot=0.4344 | aux: ce=0.0676, dice=0.0597, tot=0.1273]
+[2026-06-26 14:42:05]   step 80/107  loss=0.4968 [main: ce=0.2539, dice=0.1914, tot=0.4453 | aux: ce=0.0690, dice=0.0597, tot=0.1287]
+[2026-06-26 14:42:22]   step 100/107  loss=0.4933 [main: ce=0.2506, dice=0.1917, tot=0.4423 | aux: ce=0.0681, dice=0.0595, tot=0.1276]
+Epoch 127: Loss: 0.4866 [main: ce=0.2467, dice=0.1893, tot=0.4360 | aux: ce=0.0673, dice=0.0591, tot=0.1264] | Val Dice: 0.7962 | Val IoU: 0.6735 | Val HD95: 43.6139 | LR: 7.1e-05
+[2026-06-26 14:42:51]   step 20/107  loss=0.4876 [main: ce=0.2593, dice=0.1794, tot=0.4387 | aux: ce=0.0678, dice=0.0544, tot=0.1223]
+[2026-06-26 14:43:08]   step 40/107  loss=0.4877 [main: ce=0.2507, dice=0.1871, tot=0.4378 | aux: ce=0.0671, dice=0.0576, tot=0.1248]
+[2026-06-26 14:43:25]   step 60/107  loss=0.4849 [main: ce=0.2477, dice=0.1877, tot=0.4354 | aux: ce=0.0658, dice=0.0579, tot=0.1237]
+[2026-06-26 14:43:43]   step 80/107  loss=0.4862 [main: ce=0.2491, dice=0.1879, tot=0.4370 | aux: ce=0.0659, dice=0.0573, tot=0.1231]
+[2026-06-26 14:44:00]   step 100/107  loss=0.4888 [main: ce=0.2492, dice=0.1901, tot=0.4393 | aux: ce=0.0659, dice=0.0578, tot=0.1237]
+Epoch 128: Loss: 0.4867 [main: ce=0.2465, dice=0.1906, tot=0.4370 | aux: ce=0.0656, dice=0.0585, tot=0.1241] | Val Dice: 0.7864 | Val IoU: 0.6623 | Val HD95: 44.2106 | LR: 6.5e-05
+[2026-06-26 14:44:29]   step 20/107  loss=0.4887 [main: ce=0.2513, dice=0.1909, tot=0.4421 | aux: ce=0.0602, dice=0.0564, tot=0.1165]
+[2026-06-26 14:44:47]   step 40/107  loss=0.4874 [main: ce=0.2468, dice=0.1921, tot=0.4389 | aux: ce=0.0628, dice=0.0583, tot=0.1211]
+[2026-06-26 14:45:04]   step 60/107  loss=0.4882 [main: ce=0.2470, dice=0.1915, tot=0.4384 | aux: ce=0.0653, dice=0.0591, tot=0.1243]
+[2026-06-26 14:45:22]   step 80/107  loss=0.4928 [main: ce=0.2496, dice=0.1931, tot=0.4427 | aux: ce=0.0661, dice=0.0593, tot=0.1253]
+[2026-06-26 14:45:39]   step 100/107  loss=0.4836 [main: ce=0.2450, dice=0.1894, tot=0.4344 | aux: ce=0.0653, dice=0.0577, tot=0.1230]
+Epoch 129: Loss: 0.4876 [main: ce=0.2468, dice=0.1908, tot=0.4376 | aux: ce=0.0665, dice=0.0587, tot=0.1252] | Val Dice: 0.7930 | Val IoU: 0.6702 | Val HD95: 43.6848 | LR: 6.0e-05
+[2026-06-26 14:46:08]   step 20/107  loss=0.4764 [main: ce=0.2384, dice=0.1860, tot=0.4244 | aux: ce=0.0684, dice=0.0615, tot=0.1299]
+[2026-06-26 14:46:25]   step 40/107  loss=0.5057 [main: ce=0.2528, dice=0.1986, tot=0.4514 | aux: ce=0.0703, dice=0.0654, tot=0.1357]
+[2026-06-26 14:46:43]   step 60/107  loss=0.4940 [main: ce=0.2489, dice=0.1927, tot=0.4416 | aux: ce=0.0694, dice=0.0618, tot=0.1311]
+[2026-06-26 14:47:00]   step 80/107  loss=0.4900 [main: ce=0.2469, dice=0.1914, tot=0.4383 | aux: ce=0.0682, dice=0.0609, tot=0.1291]
+[2026-06-26 14:47:17]   step 100/107  loss=0.4925 [main: ce=0.2489, dice=0.1913, tot=0.4401 | aux: ce=0.0694, dice=0.0615, tot=0.1309]
+Epoch 130: Loss: 0.4899 [main: ce=0.2472, dice=0.1906, tot=0.4379 | aux: ce=0.0690, dice=0.0611, tot=0.1301] | Val Dice: 0.7968 | Val IoU: 0.6741 | Val HD95: 45.2132 | LR: 5.5e-05
+[2026-06-26 14:47:46]   step 20/107  loss=0.4986 [main: ce=0.2532, dice=0.1958, tot=0.4490 | aux: ce=0.0651, dice=0.0590, tot=0.1241]
+[2026-06-26 14:48:04]   step 40/107  loss=0.4808 [main: ce=0.2446, dice=0.1877, tot=0.4323 | aux: ce=0.0641, dice=0.0570, tot=0.1212]
+[2026-06-26 14:48:21]   step 60/107  loss=0.4889 [main: ce=0.2509, dice=0.1884, tot=0.4393 | aux: ce=0.0664, dice=0.0576, tot=0.1240]
+[2026-06-26 14:48:38]   step 80/107  loss=0.4844 [main: ce=0.2460, dice=0.1884, tot=0.4344 | aux: ce=0.0663, dice=0.0586, tot=0.1250]
+[2026-06-26 14:48:56]   step 100/107  loss=0.4767 [main: ce=0.2405, dice=0.1875, tot=0.4280 | aux: ce=0.0640, dice=0.0576, tot=0.1216]
+Epoch 131: Loss: 0.4786 [main: ce=0.2422, dice=0.1880, tot=0.4301 | aux: ce=0.0639, dice=0.0573, tot=0.1212] | Val Dice: 0.7944 | Val IoU: 0.6722 | Val HD95: 44.6879 | LR: 4.9e-05
+[2026-06-26 14:49:24]   step 20/107  loss=0.4993 [main: ce=0.2587, dice=0.1896, tot=0.4483 | aux: ce=0.0693, dice=0.0582, tot=0.1275]
+[2026-06-26 14:49:42]   step 40/107  loss=0.4749 [main: ce=0.2399, dice=0.1864, tot=0.4263 | aux: ce=0.0643, dice=0.0574, tot=0.1217]
+[2026-06-26 14:49:59]   step 60/107  loss=0.4844 [main: ce=0.2500, dice=0.1849, tot=0.4349 | aux: ce=0.0669, dice=0.0569, tot=0.1238]
+[2026-06-26 14:50:16]   step 80/107  loss=0.4819 [main: ce=0.2483, dice=0.1850, tot=0.4333 | aux: ce=0.0657, dice=0.0557, tot=0.1215]
+[2026-06-26 14:50:34]   step 100/107  loss=0.4823 [main: ce=0.2478, dice=0.1859, tot=0.4336 | aux: ce=0.0652, dice=0.0565, tot=0.1217]
+Epoch 132: Loss: 0.4825 [main: ce=0.2465, dice=0.1873, tot=0.4338 | aux: ce=0.0646, dice=0.0572, tot=0.1218] | Val Dice: 0.7947 | Val IoU: 0.6720 | Val HD95: 45.6603 | LR: 4.5e-05
+[2026-06-26 14:51:03]   step 20/107  loss=0.4982 [main: ce=0.2529, dice=0.1941, tot=0.4470 | aux: ce=0.0689, dice=0.0589, tot=0.1278]
+[2026-06-26 14:51:20]   step 40/107  loss=0.4924 [main: ce=0.2484, dice=0.1925, tot=0.4410 | aux: ce=0.0696, dice=0.0592, tot=0.1287]
+[2026-06-26 14:51:37]   step 60/107  loss=0.4734 [main: ce=0.2393, dice=0.1853, tot=0.4247 | aux: ce=0.0652, dice=0.0565, tot=0.1217]
+[2026-06-26 14:51:54]   step 80/107  loss=0.4744 [main: ce=0.2410, dice=0.1853, tot=0.4263 | aux: ce=0.0641, dice=0.0562, tot=0.1202]
+[2026-06-26 14:52:12]   step 100/107  loss=0.4821 [main: ce=0.2454, dice=0.1877, tot=0.4330 | aux: ce=0.0653, dice=0.0575, tot=0.1228]
+Epoch 133: Loss: 0.4767 [main: ce=0.2410, dice=0.1868, tot=0.4278 | aux: ce=0.0646, dice=0.0577, tot=0.1222] | Val Dice: 0.7885 | Val IoU: 0.6640 | Val HD95: 45.6664 | LR: 4.0e-05
+[2026-06-26 14:52:41]   step 20/107  loss=0.4977 [main: ce=0.2570, dice=0.1872, tot=0.4442 | aux: ce=0.0734, dice=0.0604, tot=0.1338]
+[2026-06-26 14:52:58]   step 40/107  loss=0.4834 [main: ce=0.2513, dice=0.1834, tot=0.4346 | aux: ce=0.0663, dice=0.0556, tot=0.1219]
+[2026-06-26 14:53:16]   step 60/107  loss=0.4828 [main: ce=0.2468, dice=0.1874, tot=0.4342 | aux: ce=0.0648, dice=0.0568, tot=0.1216]
+[2026-06-26 14:53:33]   step 80/107  loss=0.4846 [main: ce=0.2467, dice=0.1887, tot=0.4355 | aux: ce=0.0651, dice=0.0577, tot=0.1229]
+[2026-06-26 14:53:50]   step 100/107  loss=0.4754 [main: ce=0.2406, dice=0.1855, tot=0.4261 | aux: ce=0.0650, dice=0.0582, tot=0.1233]
+Epoch 134: Loss: 0.4768 [main: ce=0.2414, dice=0.1860, tot=0.4274 | aux: ce=0.0653, dice=0.0581, tot=0.1234] | Val Dice: 0.7947 | Val IoU: 0.6721 | Val HD95: 45.6675 | LR: 3.6e-05
+[2026-06-26 14:54:19]   step 20/107  loss=0.4457 [main: ce=0.2190, dice=0.1806, tot=0.3996 | aux: ce=0.0589, dice=0.0564, tot=0.1153]
+[2026-06-26 14:54:37]   step 40/107  loss=0.4390 [main: ce=0.2192, dice=0.1753, tot=0.3945 | aux: ce=0.0579, dice=0.0533, tot=0.1112]
+[2026-06-26 14:54:54]   step 60/107  loss=0.4515 [main: ce=0.2258, dice=0.1797, tot=0.4056 | aux: ce=0.0595, dice=0.0555, tot=0.1149]
+[2026-06-26 14:55:11]   step 80/107  loss=0.4578 [main: ce=0.2305, dice=0.1798, tot=0.4103 | aux: ce=0.0621, dice=0.0566, tot=0.1187]
+[2026-06-26 14:55:28]   step 100/107  loss=0.4586 [main: ce=0.2313, dice=0.1801, tot=0.4114 | aux: ce=0.0619, dice=0.0561, tot=0.1180]
+Epoch 135: Loss: 0.4649 [main: ce=0.2348, dice=0.1822, tot=0.4171 | aux: ce=0.0629, dice=0.0567, tot=0.1196] | Val Dice: 0.7973 | Val IoU: 0.6751 | Val HD95: 43.5380 | LR: 3.1e-05
+[2026-06-26 14:55:57]   step 20/107  loss=0.4686 [main: ce=0.2361, dice=0.1891, tot=0.4252 | aux: ce=0.0556, dice=0.0529, tot=0.1084]
+[2026-06-26 14:56:14]   step 40/107  loss=0.4566 [main: ce=0.2283, dice=0.1824, tot=0.4107 | aux: ce=0.0597, dice=0.0549, tot=0.1146]
+[2026-06-26 14:56:32]   step 60/107  loss=0.4466 [main: ce=0.2234, dice=0.1773, tot=0.4006 | aux: ce=0.0603, dice=0.0546, tot=0.1149]
+[2026-06-26 14:56:49]   step 80/107  loss=0.4575 [main: ce=0.2314, dice=0.1794, tot=0.4107 | aux: ce=0.0619, dice=0.0551, tot=0.1170]
+[2026-06-26 14:57:06]   step 100/107  loss=0.4636 [main: ce=0.2354, dice=0.1807, tot=0.4162 | aux: ce=0.0628, dice=0.0559, tot=0.1187]
+Epoch 136: Loss: 0.4623 [main: ce=0.2339, dice=0.1807, tot=0.4146 | aux: ce=0.0627, dice=0.0565, tot=0.1192] | Val Dice: 0.7967 | Val IoU: 0.6743 | Val HD95: 45.4753 | LR: 2.8e-05
+[2026-06-26 14:57:35]   step 20/107  loss=0.4584 [main: ce=0.2327, dice=0.1771, tot=0.4098 | aux: ce=0.0637, dice=0.0578, tot=0.1216]
+[2026-06-26 14:57:52]   step 40/107  loss=0.4556 [main: ce=0.2330, dice=0.1744, tot=0.4075 | aux: ce=0.0648, dice=0.0557, tot=0.1205]
+[2026-06-26 14:58:10]   step 60/107  loss=0.4542 [main: ce=0.2340, dice=0.1739, tot=0.4079 | aux: ce=0.0616, dice=0.0542, tot=0.1158]
+[2026-06-26 14:58:27]   step 80/107  loss=0.4593 [main: ce=0.2340, dice=0.1785, tot=0.4125 | aux: ce=0.0614, dice=0.0558, tot=0.1171]
+[2026-06-26 14:58:45]   step 100/107  loss=0.4617 [main: ce=0.2359, dice=0.1790, tot=0.4150 | aux: ce=0.0613, dice=0.0555, tot=0.1168]
+Epoch 137: Loss: 0.4645 [main: ce=0.2373, dice=0.1804, tot=0.4176 | aux: ce=0.0616, dice=0.0556, tot=0.1172] | Val Dice: 0.7960 | Val IoU: 0.6738 | Val HD95: 46.1395 | LR: 2.4e-05
+[2026-06-26 14:59:14]   step 20/107  loss=0.4803 [main: ce=0.2467, dice=0.1822, tot=0.4288 | aux: ce=0.0700, dice=0.0587, tot=0.1287]
+[2026-06-26 14:59:31]   step 40/107  loss=0.4594 [main: ce=0.2320, dice=0.1790, tot=0.4109 | aux: ce=0.0637, dice=0.0575, tot=0.1212]
+[2026-06-26 14:59:48]   step 60/107  loss=0.4641 [main: ce=0.2361, dice=0.1790, tot=0.4151 | aux: ce=0.0648, dice=0.0575, tot=0.1223]
+[2026-06-26 15:00:05]   step 80/107  loss=0.4638 [main: ce=0.2366, dice=0.1791, tot=0.4158 | aux: ce=0.0639, dice=0.0562, tot=0.1201]
+[2026-06-26 15:00:23]   step 100/107  loss=0.4617 [main: ce=0.2346, dice=0.1794, tot=0.4140 | aux: ce=0.0633, dice=0.0560, tot=0.1192]
+Epoch 138: Loss: 0.4632 [main: ce=0.2350, dice=0.1804, tot=0.4154 | aux: ce=0.0631, dice=0.0562, tot=0.1193] | Val Dice: 0.7978 | Val IoU: 0.6756 | Val HD95: 46.1004 | LR: 2.1e-05
+[2026-06-26 15:00:52]   step 20/107  loss=0.4418 [main: ce=0.2162, dice=0.1783, tot=0.3945 | aux: ce=0.0608, dice=0.0575, tot=0.1183]
+[2026-06-26 15:01:10]   step 40/107  loss=0.4506 [main: ce=0.2242, dice=0.1801, tot=0.4043 | aux: ce=0.0603, dice=0.0555, tot=0.1158]
+[2026-06-26 15:01:27]   step 60/107  loss=0.4635 [main: ce=0.2353, dice=0.1821, tot=0.4174 | aux: ce=0.0603, dice=0.0549, tot=0.1152]
+[2026-06-26 15:01:44]   step 80/107  loss=0.4712 [main: ce=0.2416, dice=0.1827, tot=0.4243 | aux: ce=0.0618, dice=0.0554, tot=0.1173]
+[2026-06-26 15:02:01]   step 100/107  loss=0.4717 [main: ce=0.2410, dice=0.1832, tot=0.4242 | aux: ce=0.0625, dice=0.0563, tot=0.1188]
+Epoch 139: Loss: 0.4681 [main: ce=0.2383, dice=0.1826, tot=0.4208 | aux: ce=0.0620, dice=0.0561, tot=0.1181] | Val Dice: 0.7960 | Val IoU: 0.6730 | Val HD95: 43.1350 | LR: 1.7e-05
+[2026-06-26 15:02:31]   step 20/107  loss=0.4473 [main: ce=0.2348, dice=0.1684, tot=0.4033 | aux: ce=0.0593, dice=0.0509, tot=0.1102]
+[2026-06-26 15:02:48]   step 40/107  loss=0.4655 [main: ce=0.2413, dice=0.1772, tot=0.4185 | aux: ce=0.0632, dice=0.0541, tot=0.1173]
+[2026-06-26 15:03:05]   step 60/107  loss=0.4591 [main: ce=0.2363, dice=0.1761, tot=0.4123 | aux: ce=0.0629, dice=0.0539, tot=0.1168]
+[2026-06-26 15:03:22]   step 80/107  loss=0.4570 [main: ce=0.2319, dice=0.1778, tot=0.4097 | aux: ce=0.0629, dice=0.0553, tot=0.1182]
+[2026-06-26 15:03:39]   step 100/107  loss=0.4560 [main: ce=0.2293, dice=0.1794, tot=0.4087 | aux: ce=0.0619, dice=0.0563, tot=0.1181]
+Epoch 140: Loss: 0.4585 [main: ce=0.2313, dice=0.1797, tot=0.4110 | aux: ce=0.0624, dice=0.0562, tot=0.1186] | Val Dice: 0.7991 | Val IoU: 0.6770 | Val HD95: 43.0155 | LR: 1.5e-05
+[2026-06-26 15:04:08]   step 20/107  loss=0.4568 [main: ce=0.2328, dice=0.1780, tot=0.4108 | aux: ce=0.0604, dice=0.0545, tot=0.1149]
+[2026-06-26 15:04:25]   step 40/107  loss=0.4550 [main: ce=0.2310, dice=0.1781, tot=0.4091 | aux: ce=0.0600, dice=0.0547, tot=0.1148]
+[2026-06-26 15:04:42]   step 60/107  loss=0.4463 [main: ce=0.2264, dice=0.1737, tot=0.4001 | aux: ce=0.0612, dice=0.0544, tot=0.1156]
+[2026-06-26 15:04:59]   step 80/107  loss=0.4563 [main: ce=0.2325, dice=0.1771, tot=0.4096 | aux: ce=0.0618, dice=0.0550, tot=0.1168]
+[2026-06-26 15:05:16]   step 100/107  loss=0.4597 [main: ce=0.2337, dice=0.1795, tot=0.4132 | aux: ce=0.0610, dice=0.0554, tot=0.1164]
+Epoch 141: Loss: 0.4587 [main: ce=0.2326, dice=0.1795, tot=0.4121 | aux: ce=0.0612, dice=0.0555, tot=0.1166] | Val Dice: 0.7994 | Val IoU: 0.6778 | Val HD95: 42.5683 | LR: 1.2e-05
+[2026-06-26 15:05:45]   step 20/107  loss=0.4429 [main: ce=0.2270, dice=0.1724, tot=0.3994 | aux: ce=0.0583, dice=0.0504, tot=0.1087]
+[2026-06-26 15:06:03]   step 40/107  loss=0.4626 [main: ce=0.2357, dice=0.1796, tot=0.4152 | aux: ce=0.0621, dice=0.0564, tot=0.1185]
+[2026-06-26 15:06:20]   step 60/107  loss=0.4611 [main: ce=0.2344, dice=0.1797, tot=0.4140 | aux: ce=0.0619, dice=0.0558, tot=0.1177]
+[2026-06-26 15:06:38]   step 80/107  loss=0.4580 [main: ce=0.2317, dice=0.1801, tot=0.4118 | aux: ce=0.0603, dice=0.0552, tot=0.1155]
+[2026-06-26 15:06:55]   step 100/107  loss=0.4545 [main: ce=0.2300, dice=0.1785, tot=0.4085 | aux: ce=0.0602, dice=0.0549, tot=0.1151]
+Epoch 142: Loss: 0.4566 [main: ce=0.2312, dice=0.1791, tot=0.4102 | aux: ce=0.0608, dice=0.0552, tot=0.1160] | Val Dice: 0.7940 | Val IoU: 0.6710 | Val HD95: 45.1963 | LR: 9.7e-06
+[2026-06-26 15:07:24]   step 20/107  loss=0.4528 [main: ce=0.2247, dice=0.1829, tot=0.4076 | aux: ce=0.0577, dice=0.0555, tot=0.1132]
+[2026-06-26 15:07:41]   step 40/107  loss=0.4655 [main: ce=0.2361, dice=0.1836, tot=0.4196 | aux: ce=0.0593, dice=0.0554, tot=0.1147]
+[2026-06-26 15:07:59]   step 60/107  loss=0.4707 [main: ce=0.2367, dice=0.1874, tot=0.4241 | aux: ce=0.0597, dice=0.0566, tot=0.1163]
+[2026-06-26 15:08:16]   step 80/107  loss=0.4674 [main: ce=0.2362, dice=0.1841, tot=0.4203 | aux: ce=0.0611, dice=0.0566, tot=0.1177]
+[2026-06-26 15:08:33]   step 100/107  loss=0.4621 [main: ce=0.2336, dice=0.1820, tot=0.4155 | aux: ce=0.0606, dice=0.0557, tot=0.1163]
+Epoch 143: Loss: 0.4614 [main: ce=0.2339, dice=0.1811, tot=0.4149 | aux: ce=0.0608, dice=0.0552, tot=0.1161] | Val Dice: 0.7962 | Val IoU: 0.6736 | Val HD95: 44.1009 | LR: 7.7e-06
+[2026-06-26 15:09:03]   step 20/107  loss=0.4471 [main: ce=0.2196, dice=0.1793, tot=0.3989 | aux: ce=0.0610, dice=0.0595, tot=0.1205]
+[2026-06-26 15:09:20]   step 40/107  loss=0.4586 [main: ce=0.2310, dice=0.1804, tot=0.4114 | aux: ce=0.0614, dice=0.0567, tot=0.1181]
+[2026-06-26 15:09:37]   step 60/107  loss=0.4609 [main: ce=0.2315, dice=0.1815, tot=0.4130 | aux: ce=0.0624, dice=0.0572, tot=0.1197]
+[2026-06-26 15:09:54]   step 80/107  loss=0.4638 [main: ce=0.2352, dice=0.1812, tot=0.4164 | aux: ce=0.0619, dice=0.0565, tot=0.1185]
+[2026-06-26 15:10:11]   step 100/107  loss=0.4612 [main: ce=0.2336, dice=0.1807, tot=0.4143 | aux: ce=0.0613, dice=0.0559, tot=0.1172]
+Epoch 144: Loss: 0.4628 [main: ce=0.2354, dice=0.1812, tot=0.4165 | aux: ce=0.0605, dice=0.0552, tot=0.1157] | Val Dice: 0.7911 | Val IoU: 0.6671 | Val HD95: 45.9317 | LR: 5.9e-06
+[2026-06-26 15:10:41]   step 20/107  loss=0.4823 [main: ce=0.2589, dice=0.1775, tot=0.4364 | aux: ce=0.0630, dice=0.0518, tot=0.1147]
+[2026-06-26 15:10:58]   step 40/107  loss=0.4597 [main: ce=0.2351, dice=0.1795, tot=0.4147 | aux: ce=0.0594, dice=0.0531, tot=0.1125]
+[2026-06-26 15:11:15]   step 60/107  loss=0.4531 [main: ce=0.2277, dice=0.1800, tot=0.4078 | aux: ce=0.0587, dice=0.0545, tot=0.1132]
+[2026-06-26 15:11:33]   step 80/107  loss=0.4558 [main: ce=0.2299, dice=0.1797, tot=0.4097 | aux: ce=0.0602, dice=0.0550, tot=0.1152]
+[2026-06-26 15:11:50]   step 100/107  loss=0.4550 [main: ce=0.2300, dice=0.1789, tot=0.4088 | aux: ce=0.0607, dice=0.0548, tot=0.1155]
+Epoch 145: Loss: 0.4521 [main: ce=0.2282, dice=0.1780, tot=0.4063 | aux: ce=0.0601, dice=0.0545, tot=0.1146] | Val Dice: 0.7962 | Val IoU: 0.6736 | Val HD95: 45.6256 | LR: 4.4e-06
+[2026-06-26 15:12:18]   step 20/107  loss=0.4718 [main: ce=0.2373, dice=0.1863, tot=0.4236 | aux: ce=0.0618, dice=0.0586, tot=0.1205]
+[2026-06-26 15:12:36]   step 40/107  loss=0.4678 [main: ce=0.2386, dice=0.1825, tot=0.4211 | aux: ce=0.0611, dice=0.0555, tot=0.1167]
+[2026-06-26 15:12:54]   step 60/107  loss=0.4554 [main: ce=0.2327, dice=0.1773, tot=0.4100 | aux: ce=0.0594, dice=0.0542, tot=0.1136]
+[2026-06-26 15:13:11]   step 80/107  loss=0.4541 [main: ce=0.2311, dice=0.1775, tot=0.4086 | aux: ce=0.0596, dice=0.0543, tot=0.1138]
+[2026-06-26 15:13:28]   step 100/107  loss=0.4571 [main: ce=0.2323, dice=0.1790, tot=0.4113 | aux: ce=0.0601, dice=0.0545, tot=0.1146]
+Epoch 146: Loss: 0.4553 [main: ce=0.2311, dice=0.1784, tot=0.4095 | aux: ce=0.0599, dice=0.0545, tot=0.1144] | Val Dice: 0.7964 | Val IoU: 0.6740 | Val HD95: 44.8704 | LR: 3.2e-06
+[2026-06-26 15:13:57]   step 20/107  loss=0.4689 [main: ce=0.2413, dice=0.1801, tot=0.4214 | aux: ce=0.0626, dice=0.0560, tot=0.1186]
+[2026-06-26 15:14:15]   step 40/107  loss=0.4574 [main: ce=0.2356, dice=0.1765, tot=0.4121 | aux: ce=0.0602, dice=0.0532, tot=0.1133]
+[2026-06-26 15:14:32]   step 60/107  loss=0.4546 [main: ce=0.2303, dice=0.1780, tot=0.4083 | aux: ce=0.0607, dice=0.0550, tot=0.1158]
+[2026-06-26 15:14:49]   step 80/107  loss=0.4562 [main: ce=0.2315, dice=0.1785, tot=0.4100 | aux: ce=0.0606, dice=0.0549, tot=0.1155]
+[2026-06-26 15:15:07]   step 100/107  loss=0.4502 [main: ce=0.2275, dice=0.1768, tot=0.4043 | aux: ce=0.0598, dice=0.0549, tot=0.1147]
+Epoch 147: Loss: 0.4513 [main: ce=0.2286, dice=0.1768, tot=0.4055 | aux: ce=0.0598, dice=0.0547, tot=0.1145] | Val Dice: 0.7949 | Val IoU: 0.6719 | Val HD95: 44.8649 | LR: 2.2e-06
+[2026-06-26 15:15:35]   step 20/107  loss=0.4523 [main: ce=0.2246, dice=0.1820, tot=0.4067 | aux: ce=0.0573, dice=0.0568, tot=0.1141]
+[2026-06-26 15:15:52]   step 40/107  loss=0.4556 [main: ce=0.2316, dice=0.1792, tot=0.4108 | aux: ce=0.0585, dice=0.0535, tot=0.1121]
+[2026-06-26 15:16:09]   step 60/107  loss=0.4578 [main: ce=0.2327, dice=0.1799, tot=0.4125 | aux: ce=0.0592, dice=0.0540, tot=0.1132]
+[2026-06-26 15:16:27]   step 80/107  loss=0.4557 [main: ce=0.2310, dice=0.1789, tot=0.4099 | aux: ce=0.0598, dice=0.0547, tot=0.1145]
+[2026-06-26 15:16:44]   step 100/107  loss=0.4560 [main: ce=0.2312, dice=0.1783, tot=0.4095 | aux: ce=0.0610, dice=0.0551, tot=0.1161]
+Epoch 148: Loss: 0.4580 [main: ce=0.2325, dice=0.1792, tot=0.4117 | aux: ce=0.0608, dice=0.0550, tot=0.1158] | Val Dice: 0.7946 | Val IoU: 0.6720 | Val HD95: 44.8418 | LR: 1.5e-06
+[2026-06-26 15:17:13]   step 20/107  loss=0.4086 [main: ce=0.2050, dice=0.1603, tot=0.3653 | aux: ce=0.0574, dice=0.0508, tot=0.1082]
+[2026-06-26 15:17:30]   step 40/107  loss=0.4371 [main: ce=0.2214, dice=0.1693, tot=0.3907 | aux: ce=0.0619, dice=0.0540, tot=0.1159]
+[2026-06-26 15:17:48]   step 60/107  loss=0.4504 [main: ce=0.2289, dice=0.1746, tot=0.4035 | aux: ce=0.0621, dice=0.0550, tot=0.1171]
+[2026-06-26 15:18:05]   step 80/107  loss=0.4494 [main: ce=0.2272, dice=0.1755, tot=0.4027 | aux: ce=0.0615, dice=0.0552, tot=0.1167]
+[2026-06-26 15:18:22]   step 100/107  loss=0.4498 [main: ce=0.2276, dice=0.1757, tot=0.4032 | aux: ce=0.0615, dice=0.0550, tot=0.1165]
+Epoch 149: Loss: 0.4524 [main: ce=0.2291, dice=0.1769, tot=0.4060 | aux: ce=0.0609, dice=0.0550, tot=0.1159] | Val Dice: 0.7921 | Val IoU: 0.6686 | Val HD95: 46.7499 | LR: 1.1e-06
+[2026-06-26 15:18:52]   step 20/107  loss=0.4379 [main: ce=0.2186, dice=0.1752, tot=0.3938 | aux: ce=0.0563, dice=0.0540, tot=0.1102]
+[2026-06-26 15:19:09]   step 40/107  loss=0.4562 [main: ce=0.2296, dice=0.1812, tot=0.4108 | aux: ce=0.0588, dice=0.0548, tot=0.1136]
+[2026-06-26 15:19:27]   step 60/107  loss=0.4656 [main: ce=0.2358, dice=0.1822, tot=0.4181 | aux: ce=0.0624, dice=0.0565, tot=0.1189]
+[2026-06-26 15:19:44]   step 80/107  loss=0.4606 [main: ce=0.2335, dice=0.1802, tot=0.4137 | aux: ce=0.0616, dice=0.0558, tot=0.1174]
+[2026-06-26 15:20:01]   step 100/107  loss=0.4569 [main: ce=0.2317, dice=0.1789, tot=0.4106 | aux: ce=0.0605, dice=0.0552, tot=0.1157]
+Epoch 150: Loss: 0.4535 [main: ce=0.2297, dice=0.1779, tot=0.4076 | aux: ce=0.0600, dice=0.0548, tot=0.1148] | Val Dice: 0.7951 | Val IoU: 0.6725 | Val HD95: 43.8762 | LR: 1.0e-06
+
+========================================
+>>> Starting Final Testing & Visualization...
+
+>>> Testing [Best Overall] from ./records/Sup_LoTSNet_20260626_111538/model_best.pth
+/root/autodl-tmp/LoTS-Net/lotsnet/trainers/sup_ddp.py:309: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(model_path, map_location=device)
+/root/autodl-tmp/LoTS-Net/lotsnet/trainers/sup_ddp.py:309: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(model_path, map_location=device)
+
+========================================
+FINAL TEST RESULTS [Best Overall] (saved from ep126):
+  [All   27 batches]  Dice: 0.8620  IoU: 0.7720  HD95: 50.8179
+========================================
+
+>>> Testing [Best Window (ep50-100)] from ./records/Sup_LoTSNet_20260626_111538/model_best_window.pth
+
+========================================
+FINAL TEST RESULTS [Best Window (ep50-100)] (saved from ep98):
+  [All   27 batches]  Dice: 0.8648  IoU: 0.7776  HD95: 53.8493
+========================================
