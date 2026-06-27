@@ -19,8 +19,8 @@ SEED=42
 NUM_WORKERS=1
 
 # ---- Data ----
-DATA_ROOT="data/GPCC_Resized_512_640_to_256_256_overlap_0_0"          # Replace with your data path
-# DATA_ROOT="data/MDC_Resized_256_320_to_256_256_overlap_0_0"          # Replace with your data path
+# DATA_ROOT="data/GPCC_Resized_512_640_to_256_256_overlap_0_0"          # Replace with your data path
+DATA_ROOT="data/MDC_Resized_256_320_to_256_256_overlap_0_0"          # Replace with your data path
 VAL_RATIO=0.1
 TEST_RATIO=0.1
 
@@ -30,7 +30,7 @@ TEST_RATIO=0.1
 #                             CSV must contain 'case_id' and 'split' (train/val/test) columns
 #                             When set, VAL_RATIO/TEST_RATIO are ignored
 # SPLIT_CSV=""
-SPLIT_CSV=""
+SPLIT_CSV="data/MDC_Resized_256_320_to_256_256_overlap_0_0/split_sup.csv"
 
 # ---- Training hyperparameters ----
 BATCH_SIZE=2
@@ -56,8 +56,8 @@ BEST_WINDOW_START=50
 BEST_WINDOW_END=100
 
 # ---- Model hyperparameters ----
-IN_CHANS=40
-# IN_CHANS=60
+IN_CHANS=60
+# IN_CHANS=40
 TEXT_DIM=1024
 C_SPE=144
 C_ATTN=144
