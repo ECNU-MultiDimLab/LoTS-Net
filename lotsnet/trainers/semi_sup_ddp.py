@@ -23,44 +23,6 @@ def get_rampup_weight(current_epoch, T_max, lambda_max):
         return lambda_max * math.exp(-5.0 * (1.0 - current_epoch / T_max) ** 2)
 
 
-def print_top_k_metrics(per_batch_metrics, num_top_k_batches=5, sort_by="dice"):
-    if not per_batch_metrics:
-        master_print("No test metrics collected.")
-        return
-
-
-    sort_cfg = {"dice": (0, True), "fgdice": (1, True), "iou": (2, True), "hd95": (3, False)}
-    col_idx, reverse = sort_cfg.get(sort_by.lower(), (0, True))
-    sorted_m = sorted(per_batch_metrics, key=lambda x: x[col_idx], reverse=reverse)
-
-    n_total = len(sorted_m)
-    max_k   = min(num_top_k_batches, n_total)
-
-    def _mean(lst, col):
-        return sum(r[col] for r in lst) / len(lst)
-
-    master_print("\n" + "=" * 60)
-    master_print("FINAL TEST RESULTS (Averaged across GPUs):")
-    master_print(
-        f"  [All {n_total:3d} batches]  "
-        f"Dice(all): {_mean(sorted_m, 0):.4f}  "
-        f"Dice(fg): {_mean(sorted_m, 1):.4f}  "
-        f"IoU: {_mean(sorted_m, 2):.4f}  "
-        f"HD95: {_mean(sorted_m, 3):.4f}"
-    )
-    master_print(f"  --- Top-K breakdown (sorted by {sort_by}) ---")
-    for k in range(1, max_k + 1):
-        top_m = sorted_m[:k]
-        master_print(
-            f"  [Top-{k:3d}            ]  "
-            f"Dice(all): {_mean(top_m, 0):.4f}  "
-            f"Dice(fg): {_mean(top_m, 1):.4f}  "
-            f"IoU: {_mean(top_m, 2):.4f}  "
-            f"HD95: {_mean(top_m, 3):.4f}"
-        )
-    master_print("=" * 60)
-
-
 def train_semi_supervised_ddp(
     model,
     labeled_loader,
@@ -399,75 +361,98 @@ def train_semi_supervised_ddp(
     master_print("\n" + "=" * 40)
     master_print(">>> Starting Final Testing & Visualization...")
 
-    best_model_path = os.path.join(run_save_dir, "model_best.pth")
-    if not os.path.exists(best_model_path):
-        master_print(">>> Warning: No best model found!")
-        return run_save_dir
+    test_model_configs = [
+        {
+            "path": os.path.join(run_save_dir, "model_best.pth"),
+            "label": "Best Overall",
+            "vis_subdir": "test_visual_results",
+        },
+        {
+            "path": os.path.join(run_save_dir, "model_best_window.pth"),
+            "label": f"Best Window (ep{window_start}-{window_end})",
+            "vis_subdir": f"test_visual_results_window{window_start}_{window_end}",
+        },
+    ]
 
-    checkpoint = torch.load(best_model_path, map_location=device)
-    model.module.load_state_dict(checkpoint["model"])
-    model.eval()
+    for cfg in test_model_configs:
+        model_path = cfg["path"]
+        label = cfg["label"]
+        if not os.path.exists(model_path):
+            master_print(f">>> Warning: {label} model not found at {model_path}, skipping.")
+            continue
 
-    per_batch_metrics = []
+        master_print(f"\n>>> Testing [{label}] from {model_path}")
+        checkpoint = torch.load(model_path, map_location=device)
+        model.module.load_state_dict(checkpoint["model"])
+        saved_epoch = checkpoint.get("epoch", "?")
+        model.eval()
 
-    vis_save_dir = None
-    if is_main_process():
-        vis_save_dir = os.path.join(run_save_dir, "test_visual_results")
-        os.makedirs(vis_save_dir, exist_ok=True)
+        test_dice_meter = AverageMeter()
+        test_iou_meter = AverageMeter()
+        test_hd95_meter = AverageMeter()
 
-    test_iter = wrap_dataloader(
-        test_loader,
-        progress=progress,
-        desc="Testing",
-        leave=True,
-    )
+        vis_save_dir = None
+        if is_main_process():
+            vis_save_dir = os.path.join(run_save_dir, cfg["vis_subdir"])
+            os.makedirs(vis_save_dir, exist_ok=True)
 
-    total_saved = 0
-    with torch.no_grad():
-        for i, batch in enumerate(test_iter):
-            imgs = batch["image"].to(device, non_blocking=True).float()
-            masks = batch["mask"].to(device, non_blocking=True).long()
-            text_spec = batch["text_spec"].to(device, non_blocking=True).float()
-            text_spa = batch["text_spa"].to(device, non_blocking=True).float()
+        test_iter = wrap_dataloader(
+            test_loader,
+            progress=progress,
+            desc=f"Testing [{label}]",
+            leave=True,
+        )
 
-            with autocast(device_type="cuda", dtype=torch.bfloat16):
-                outputs = model(imgs, text_spec, text_spa)
-                logits = outputs[0] if isinstance(outputs, tuple) else outputs
+        total_saved = 0
+        with torch.no_grad():
+            for i, batch in enumerate(test_iter):
+                imgs = batch["image"].to(device, non_blocking=True).float()
+                masks = batch["mask"].to(device, non_blocking=True).long()
+                text_spec = batch["text_spec"].to(device, non_blocking=True).float()
+                text_spa = batch["text_spa"].to(device, non_blocking=True).float()
 
-            metrics = compute_metrics(
-                logits, masks, args.num_classes,
-                class_weights=getattr(args, "test_metric_class_weights", None),
-            )
-            batch_metrics = torch.tensor(
-                [metrics["Dice"], metrics["FgDice"],
-                 metrics["IoU"], metrics["HD95"]], device=device
-            )
-            dist.all_reduce(batch_metrics, op=dist.ReduceOp.SUM)
-            batch_metrics /= args.world_size
+                with autocast(device_type="cuda", dtype=torch.bfloat16):
+                    outputs = model(imgs, text_spec, text_spa)
+                    logits = outputs[0] if isinstance(outputs, tuple) else outputs
 
-            per_batch_metrics.append((
-                batch_metrics[0].item(),
-                batch_metrics[1].item(),
-                batch_metrics[2].item(),
-                batch_metrics[3].item(),
-            ))
+                metrics = compute_metrics(
+                    logits, masks, args.num_classes,
+                    class_weights=getattr(args, "test_metric_class_weights", None),
+                )
 
-            if is_main_process() and i < 30:
-                probs = torch.softmax(logits, dim=1)
-                preds = torch.argmax(probs, dim=1)
-                for b in range(imgs.size(0)):
-                    save_visualization_4_1(
-                        img_tensor=imgs.cpu()[b],
-                        mask_tensor=masks.cpu()[b],
-                        pred_tensor=preds.cpu()[b],
-                        save_dir=vis_save_dir,
-                        index=total_saved,
-                        num_classes=args.num_classes,
-                    )
-                    total_saved += 1
+                batch_metrics = torch.tensor(
+                    [metrics["Dice"], metrics["IoU"], metrics["HD95"]],
+                    device=device,
+                )
+                dist.all_reduce(batch_metrics, op=dist.ReduceOp.SUM)
+                batch_metrics /= args.world_size
 
-    num_top_k_batches = getattr(args, "num_top_k_batches", 5)
-    sort_by           = getattr(args, "sort_by", "dice")
-    print_top_k_metrics(per_batch_metrics, num_top_k_batches=num_top_k_batches, sort_by=sort_by)
+                current_batch_size = imgs.size(0) * args.world_size
+                test_dice_meter.update(batch_metrics[0].item(), current_batch_size)
+                test_iou_meter.update(batch_metrics[1].item(), current_batch_size)
+                test_hd95_meter.update(batch_metrics[2].item(), current_batch_size)
+
+                if is_main_process() and i < 30:
+                    probs = torch.softmax(logits, dim=1)
+                    preds = torch.argmax(probs, dim=1)
+                    for b in range(imgs.size(0)):
+                        save_visualization_4_1(
+                            img_tensor=imgs.cpu()[b],
+                            mask_tensor=masks.cpu()[b],
+                            pred_tensor=preds.cpu()[b],
+                            save_dir=vis_save_dir,
+                            index=total_saved,
+                            num_classes=args.num_classes,
+                        )
+                        total_saved += 1
+
+        n_batches = test_dice_meter.count // (imgs.size(0) * args.world_size)
+        master_print("\n" + "=" * 40)
+        master_print(f"FINAL TEST RESULTS [{label}] (saved from ep{saved_epoch}):")
+        master_print(f"  [All {n_batches:4d} batches]  "
+                     f"Dice: {test_dice_meter.avg:.4f}  "
+                     f"IoU: {test_iou_meter.avg:.4f}  "
+                     f"HD95: {test_hd95_meter.avg:.4f}")
+        master_print("=" * 40)
 
     return run_save_dir
